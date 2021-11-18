@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace DataScienseProject
-{
+namespace DataScienseProject.Entities
     public partial class ElementType
     {
         public ElementType()

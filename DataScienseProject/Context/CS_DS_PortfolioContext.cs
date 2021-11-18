@@ -1,10 +1,8 @@
-﻿using System;
+﻿using DataScienseProject.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
 #nullable disable
 
-namespace DataScienseProject
+namespace DataScienseProject.Context
 {
     public partial class CS_DS_PortfolioContext : DbContext
     {
