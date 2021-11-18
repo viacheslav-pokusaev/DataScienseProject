@@ -1,4 +1,6 @@
 using DataScienseProject.Context;
+using DataScienseProject.Interfaces;
+using DataScienseProject.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +35,9 @@ namespace DataScienseProject
                 else
                     opt.UseSqlServer(Configuration.GetConnectionString("Prod"));
             });
+
+            services.AddScoped<IGetDataService, GetDataService>();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
