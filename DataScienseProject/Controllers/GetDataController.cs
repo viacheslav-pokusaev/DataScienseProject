@@ -25,7 +25,7 @@ namespace DataScienseProject.Controllers
         public MainPageModel GetMainPageData()
         {
             var test = _getDataService.GetMainPageData();
-            throw new NotImplementedException();
+            return new MainPageModel();
         }
         [HttpGet]
         [Route("galery")]

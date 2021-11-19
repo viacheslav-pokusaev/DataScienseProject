@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace DataScienseProject.Services
 {
@@ -18,8 +20,9 @@ namespace DataScienseProject.Services
 
         public MainPageModel GetMainPageData()
         {
-            var x = _context.Set<object>("dbo.GetViewData @ViewKey = 1");
-            throw new NotImplementedException();
+            var sqlCommand = new SqlCommand("GetViewData") { CommandType = System.Data.CommandType.StoredProcedure };
+            var test = sqlCommand.Parameters.AddWithValue("@ViewKey", 1);
+            return new MainPageModel();
         }
         public List<GaleryModel> GetGaleryPageData()
         {
