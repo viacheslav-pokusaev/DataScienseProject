@@ -324,7 +324,7 @@ VALUES
 ---------------------------------------------------------------------------------------------
 GO
 
---SP GetViewFullInfo
+--SP GetViewFullInfo start
 
 DECLARE @ViewKey INT = 1;
 
@@ -395,6 +395,13 @@ RIGHT JOIN dbo.ElementParameters ep ON ep.ElementKey = e.ElementKey AND ep.IsDel
 WHERE
 	ve.ViewKey = @ViewKey
 	AND e.IsDeleted = 0
+
+--SP GetViewFullInfo end
+	
+
+
+
+
 
 DECLARE @ViewKey INT = 1;
 
