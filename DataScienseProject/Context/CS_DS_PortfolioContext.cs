@@ -1,11 +1,13 @@
 ﻿using DataScienseProject.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 #nullable disable
 
 namespace DataScienseProject.Context
 {
     public partial class CS_DS_PortfolioContext : DbContext
     {
+        
         public CS_DS_PortfolioContext()
         {
         }
@@ -33,16 +35,7 @@ namespace DataScienseProject.Context
         public virtual DbSet<ViewTag> ViewTags { get; set; }
         public virtual DbSet<ViewType> ViewTypes { get; set; }
         public virtual DbSet<VisitLog> VisitLogs { get; set; }
-        public virtual DbSet<VisitView> VisitViews { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=CS_DS_Portfolio;Trusted_Connection=True;");
-            }
-        }
+        public virtual DbSet<VisitView> VisitViews { get; set; }      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
