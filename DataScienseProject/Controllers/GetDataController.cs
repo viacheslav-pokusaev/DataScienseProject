@@ -14,11 +14,9 @@ namespace DataScienseProject.Controllers
     [ApiController]
     public class GetDataController :  ControllerBase, IGetDataController
     {
-        private readonly CS_DS_PortfolioContext _context;
         private readonly IGetDataService _getDataService;
-        public GetDataController(CS_DS_PortfolioContext context, IGetDataService getDataService)
+        public GetDataController(IGetDataService getDataService)
         {
-            _context = context;
             _getDataService = getDataService;
         }
 
@@ -26,12 +24,14 @@ namespace DataScienseProject.Controllers
         [Route("main")]
         public MainPageModel GetMainPageData()
         {
+            var test = _getDataService.GetMainPageData();
             throw new NotImplementedException();
         }
         [HttpGet]
         [Route("galery")]
         public MainPageModel GetGaleryData()
         {
+            var test = _getDataService.GetGaleryPageData();
             throw new NotImplementedException();
         }
     }
