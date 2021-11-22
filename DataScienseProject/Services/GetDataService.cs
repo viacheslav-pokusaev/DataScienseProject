@@ -153,7 +153,14 @@ namespace DataScienseProject.Services
             
 
             MainPageModel mainPageModel = new MainPageModel();
-            
+
+            mainPageModel.ProjectTypeModels = projectTypeSelect;
+            mainPageModel.ExecutorModels = executorSelect;
+            mainPageModel.TehnologyModels = tehnologySelect;
+            mainPageModel.LayoutDataModels = layoutDataSelect;
+            mainPageModel.LatoutStyleModels = latoutStyleSelect;
+
+           
 
             return mainPageModel;
         }

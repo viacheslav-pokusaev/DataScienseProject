@@ -24,8 +24,7 @@ namespace DataScienseProject.Controllers
         [Route("main")]
         public MainPageModel GetMainPageData()
         {
-            var test = _getDataService.GetMainPageData();
-            return new MainPageModel();
+            return _getDataService.GetMainPageData();            
         }
         [HttpGet]
         [Route("galery")]

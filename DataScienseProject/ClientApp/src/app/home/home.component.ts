@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { MainPageModel } from '../models/main-page.model';
 
 @Component({
   selector: 'app-home',
@@ -7,21 +8,20 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  public mainPageModel: MainPageModel;
 
   constructor(private http: HttpClient) {
   }
-  
-  check: any;
 
   ngOnInit() {
-    this.http.get<any>('GetData/main').subscribe({
-      next: data => {
-        this.check = data;
+    this.http.get<MainPageModel>('GetData/main').subscribe(
+      (data: MainPageModel) => {
+        /*this.mainPageModel = data;*/
+        console.log("Data: ", data);
       },
-      error: error => {        
+      error => {
         console.error('There was an error!', error);
-      }
-    })
+      })
   }
 
 }
