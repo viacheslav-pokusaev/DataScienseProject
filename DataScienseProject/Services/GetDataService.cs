@@ -67,6 +67,42 @@ namespace DataScienseProject.Services
 
             var query2 = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
 
+            var query4 = (from v in _context.Views
+                          join ve in _context.ViewElements on v.ViewKey equals ve.ViewKey                           
+                          join e in _context.Elements on ve.ElementKey equals e.ElementKey
+                          join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey                         
+                          where v.ViewKey == 1 
+                          select new
+                          {
+                              e.ElementName,
+                              e.Value,
+                              e.Path,
+                              e.Text,
+                              et.ElementTypeName,
+                              ve.OrderNumber,
+                              e.IsShowElementName
+                          }).ToList();
+
+
+
+            //SELECT
+            //       e.ElementName
+            //     , e.Value
+            //     , e.Path
+            //     , e.Text
+            //     , et.ElementTypeName
+            //     , ve.OrderNumber
+            //     , e.IsShowElementName
+            //    FROM dbo.Views v
+            //LEFT JOIN dbo.ViewElements ve ON ve.ViewKey = v.ViewKey AND ve.IsDeleted = 0
+            //LEFT JOIN dbo.Elements e ON e.ElementKey = ve.ElementKey AND e.IsDeleted = 0
+            //LEFT JOIN dbo.ElementTypes et ON et.ElementTypeKey = e.ElementTypeKey
+            //WHERE
+
+            //    v.ViewKey = @ViewKey
+            //ORDER BY
+
+            //    ve.OrderNumber
 
             return new MainPageModel();
         }
