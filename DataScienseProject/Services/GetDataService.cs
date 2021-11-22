@@ -64,11 +64,8 @@ namespace DataScienseProject.Services
             //resultList.ToArray();
 
             var query1 = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
+
             var query2 = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
-            var query3 = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
-            var query4 = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
-
-
 
 
             return new MainPageModel();

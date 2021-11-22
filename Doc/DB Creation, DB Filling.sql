@@ -328,6 +328,7 @@ GO
 
 DECLARE @ViewKey INT = 1;
 
+--1
 SELECT 
 	ViewName 
 	, ViewTypeName
@@ -337,6 +338,7 @@ WHERE
 	ViewKey = @ViewKey
 	AND v.IsDeleted = 0
 
+--2
 SELECT 
 	e.ExecutorName
 	, e.ExecutorProfileLink
@@ -350,7 +352,8 @@ WHERE
 	AND ve.IsDeleted = 0
 ORDER BY
 	ve.OrderNumber
-
+	
+--3
 SELECT  
 	t.Name
 	, t.Link
@@ -366,6 +369,7 @@ WHERE
 ORDER BY
 	vt.OrderNumber
 
+--4
 SELECT 
 	e.ElementName
 	, e.Value
@@ -383,6 +387,7 @@ WHERE
 ORDER BY
 	ve.OrderNumber
 
+--5
 SELECT 
 	e.ElementName
 	, et.ElementTypeName
