@@ -12,7 +12,7 @@ namespace DataScienseProject.Models
         public string Path { get; set; }
         public string ValueText { get; set; }
         public string ElementTypeName { get; set; }
-        public int OrderNumber { get; set; }
-        public bool IsShowElementName { get; set; }
+        public int? OrderNumber { get; set; }
+        public bool? IsShowElementName { get; set; }
     }
 }
