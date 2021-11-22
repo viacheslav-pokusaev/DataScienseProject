@@ -68,7 +68,7 @@ namespace DataScienseProject.Services
             var query2 = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
 
             var query4 = (from v in _context.Views
-                          join ve in _context.ViewElements on v.ViewKey equals ve.ViewKey                           
+                          join ve in _context.ViewElements on v.ViewKey equals ve.ViewKey
                           join e in _context.Elements on ve.ElementKey equals e.ElementKey
                           join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey                         
                           where v.ViewKey == 1 
@@ -82,27 +82,41 @@ namespace DataScienseProject.Services
                               ve.OrderNumber,
                               e.IsShowElementName
                           }).ToList();
+            
+            var query5 = (from e in _context.Elements
+                          join ve in _context.ViewElements on e.ElementKey equals ve.ElementKey                          
+                          join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey
+                          join ep in _context.ElementParameters on e.ElementKey equals ep.ElementKey 
+
+                          where ve.ViewKey == 1 && e.IsDeleted == false
+                          select new
+                          {
+                              e.ElementName,
+                              et.ElementTypeName,
+                              ep.Key,
+                              ep.Value
+                          }).ToList();
+
 
 
 
             //SELECT
-            //       e.ElementName
-            //     , e.Value
-            //     , e.Path
-            //     , e.Text
-            //     , et.ElementTypeName
-            //     , ve.OrderNumber
-            //     , e.IsShowElementName
-            //    FROM dbo.Views v
-            //LEFT JOIN dbo.ViewElements ve ON ve.ViewKey = v.ViewKey AND ve.IsDeleted = 0
-            //LEFT JOIN dbo.Elements e ON e.ElementKey = ve.ElementKey AND e.IsDeleted = 0
+
+            //    e.ElementName
+	           // , et.ElementTypeName
+	           // , ep.[Key]
+	           // , ep.Value
+            //FROM dbo.Elements e
+            //LEFT JOIN dbo.ViewElements ve ON ve.ElementKey = e.ElementKey
             //LEFT JOIN dbo.ElementTypes et ON et.ElementTypeKey = e.ElementTypeKey
+            //RIGHT JOIN dbo.ElementParameters ep ON ep.ElementKey = e.ElementKey AND ep.IsDeleted = 0
             //WHERE
 
-            //    v.ViewKey = @ViewKey
-            //ORDER BY
+            //ve.ViewKey = @ViewKey
 
-            //    ve.OrderNumber
+            //AND e.IsDeleted = 0
+
+
 
             return new MainPageModel();
         }
