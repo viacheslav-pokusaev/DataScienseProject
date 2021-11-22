@@ -11,6 +11,6 @@ namespace DataScienseProject.Models
         public string TLink { get; set; }
         public string DName { get; set; }
         public string DLink { get; set; }
-        public string OrderNumber { get; set; }
+        public int? OrderNumber { get; set; }
     }
 }
