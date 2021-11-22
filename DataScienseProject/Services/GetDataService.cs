@@ -9,7 +9,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 
 namespace DataScienseProject.Services
 {
@@ -22,6 +21,7 @@ namespace DataScienseProject.Services
         }
 
         public MainPageModel GetMainPageData()
+
         {
             //var sqlCommand = new SqlCommand("GetViewData") { CommandType = System.Data.CommandType.StoredProcedure };
             //var test = sqlCommand.Parameters.AddWithValue("@ViewKey", 1);
@@ -69,10 +69,10 @@ namespace DataScienseProject.Services
                           join vt in _context.ViewTypes on v.ViewTypeKey equals vt.ViewTypeKey
                           where v.ViewKey == 1 && v.IsDeleted == false
                           orderby v.OrderNumber
-                          select new
+                          select new ProjectTypeModel()
                           {
-                              v.ViewName,
-                              vt.ViewTypeName
+                              ViewName = v.ViewName,
+                              ViewTypeName = vt.ViewTypeName
                           }
                           ).ToList();
 
@@ -81,12 +81,12 @@ namespace DataScienseProject.Services
                           join er in _context.ExecutorRoles on ve.ExecutorRoleKey equals er.ExecutorRoleKey
                           where ve.ViewKey == 1 && ve.IsDeleted == false
                           orderby ve.OrderNumber
-                          select new
+                          select new ExecutorModel()
                           {
-                              e.ExecutorName,
-                              e.ExecutorProfileLink,
-                              er.RoleName,
-                              ve.OrderNumber
+                              ExecutorName = e.ExecutorName,
+                              ExecutorProfileLink = e.ExecutorProfileLink,
+                              RoleName = er.RoleName,
+                              OrderNumber = ve.OrderNumber
                           }).ToList();
 
             var tehnologySelect = (from vt in _context.ViewTags
@@ -94,13 +94,13 @@ namespace DataScienseProject.Services
                           join d in _context.Directions on t.DirectionKey equals d.DirectionKey
                           where vt.ViewKey == 1 && vt.IsDeleted == false
                           orderby vt.OrderNumber
-                          select new 
+                          select new TehnologyModel()
                           {
                             TName = t.Name,
                             TLink = t.Link,
                             DName = d.Name,
                             DLink = d.Link,
-                            vt.OrderNumber
+                            OrderNumber = vt.OrderNumber
                           }).ToList();
 
             var layoutDataSelect = (from v in _context.Views
@@ -109,15 +109,15 @@ namespace DataScienseProject.Services
                           join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey                         
                           where v.ViewKey == 1
                           orderby ve.OrderNumber
-                          select new
+                          select new LayoutDataModel()
                           {
-                              e.ElementName,
-                              e.Value,
-                              e.Path,
+                              ElementName = e.ElementName,
+                              Value = e.Value,
+                              Path = e.Path,
                               ValueText = e.Text,
-                              et.ElementTypeName,
-                              ve.OrderNumber,
-                              e.IsShowElementName
+                              ElementTypeName = et.ElementTypeName,
+                              OrderNumber = ve.OrderNumber,
+                              IsShowElementName = e.IsShowElementName
                           }).ToList();
 
             var latoutStyleSelect = (from e in _context.Elements
@@ -125,32 +125,37 @@ namespace DataScienseProject.Services
                           join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey
                           join ep in _context.ElementParameters on e.ElementKey equals ep.ElementKey 
                           where ve.ViewKey == 1 && e.IsDeleted == false
-                          select new
+                          select new LatoutStyleModel()
                           {
-                              e.ElementName,
-                              et.ElementTypeName,
-                              ep.Key,
-                              ep.Value
+                              ElementName = e.ElementName,
+                              ElementTypeName = et.ElementTypeName,
+                              Key = ep.Key,
+                              Value = ep.Value
                           }).ToList();
             //SELECT
 
             //    e.ElementName
-	           // , et.ElementTypeName
-	           // , ep.[Key]
-	           // , ep.Value
+            // , et.ElementTypeName
+            // , ep.[Key]
+            // , ep.Value
             //FROM dbo.Elements e
             //LEFT JOIN dbo.ViewElements ve ON ve.ElementKey = e.ElementKey
             //LEFT JOIN dbo.ElementTypes et ON et.ElementTypeKey = e.ElementTypeKey
             //RIGHT JOIN dbo.ElementParameters ep ON ep.ElementKey = e.ElementKey AND ep.IsDeleted = 0
             //WHERE
 
-            //ve.ViewKey = @ViewKey
+            //    ve.ViewKey = @ViewKey
 
-            //AND e.IsDeleted = 0
+            //    AND e.IsDeleted = 0
 
 
 
-            return new MainPageModel();
+            
+
+            MainPageModel mainPageModel = new MainPageModel();
+            
+
+            return mainPageModel;
         }
         public List<GaleryModel> GetGaleryPageData()
         {

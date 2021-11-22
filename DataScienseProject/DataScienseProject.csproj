@@ -34,6 +34,24 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\models\executor.model.ts" />
+    <None Remove="ClientApp\src\app\models\latout-style.model.ts" />
+    <None Remove="ClientApp\src\app\models\layout-data.model.ts" />
+    <None Remove="ClientApp\src\app\models\main-page.model.ts" />
+    <None Remove="ClientApp\src\app\models\project-type.model.ts" />
+    <None Remove="ClientApp\src\app\models\tehnology.model.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\models\executor.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\latout-style.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\layout-data.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\main-page.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\project-type.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\tehnology.model.ts" />
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

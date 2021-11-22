@@ -4,6 +4,6 @@ export class LayoutDataModel{
   path: string;
   valueText: string;
   elementTypeName: string;
-  orderNumber: number;
-  isShowElementName: boolean;
+  orderNumber?: number;
+  isShowElementName?: boolean;
 }

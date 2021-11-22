@@ -3,5 +3,5 @@ export class TehnologyModel {
   tLink: string;
   dName: string;
   dLink: string;
-  orderNumber: string;
+  orderNumber?: number;
 }
