@@ -9,6 +9,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace DataScienseProject.Services
 {
@@ -63,6 +64,7 @@ namespace DataScienseProject.Services
             ////
             //resultList.ToArray();
 
+
             var projectTypeSelect = (from v in _context.Views
                           join vt in _context.ViewTypes on v.ViewTypeKey equals vt.ViewTypeKey
                           where v.ViewKey == 1 && v.IsDeleted == false
@@ -112,7 +114,7 @@ namespace DataScienseProject.Services
                               e.ElementName,
                               e.Value,
                               e.Path,
-                              e.Text,
+                              ValueText = e.Text,
                               et.ElementTypeName,
                               ve.OrderNumber,
                               e.IsShowElementName
