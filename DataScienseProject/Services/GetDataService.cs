@@ -63,9 +63,27 @@ namespace DataScienseProject.Services
             ////
             //resultList.ToArray();
 
-            var query1 = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
+            var query1 = (from v in _context.Views
+                          join vt in _context.ViewTypes on v.ViewTypeKey equals vt.ViewTypeKey
+                          where v.ViewKey == 1 && v.IsDeleted == false
+                          select new
+                          {
+                              v.ViewName,
+                              vt.ViewTypeName
+                          }
+                          ).ToList();
 
-            var query2 = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).ToList();
+            var query2 = (from ve in _context.ViewExecutors
+                          join e in _context.Executors on ve.ExecutorKey equals e.ExecutorKey
+                          join er in _context.ExecutorRoles on ve.ExecutorRoleKey equals er.ExecutorRoleKey
+                          where ve.ViewKey == 1 && ve.IsDeleted == false
+                          select new
+                          {
+                              e.ExecutorName,
+                              e.ExecutorProfileLink,
+                              er.RoleName,
+                              ve.OrderNumber
+                          }).ToList();
 
             var query4 = (from v in _context.Views
                           join ve in _context.ViewElements on v.ViewKey equals ve.ViewKey
