@@ -63,7 +63,7 @@ namespace DataScienseProject.Services
             ////
             //resultList.ToArray();
 
-            var query1 = (from v in _context.Views
+            var projectTypeSelect = (from v in _context.Views
                           join vt in _context.ViewTypes on v.ViewTypeKey equals vt.ViewTypeKey
                           where v.ViewKey == 1 && v.IsDeleted == false
                           orderby v.OrderNumber
@@ -74,7 +74,7 @@ namespace DataScienseProject.Services
                           }
                           ).ToList();
 
-            var query2 = (from ve in _context.ViewExecutors
+            var executorSelect = (from ve in _context.ViewExecutors
                           join e in _context.Executors on ve.ExecutorKey equals e.ExecutorKey
                           join er in _context.ExecutorRoles on ve.ExecutorRoleKey equals er.ExecutorRoleKey
                           where ve.ViewKey == 1 && ve.IsDeleted == false
@@ -87,7 +87,7 @@ namespace DataScienseProject.Services
                               ve.OrderNumber
                           }).ToList();
 
-            var query3 = (from vt in _context.ViewTags
+            var tehnologySelect = (from vt in _context.ViewTags
                           join t in _context.Tags on vt.TagKey equals t.TagKey
                           join d in _context.Directions on t.DirectionKey equals d.DirectionKey
                           where vt.ViewKey == 1 && vt.IsDeleted == false
@@ -101,7 +101,7 @@ namespace DataScienseProject.Services
                             vt.OrderNumber
                           }).ToList();
 
-            var query4 = (from v in _context.Views
+            var layoutDataSelect = (from v in _context.Views
                           join ve in _context.ViewElements on v.ViewKey equals ve.ViewKey
                           join e in _context.Elements on ve.ElementKey equals e.ElementKey
                           join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey                         
@@ -117,8 +117,8 @@ namespace DataScienseProject.Services
                               ve.OrderNumber,
                               e.IsShowElementName
                           }).ToList();
-            
-            var query5 = (from e in _context.Elements
+
+            var latoutStyleSelect = (from e in _context.Elements
                           join ve in _context.ViewElements on e.ElementKey equals ve.ElementKey                          
                           join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey
                           join ep in _context.ElementParameters on e.ElementKey equals ep.ElementKey 

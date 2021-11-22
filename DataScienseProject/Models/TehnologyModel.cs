@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DataScienseProject.Models
+{
+    public class TehnologyModel
+    {
+        public string TName { get; set; }
+        public string TLink { get; set; }
+        public string DName { get; set; }
+        public string DLink { get; set; }
+        public string OrderNumber { get; set; }
+    }
+}
