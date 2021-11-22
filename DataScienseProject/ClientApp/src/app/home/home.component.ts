@@ -16,7 +16,7 @@ export class HomeComponent {
   ngOnInit() {
     this.http.get<MainPageModel>('GetData/main').subscribe(
       (data: MainPageModel) => {
-        /*this.mainPageModel = data;*/
+        this.mainPageModel = data;
         console.log("Data: ", data);
       },
       error => {

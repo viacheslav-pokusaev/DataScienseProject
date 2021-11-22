@@ -19,15 +19,14 @@
       Docker
     </p>
   </div>
-  <img src='svme-logo.png' />
-  <p>
-    SVM is one of the most popular methods for model building. Instead of reading scientific
-    books, just look at how it really works. You need only just click 2 buttons: Show example
-    -> Create Model <br>
-    The example uses data from the very famous dataset - <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Fisher's Irises</a>.
-    The goal - identify the type of iris by the size of the leaf. Check it,  is it possible?!
-
-  </p>
+  
+  
+  <div *ngFor="let val of mainPageModel.layoutDataModels">
+    <div [innerHTML]="val.value"></div>
+  </div>
+  
+   
+  
   <div>
     <iframe src="http://212.3.101.119:3820" title="My example" width=100% height="600px" frameborder="1"></iframe>
   </div>
