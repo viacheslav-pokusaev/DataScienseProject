@@ -1,21 +1,49 @@
 <div id="wrap">
+
+  <!-- View Name -->
   <div *ngIf="projectTypeModel">
     <div *ngFor="let val of projectTypeModel">
       <h1 [innerHTML]="val.viewName"></h1>
     </div>
   </div>
 
+  <!-- Tehnology tags -->
+  <div *ngIf="tehnologyModel" class="container" id="tags">
 
-
-
-
-
-  <div *ngIf="layoutDataModel">
-    <div *ngFor="let val of layoutDataModel">
-      <h2 [innerHTML]="val.elementName"></h2>
-      <div [innerHTML]="val.value"></div>
+    <div class="row">
+      <div class="col" *ngFor="let val of tehnologyModel">
+        <p [innerHTML]="val.tName"></p>
+      </div>
     </div>
   </div>
+
+
+  <!-- Description -->
+  <div *ngIf="layoutDataModel">
+    <div *ngFor="let val of layoutDataModel">
+      <!-- Heading -->
+      <div *ngIf="val.isShowElementName">
+        <h2 [innerHTML]="val.elementName"></h2>
+      </div>
+
+      <!-- Text -->
+      <div [innerHTML]="val.value"></div>
+
+      <!-- Image -->
+      <div *ngIf="(val.elementTypeName === 'Image')">
+        <img src="val.path" />
+      </div>
+
+      <!-- Iframe -->
+      <div *ngIf="(val.elementTypeName === 'Iframe')">
+        <iframe src="http://212.3.101.119:3820"></iframe>
+      </div>
+
+    </div>
+  </div>
+
+
+
 
 
 

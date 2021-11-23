@@ -9,7 +9,8 @@ import { TehnologyModel } from '../models/tehnology.model';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
+  templateUrl: './home.component.html',  
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
 
@@ -21,9 +22,6 @@ export class HomeComponent {
   public projectTypeModel: Array<ProjectTypeModel>;
   public tehnologyModel: Array<TehnologyModel>;
 
- 
-  
-
   constructor(private http: HttpClient) {
   }
 
@@ -32,20 +30,11 @@ export class HomeComponent {
       (data: MainPageModel) => {
         this.mainPageModel = data;
 
-        //this.executorModel = this.mainPageModel.executorModels;
-        //this.layoutStyleModel = this.mainPageModel.layoutStyleModels;
-        //this.layoutDataModel = this.mainPageModel.layoutDataModels;
-        //this.projectTypeModel = this.mainPageModel.projectTypeModels;
-        //this.tehnologyModel = this.mainPageModel.tehnologyModels;
-
         this.projectTypeModel = this.mainPageModel.projectTypeModels;
-        this.layoutDataModel = this.mainPageModel.layoutDataModels.filter(e => e.elementTypeName == "Html paragraph");
+        this.tehnologyModel = this.mainPageModel.tehnologyModels;
+        this.layoutDataModel = this.mainPageModel.layoutDataModels;
+        this.layoutStyleModel = this.mainPageModel.layoutStyleModels;
 
-
-
-             
-
-        
       },
       error => {
         console.error('There was an error!', error);
