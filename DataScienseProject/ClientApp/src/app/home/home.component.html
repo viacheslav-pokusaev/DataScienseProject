@@ -31,14 +31,16 @@
 
       <!-- Image -->
       <div *ngIf="(val.elementTypeName === 'Image')">
-        <img src="val.path" />
+        <img [src]="val.path" width=90% height=90%/>
       </div>
 
       <!-- Iframe -->
       <div *ngIf="(val.elementTypeName === 'Iframe')">
-        <iframe src="http://212.3.101.119:3820"></iframe>
+        <iframe src="val.path" width=100% height="600px" frameborder="1"></iframe>
       </div>
 
-    </div>
+      </div>
+
   </div>
-</div>		
+</div>
+		
