@@ -1,13 +1,13 @@
 import { ExecutorModel } from "./executor.model"
-import { LatoutStyleModel } from "./latout-style.model"
+import { LayoutStyleModel } from "./layout-style.model"
 import { LayoutDataModel } from "./layout-data.model"
 import { ProjectTypeModel } from "./project-type.model";
 import { TehnologyModel } from "./tehnology.model";
 
 export class MainPageModel {
-  projectTypeModel: Array<ProjectTypeModel>;
-  executorModel: Array<ExecutorModel>;
+  projectTypeModels: Array<ProjectTypeModel>;
+  executorModels: Array<ExecutorModel>;
   tehnologyModels: Array<TehnologyModel>;
   layoutDataModels: Array<LayoutDataModel>;
-  latoutStyleModels: Array<LatoutStyleModel>;
+  layoutStyleModels: Array<LayoutStyleModel>;
 }
