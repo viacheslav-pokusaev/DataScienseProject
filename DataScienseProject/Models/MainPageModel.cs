@@ -17,6 +17,6 @@ namespace DataScienseProject.Models
         public List<ExecutorModel> ExecutorModels { get; set; }
         public List<TehnologyModel> TehnologyModels { get; set; }
         public List<LayoutDataModel> LayoutDataModels { get; set; }
-        public List<LatoutStyleModel> LatoutStyleModels { get; set; }
+        public List<LayoutStyleModel> LayoutStyleModels { get; set; }
     }
 }

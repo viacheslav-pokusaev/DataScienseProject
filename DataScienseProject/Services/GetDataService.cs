@@ -120,12 +120,12 @@ namespace DataScienseProject.Services
                               IsShowElementName = e.IsShowElementName
                           }).ToList();
 
-            var latoutStyleSelect = (from e in _context.Elements
+            var layoutStyleSelect = (from e in _context.Elements
                           join ve in _context.ViewElements on e.ElementKey equals ve.ElementKey                          
                           join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey
                           join ep in _context.ElementParameters on e.ElementKey equals ep.ElementKey 
                           where ve.ViewKey == 1 && e.IsDeleted == false
-                          select new LatoutStyleModel()
+                          select new LayoutStyleModel()
                           {
                               ElementName = e.ElementName,
                               ElementTypeName = et.ElementTypeName,
@@ -158,7 +158,7 @@ namespace DataScienseProject.Services
             mainPageModel.ExecutorModels = executorSelect;
             mainPageModel.TehnologyModels = tehnologySelect;
             mainPageModel.LayoutDataModels = layoutDataSelect;
-            mainPageModel.LatoutStyleModels = latoutStyleSelect;
+            mainPageModel.LayoutStyleModels = layoutStyleSelect;
 
            
 

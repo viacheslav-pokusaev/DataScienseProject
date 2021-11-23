@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DataScienseProject.Models
 {
-    public class LatoutStyleModel
+    public class LayoutStyleModel
     {
         public string ElementName { get; set; }
         public string ElementTypeName { get; set; }

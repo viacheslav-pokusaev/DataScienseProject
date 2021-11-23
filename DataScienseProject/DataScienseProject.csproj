@@ -36,8 +36,8 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\models\executor.model.ts" />
-    <None Remove="ClientApp\src\app\models\latout-style.model.ts" />
     <None Remove="ClientApp\src\app\models\layout-data.model.ts" />
+    <None Remove="ClientApp\src\app\models\layout-style.model.ts" />
     <None Remove="ClientApp\src\app\models\main-page.model.ts" />
     <None Remove="ClientApp\src\app\models\project-type.model.ts" />
     <None Remove="ClientApp\src\app\models\tehnology.model.ts" />
@@ -45,7 +45,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\models\executor.model.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\models\latout-style.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\layout-style.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\layout-data.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\main-page.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\project-type.model.ts" />
