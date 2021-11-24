@@ -41,6 +41,7 @@
     <None Remove="ClientApp\src\app\models\main-page.model.ts" />
     <None Remove="ClientApp\src\app\models\project-type.model.ts" />
     <None Remove="ClientApp\src\app\models\tehnology.model.ts" />
+    <None Remove="ClientApp\src\app\safe.pipe.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +51,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\main-page.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\project-type.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\tehnology.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\safe.pipe.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
