@@ -1,3 +1,5 @@
+import { LayoutStyleModel } from "./layout-style.model";
+
 export class LayoutDataModel{
   elementName: string;
   value: string;
@@ -6,4 +8,5 @@ export class LayoutDataModel{
   elementTypeName: string;
   orderNumber?: number;
   isShowElementName?: boolean;
+  layoutStyleModel: Array<LayoutStyleModel>;
 }

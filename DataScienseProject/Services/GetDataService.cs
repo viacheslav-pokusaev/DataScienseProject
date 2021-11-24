@@ -21,50 +21,8 @@ namespace DataScienseProject.Services
         }
 
         public MainPageModel GetMainPageData()
-
         {
-            //var sqlCommand = new SqlCommand("GetViewData") { CommandType = System.Data.CommandType.StoredProcedure };
-            //var test = sqlCommand.Parameters.AddWithValue("@ViewKey", 1);
-
-            //List<MainPageModel> resultList = new List<MainPageModel>();
-            //IDataReader reader = null;
-            //SqlConnection dbConnection = null;
-            ////
-            //try
-            //{
-            //    dbConnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB; database=CS_DS_Portfolio; Integrated Security=True;");
-            //    IDbCommand dbCommand = new SqlCommand();
-            //    dbCommand.Connection = dbConnection;
-            //    dbCommand.CommandType = CommandType.StoredProcedure;
-            //    dbCommand.CommandText = "GetViewData";
-            //    //
-            //    dbConnection.Open();
-            //    //
-            //    reader = dbCommand.ExecuteReader();
-            //    //
-            //    while (reader.Read())
-            //    {
-            //        Object erpEntity = new Object();
-            //        erpEntity = reader.GetValue(1);                    
-            //        //
-            //        //resultList.Add(erpEntity);
-            //    }
-            //}
-            //catch (SqlException exception)
-            //{
-            //    throw new Exception(exception.Message, exception); //This is good to have!
-            //}
-            //finally
-            //{
-            //    if (reader != null)
-            //        reader.Close();
-            //    //
-            //    dbConnection.Close();
-            //}
-            ////
-            //resultList.ToArray();
-
-
+            #region Select from db
             var projectTypeSelect = (from v in _context.Views
                           join vt in _context.ViewTypes on v.ViewTypeKey equals vt.ViewTypeKey
                           where v.ViewKey == 1 && v.IsDeleted == false
@@ -132,36 +90,38 @@ namespace DataScienseProject.Services
                               Key = ep.Key,
                               Value = ep.Value
                           }).ToList();
-            //SELECT
+            #endregion
 
-            //    e.ElementName
-            // , et.ElementTypeName
-            // , ep.[Key]
-            // , ep.Value
-            //FROM dbo.Elements e
-            //LEFT JOIN dbo.ViewElements ve ON ve.ElementKey = e.ElementKey
-            //LEFT JOIN dbo.ElementTypes et ON et.ElementTypeKey = e.ElementTypeKey
-            //RIGHT JOIN dbo.ElementParameters ep ON ep.ElementKey = e.ElementKey AND ep.IsDeleted = 0
-            //WHERE
-
-            //    ve.ViewKey = @ViewKey
-
-            //    AND e.IsDeleted = 0
-
-
-
-            
 
             MainPageModel mainPageModel = new MainPageModel();
 
             mainPageModel.ProjectTypeModels = projectTypeSelect;
             mainPageModel.ExecutorModels = executorSelect;
             mainPageModel.TehnologyModels = tehnologySelect;
-            mainPageModel.LayoutDataModels = layoutDataSelect;
-            mainPageModel.LayoutStyleModels = layoutStyleSelect;
 
-           
+            mainPageModel.LayoutDataModels = new List<LayoutDataModel>();
+            foreach (var data in layoutDataSelect)
+            {
+                var layoutStyleBuff = new List<LayoutStyleModel>();
 
+                foreach (var style in layoutStyleSelect)
+                {
+                    if(data.ElementName == style.ElementName)
+                    {
+                        layoutStyleBuff.Add(style);
+                    }
+                }
+                mainPageModel.LayoutDataModels.Add(new LayoutDataModel() { 
+                    ElementName = data.ElementName,
+                    ElementTypeName = data.ElementTypeName, 
+                    IsShowElementName = data.IsShowElementName, 
+                    LayoutStyleModel = layoutStyleBuff, 
+                    OrderNumber = data.OrderNumber,
+                    Path = data.Path,
+                    Value = data.Value,
+                    ValueText = data.ValueText
+                });
+            }
             return mainPageModel;
         }
         public List<GaleryModel> GetGaleryPageData()

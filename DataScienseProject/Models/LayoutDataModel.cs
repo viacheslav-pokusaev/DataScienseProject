@@ -14,5 +14,6 @@ namespace DataScienseProject.Models
         public string ElementTypeName { get; set; }
         public int? OrderNumber { get; set; }
         public bool? IsShowElementName { get; set; }
+        public List<LayoutStyleModel> LayoutStyleModel { get; set; }
     }
 }
