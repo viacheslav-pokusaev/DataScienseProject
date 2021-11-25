@@ -1,11 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component } from '@angular/core';
-import { ExecutorModel } from '../models/executor.model';
 import { LayoutStyleModel } from '../models/layout-style.model';
-import { LayoutDataModel } from '../models/layout-data.model';
 import { MainPageModel } from '../models/main-page.model';
-import { ProjectTypeModel } from '../models/project-type.model';
-import { TehnologyModel } from '../models/tehnology.model';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
