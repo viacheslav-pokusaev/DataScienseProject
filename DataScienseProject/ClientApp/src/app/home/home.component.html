@@ -35,7 +35,7 @@
 
         <!-- Iframe -->
         <div *ngIf="(val.elementTypeName === 'Iframe')">
-          <iframe [src]="val.path | safe" [style]="sanitize(val.layoutStyleModel)"></iframe>
+          <iframe [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitize(val.layoutStyleModel)"></iframe>
         </div>
 
       </div>

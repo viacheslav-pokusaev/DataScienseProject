@@ -37,10 +37,21 @@ export class HomeComponent{
     styles.forEach(style =>{
       if(style.key !== "src"){
         var styleString = style.key + ": " + style.value + ";";
+        styleRes += styleString;              
+      }      
+    });
+    return this.sanitizer.bypassSecurityTrustStyle(styleRes);
+  }
+
+  sanitizeIframe(styles: Array<LayoutStyleModel>) {
+    var styleRes: string = "";
+    styles.forEach(style => {
+      if (style.key === "src") {
+        var styleString = style.value;
         styleRes += styleString;
       }
     });
-    return this.sanitizer.bypassSecurityTrustStyle(styleRes);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
 }

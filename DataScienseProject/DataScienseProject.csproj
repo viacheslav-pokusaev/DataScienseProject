@@ -51,7 +51,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\main-page.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\project-type.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\tehnology.model.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\safe.pipe.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\pipes\safe.pipe.ts" />
   </ItemGroup>
 
   <ItemGroup>
