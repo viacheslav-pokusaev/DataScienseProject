@@ -14,8 +14,8 @@ namespace DataScienseProject.Services
 {
     public class GetDataService : IGetDataService
     {
-        private readonly CS_DS_PortfolioContext _context;
-        public GetDataService(CS_DS_PortfolioContext context)
+        private readonly DataScienceProjectDbContext _context;
+        public GetDataService(DataScienceProjectDbContext context)
         {
             _context = context;
         }
