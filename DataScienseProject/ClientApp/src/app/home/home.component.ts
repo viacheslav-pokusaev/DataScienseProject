@@ -7,6 +7,7 @@ import { MainPageModel } from '../models/main-page.model';
 import { ProjectTypeModel } from '../models/project-type.model';
 import { TehnologyModel } from '../models/tehnology.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HomeService } from '../services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -16,11 +17,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class HomeComponent{
 
   public mainPageModel: MainPageModel;
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
   }
 
   ngOnInit() {
-    this.http.get<MainPageModel>('GetData/main').subscribe(
+
+    this.homeService.getData().subscribe(    
       (data: MainPageModel) => {
         this.mainPageModel = data;
       },
