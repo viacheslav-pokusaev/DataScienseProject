@@ -26,13 +26,13 @@
         <div [innerHTML]="val.value"></div>
 
         <!-- Image -->
-        <div *ngIf="(val.elementTypeName === 'Image')">
-          <img [src]="val.path" [style]="sanitize(val.layoutStyleModel)"/>
+        <div *ngIf="(val.elementTypeName === 'Image')">          
+          <div [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
         </div>
 
         <!-- Iframe -->
         <div *ngIf="(val.elementTypeName === 'Iframe')">
-          <iframe [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitize(val.layoutStyleModel)"></iframe>
+          <iframe [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)"></iframe>
         </div>
 
       </div>

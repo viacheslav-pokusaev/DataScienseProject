@@ -31,7 +31,7 @@ export class HomeComponent{
       })
   }
 
-  sanitize(styles: Array<LayoutStyleModel>) {
+  sanitizeStyles(styles: Array<LayoutStyleModel>) {
 
     var styleRes: string = "";
     styles.forEach(style =>{
@@ -52,6 +52,19 @@ export class HomeComponent{
       }
     });
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
+  }
+
+  sanitizeImage(styles: Array<LayoutStyleModel>) {   
+    var styleRes: string = "";
+    var base64: string = "";
+    styles.forEach(style => {
+      if (style.key == "src") {
+        base64 += style.value;
+      }     
+    });
+    var styleString = "<img src='" + "data:image/png;base64," + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
+    styleRes += styleString;
+    return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
 }
