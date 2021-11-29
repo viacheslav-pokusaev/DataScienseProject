@@ -61,69 +61,54 @@ namespace DataScienseProject.Services
                             OrderNumber = vt.OrderNumber
                           }).ToList();
 
-            var layoutDataSelect = (from v in _context.Views
-                          join ve in _context.ViewElements on v.ViewKey equals ve.ViewKey
-                          join e in _context.Elements on ve.ElementKey equals e.ElementKey
-                          join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey                         
-                          where v.ViewKey == 1
-                          orderby ve.OrderNumber
-                          select new LayoutDataModel()
-                          {
-                              ElementName = e.ElementName,
-                              Value = e.Value,
-                              Path = e.Path,
-                              ValueText = e.Text,
-                              ElementTypeName = et.ElementTypeName,
-                              OrderNumber = ve.OrderNumber,
-                              IsShowElementName = e.IsShowElementName
-                          }).ToList();
+            
 
-            var layoutStyleSelect = (from e in _context.Elements
-                          join ve in _context.ViewElements on e.ElementKey equals ve.ElementKey                          
-                          join et in _context.ElementTypes on e.ElementTypeKey equals et.ElementTypeKey
-                          join ep in _context.ElementParameters on e.ElementKey equals ep.ElementKey 
-                          where ve.ViewKey == 1 && e.IsDeleted == false
-                          select new LayoutStyleModel()
-                          {
-                              ElementName = e.ElementName,
-                              ElementTypeName = et.ElementTypeName,
-                              Key = ep.Key,
-                              Value = ep.Value
-                          }).ToList();
+            var layoutStyleSelect = _context.Elements
+                .Join(_context.ViewElements,
+                e => e.ElementKey,
+                ve => ve.ElementKey,
+                (e, ve) => new
+                {
+                    ElementTypeKey = e.ElementTypeKey,
+                    ViewKey = ve.ViewKey,
+                    ElementName = e.ElementName,
+                    ElementKey = e.ElementKey,
+                    EIsDeleted = e.IsDeleted
+                })
+                .Join(_context.ElementTypes,
+                e => e.ElementTypeKey,
+                et => et.ElementTypeKey,
+                (e, et) => new {
+                    ElementTypeName = et.ElementTypeName,
+                    ElementName = e.ElementName,
+                    ViewKey = e.ViewKey,
+                    ElementKey = e.ElementKey,
+                    EIsDeleted = e.EIsDeleted
+                })
+                .Join(_context.ElementParameters,
+                e => e.ElementKey,
+                ep => ep.ElementKey,
+                (e, ep) => new {
+                    Key = ep.Key,
+                    Value = ep.Value,
+                    EpIsDeleted = ep.IsDeleted,
+                    ElementTypeName = e.ElementTypeName,
+                    e = new {
+                        ElementName = e.ElementName,
+                        ViewKey = e.ViewKey,
+                        ElementKey = e.ElementKey,
+                        IsDeleted = e.EIsDeleted
+                    }
+                })
+                .Where(x => x.EpIsDeleted == false && x.e.ViewKey == 1 && x.e.IsDeleted == false)
+                .Select(s => new LayoutStyleModel() {
+                    ElementName = s.e.ElementName,
+                    ElementTypeName = s.ElementTypeName,
+                    Key = s.Key,
+                    Value = s.Value
+                }).ToList();
 
-
-            ////тут выбирается только один элемент, но корректно
-            //var layoutDataSelect2 = _context.Views.Include(ev => ev.ViewElements.Where(x => x.ViewKey == ev.ViewKey))
-            //    .ThenInclude(e => e.ElementKeyNavigation)
-            //    .ThenInclude(et => et.ElementTypeKeyNavigation)
-            //    .Where(x => x.ViewKey == 1)
-            //    .Select(s => 
-            //    new LayoutDataModel() {
-            //    ElementName = s.ViewElements.Select(e => e.ElementKeyNavigation.ElementName).FirstOrDefault(),
-            //    IsShowElementName = s.ViewElements.Select(e => e.ElementKeyNavigation.IsShowElementName).FirstOrDefault(),
-            //    OrderNumber = s.OrderNumber,
-            //    Path = s.ViewElements.Select(e => e.ElementKeyNavigation.Path).FirstOrDefault(),
-            //    Value = s.ViewElements.Select(e => e.ElementKeyNavigation.Value).FirstOrDefault(),
-            //    ValueText = s.ViewElements.Select(e => e.ElementKeyNavigation.Text).FirstOrDefault(),
-            //    LayoutStyleModel = new List<LayoutStyleModel>()
-            //    }).OrderBy(ob => ob.OrderNumber).ToList();
-
-            ////тут выбираются все элементы, но некорректно
-            //var layoutDataSelect3 = _context.ViewElements
-            //    .Include(e => e.ElementKeyNavigation)
-            //    .Include(et => et.ElementKeyNavigation.LinkTypeKeyNavigation)
-            //    .Where(x => x.ViewKey == 1)
-            //    .Select(s => new LayoutDataModel() {
-            //        ElementName = s.ElementKeyNavigation.ElementName,
-            //        IsShowElementName = s.ElementKeyNavigation.IsShowElementName,
-            //        OrderNumber = s.OrderNumber,
-            //        Path = s.ElementKeyNavigation.Path,
-            //        Value = s.ElementKeyNavigation.Value,
-            //        ValueText = s.ElementKeyNavigation.Text,
-            //        LayoutStyleModel = new List<LayoutStyleModel>()
-            //    }).OrderBy(ob => ob.OrderNumber).ToList();
-
-            var laloutDataSelect4 = _context.Views
+            var layoutDataSelect = _context.Views
                 .Join(_context.ViewElements,
                 v => v.ViewKey,
                 ve => ve.ViewKey,
@@ -131,7 +116,8 @@ namespace DataScienseProject.Services
                     OrderNumber = ve.OrderNumber,
                     ElementKey = ve.ElementKey,
                     IsDeleted = ve.IsDeleted
-                }).Join(_context.Elements,
+                })
+                .Join(_context.Elements,
                 ve => ve.ElementKey,
                 e => e.ElementKey,
                 (ve, e) => new { 
@@ -148,7 +134,8 @@ namespace DataScienseProject.Services
                         ElementKey = ve.ElementKey,
                         IsDeleted = ve.IsDeleted
                     }
-                }).Join(_context.ElementTypes,
+                })
+                .Join(_context.ElementTypes,
                 e => e.ElementTypeKey,
                 et => et.ElementTypeKey,
                 (e, et) => new { 
@@ -173,9 +160,9 @@ namespace DataScienseProject.Services
                     OrderNumber = s.OrderNumber,
                     Path = s.Path,
                     Value = s.Value,
-                    ValueText = s.ValueText,
-                    LayoutStyleModel = new List<LayoutStyleModel>()
-                }).OrderBy(ob => ob.OrderNumber).ToList();
+                    ValueText = s.ValueText
+                })
+                .OrderBy(ob => ob.OrderNumber).ToList();
             #endregion
 
 
