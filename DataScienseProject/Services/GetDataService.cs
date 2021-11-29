@@ -90,6 +90,22 @@ namespace DataScienseProject.Services
                               Key = ep.Key,
                               Value = ep.Value
                           }).ToList();
+
+
+            var layoutDataSelect2 = _context.Views.Include(ev => ev.ViewElements.Where(x => x.ViewKey == ev.ViewKey))
+                .ThenInclude(e => e.ElementKeyNavigation)
+                .ThenInclude(et => et.ElementTypeKeyNavigation)
+                .Where(x => x.ViewKey == 1)
+                .Select(s => 
+                new LayoutDataModel() {
+                ElementName = s.ViewElements.Select(e => e.ElementKeyNavigation.ElementName).FirstOrDefault(),
+                IsShowElementName = s.ViewElements.Select(e => e.ElementKeyNavigation.IsShowElementName).FirstOrDefault(),
+                OrderNumber = s.OrderNumber,
+                Path = s.ViewElements.Select(e => e.ElementKeyNavigation.Path).FirstOrDefault(),
+                Value = s.ViewElements.Select(e => e.ElementKeyNavigation.Value).FirstOrDefault(),
+                ValueText = s.ViewElements.Select(e => e.ElementKeyNavigation.Text).FirstOrDefault(),
+                LayoutStyleModel = new List<LayoutStyleModel>()
+                }).OrderBy(ob => ob.OrderNumber).ToList();
             #endregion
 
 
