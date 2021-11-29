@@ -92,6 +92,7 @@ namespace DataScienseProject.Services
                           }).ToList();
 
 
+            //тут выбирается только один элемент, но корректно
             var layoutDataSelect2 = _context.Views.Include(ev => ev.ViewElements.Where(x => x.ViewKey == ev.ViewKey))
                 .ThenInclude(e => e.ElementKeyNavigation)
                 .ThenInclude(et => et.ElementTypeKeyNavigation)
@@ -105,6 +106,21 @@ namespace DataScienseProject.Services
                 Value = s.ViewElements.Select(e => e.ElementKeyNavigation.Value).FirstOrDefault(),
                 ValueText = s.ViewElements.Select(e => e.ElementKeyNavigation.Text).FirstOrDefault(),
                 LayoutStyleModel = new List<LayoutStyleModel>()
+                }).OrderBy(ob => ob.OrderNumber).ToList();
+
+            //тут выбираются все элементы, но некорректно
+            var layoutDataSelect3 = _context.ViewElements
+                .Include(e => e.ElementKeyNavigation)
+                .Include(et => et.ElementKeyNavigation.LinkTypeKeyNavigation)
+                .Where(x => x.ViewKey == 1)
+                .Select(s => new LayoutDataModel() {
+                    ElementName = s.ElementKeyNavigation.ElementName,
+                    IsShowElementName = s.ElementKeyNavigation.IsShowElementName,
+                    OrderNumber = s.OrderNumber,
+                    Path = s.ElementKeyNavigation.Path,
+                    Value = s.ElementKeyNavigation.Value,
+                    ValueText = s.ElementKeyNavigation.Text,
+                    LayoutStyleModel = new List<LayoutStyleModel>()
                 }).OrderBy(ob => ob.OrderNumber).ToList();
             #endregion
 
