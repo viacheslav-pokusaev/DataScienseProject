@@ -40,8 +40,14 @@ header nav ul li > a {
   color: #4b4b4b;  
 }
 
-.text-style > a{
+.text-style a {
   text-decoration: none;
+  color: #d8550f;
+}
+
+.text-style a:hover {  
+  color: #f2a523;
+  pointer-events: visible;
 }
 
 .tag-style {

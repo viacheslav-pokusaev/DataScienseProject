@@ -8,11 +8,14 @@ import { ProjectTypeModel } from '../models/project-type.model';
 import { TehnologyModel } from '../models/tehnology.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeService } from '../services/home.service';
+import { ViewEncapsulation } from '@angular/core'
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent{
 
