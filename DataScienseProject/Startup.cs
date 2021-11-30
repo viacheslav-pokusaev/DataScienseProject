@@ -28,7 +28,7 @@ namespace DataScienseProject
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<CS_DS_PortfolioContext>(opt => {
+            services.AddDbContext<DataScienceProjectDbContext>(opt => {
                 if(_webHostEnvironment.IsDevelopment())
                     opt.UseSqlServer(Configuration.GetConnectionString("Dev"));
 

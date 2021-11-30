@@ -12,7 +12,7 @@ namespace DataScienseProject.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class GetDataController :  ControllerBase, IGetDataController
+    public class GetDataController :  ControllerBase
     {
         private readonly IGetDataService _getDataService;
         public GetDataController(IGetDataService getDataService)

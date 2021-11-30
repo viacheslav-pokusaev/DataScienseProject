@@ -273,7 +273,7 @@ DECLARE @ElementTypeKey_Image INT = (SELECT ElementTypeKey FROM dbo.ElementTypes
 DECLARE @LinkType_DockerShiny INt = (SELECT LinkTypeKey FROM dbo.LinkTypes WHERE LinkTypeName = 'Docker (Shiny)');
 -- Don't change END
 
-INSERT INTO Views (ViewTypeKey, ViewName, Description, Link, LogoPath, CreatedDate, ModifiedDate, OrderNumber, isDeleted)
+INSERT INTO [Views] (ViewTypeKey, ViewName, Description, Link, LogoPath, CreatedDate, ModifiedDate, OrderNumber, isDeleted)
 VALUES
 	((SELECT ViewTypeKey FROM dbo.ViewTypes WHERE ViewTypeName = @ViewTypeName), @ViewName, NULL, NULL,	NULL, (SELECT GETDATE()), (SELECT GETDATE()), 1, 0);
 
@@ -332,7 +332,7 @@ DECLARE @ViewKey INT = 1;
 SELECT 
 	ViewName 
 	, ViewTypeName
-FROM dbo.Views v
+FROM [dbo].[Views] v
 LEFT JOIN dbo.ViewTypes vt ON vt.ViewTypeKey = v.ViewTypeKey
 WHERE
 	ViewKey = @ViewKey
@@ -378,7 +378,7 @@ SELECT
 	, et.ElementTypeName
 	, ve.OrderNumber
 	, e.IsShowElementName
-FROM dbo.Views v
+FROM [dbo].[Views] v
 LEFT JOIN dbo.ViewElements ve ON ve.ViewKey = v.ViewKey AND ve.IsDeleted = 0
 LEFT JOIN dbo.Elements e ON e.ElementKey = ve.ElementKey AND e.IsDeleted = 0
 LEFT JOIN dbo.ElementTypes et ON et.ElementTypeKey = e.ElementTypeKey
@@ -402,37 +402,4 @@ WHERE
 	AND e.IsDeleted = 0
 
 --SP GetViewFullInfo end
-	
-
-
-
-
-
-DECLARE @ViewKey INT = 1;
-
-SELECT 
-	v.ViewName 
-	, vt.ViewTypeName
-	, e.ExecutorName
-	, e.ExecutorProfileLink
-	, er.RoleName
-	, ve.OrderNumber ExecutorOrder
-	, t.Name Tag
-	, t.Link TagLink
-	, d.Name Direction
-	, d.Link DirectionLink
-	,vta.OrderNumber TagOrder
-FROM dbo.Views v
-LEFT JOIN dbo.ViewTypes vt ON vt.ViewTypeKey = v.ViewTypeKey
-LEFT JOIN dbo.ViewExecutors ve ON ve.ViewKey = v.ViewKey AND ve.IsDeleted = 0
-LEFT JOIN dbo.Executors e ON e.ExecutorKey = ve.ExecutorKey
-LEFT JOIN dbo.ExecutorRoles er ON er.ExecutorRoleKey = ve.ExecutorRoleKey
-LEFT JOIN dbo.ViewTags vta ON vta.ViewKey = v.ViewKey AND vta.IsDeleted = 0
-LEFT JOIN dbo.Tags t ON t.TagKey = vta.TagKey
-LEFT JOIN dbo.Directions d ON t.DirectionKey = d.DirectionKey
-WHERE
-	v.ViewKey = @ViewKey
-	AND v.IsDeleted = 0
-
-
 

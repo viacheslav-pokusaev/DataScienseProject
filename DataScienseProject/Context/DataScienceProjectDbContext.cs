@@ -5,14 +5,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace DataScienseProject.Context
 {
-    public partial class CS_DS_PortfolioContext : DbContext
+    public partial class DataScienceProjectDbContext : DbContext
     {
         
-        public CS_DS_PortfolioContext()
+        public DataScienceProjectDbContext()
         {
         }
 
-        public CS_DS_PortfolioContext(DbContextOptions<CS_DS_PortfolioContext> options)
+        public DataScienceProjectDbContext(DbContextOptions<DataScienceProjectDbContext> options)
             : base(options)
         {
         }
