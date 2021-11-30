@@ -17,8 +17,10 @@
   <!-- Executors -->
   <div *ngFor="let val of mainPageModel.executorModels">
     <h2 class="head-style">Executors:</h2>
-    <a class="text-style" [innerHTML]="val.executorName" [href]="val.executorProfileLink"></a>
-      - <p class="text-style" [innerHTML]="val.roleName"></p>
+    <span class="text-style">
+      <a [innerHTML]="val.executorName" [href]="val.executorProfileLink"></a>
+      - <span [innerHTML]="val.roleName"></span>
+    </span>
   </div>
 
   <!-- Description -->
