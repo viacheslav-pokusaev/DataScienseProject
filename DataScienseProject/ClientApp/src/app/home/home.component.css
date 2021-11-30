@@ -35,6 +35,16 @@ header nav ul li > a {
   margin-bottom: 30px;
 }
 
+.line-style::before,
+.line-style::after {
+  display: inline-block;
+  content: "";
+  border-top: .3rem solid #d8550f;
+  width: 4rem;
+  margin: 0 1rem;
+  transform: translateY(-0.5rem);
+}
+
 .text-style {
   font-family: 'Codec Pro', sans-serif;
   color: #4b4b4b;  
@@ -95,5 +105,3 @@ header nav ul li > a {
   background-size: cover;
   position: relative;
 }
-
-
