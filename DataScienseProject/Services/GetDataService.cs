@@ -4,9 +4,6 @@ using DataScienseProject.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,153 +20,38 @@ namespace DataScienseProject.Services
         public MainPageModel GetMainPageData()
         {
             #region Select from db
-            var projectTypeSelect = (from v in _context.Views
-                          join vt in _context.ViewTypes on v.ViewTypeKey equals vt.ViewTypeKey
-                          where v.ViewKey == 1 && v.IsDeleted == false
-                          orderby v.OrderNumber
-                          select new ProjectTypeModel()
-                          {
-                              ViewName = v.ViewName,
-                              ViewTypeName = vt.ViewTypeName
-                          }
-                          ).ToList();
 
-            var projectTypeSelect = _context.Views
-                .Include(vt => vt.ViewTypeKeyNavigation)
-                .Where(x => x.ViewKey == 1 && x.IsDeleted == false)
-                .Select(s => 
-                new ProjectTypeModel() { 
-                    ViewName = s.ViewName,
-                    ViewTypeName = s.ViewTypeKeyNavigation.ViewTypeName
-                }).ToList();
-            var executorSelect = _context.ViewExecutors
-                .Include(ve => ve.ExecutorKeyNavigation)
-                .Include(er => er.ExecutorRoleKeyNavigation)
-                .Where(x => x.ViewKey == 1 && x.IsDeleted == false)
-                .Select(s => 
-                new ExecutorModel() { 
-                    ExecutorName = s.ExecutorKeyNavigation.ExecutorName, 
-                    ExecutorProfileLink = s.ExecutorKeyNavigation.ExecutorProfileLink, 
-                    OrderNumber = s.OrderNumber, 
-                    RoleName = s.ExecutorRoleKeyNavigation.RoleName
-                }).OrderBy(ob => ob.OrderNumber).ToList();
-            var tehnologySelect = _context.ViewTags
-                .Include(vt => vt.TagKeyNavigation)
-                .Include(t => t.TagKeyNavigation.DirectionKeyNavigation)
-                .Where(x => x.ViewKey == 1 && x.IsDeleted == false)
-                .Select(s =>
-                new TehnologyModel()
-                {
-                    TName = s.TagKeyNavigation.Name,
-                    TLink = s.TagKeyNavigation.Link,
-                    DName = s.TagKeyNavigation.DirectionKeyNavigation.Name,
-                    DLink = s.TagKeyNavigation.DirectionKeyNavigation.Link,
-                    OrderNumber = s.OrderNumber
-                }).OrderBy(ob => ob.OrderNumber).ToList();
+            var projectTypeSelect = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s => 
+                new ProjectTypeModel() { ViewName = s.ViewName, ViewTypeName = s.ViewTypeKeyNavigation.ViewTypeName}).ToList();
 
+            var executorSelect = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x => 
+            x.ViewKey == 1 && x.IsDeleted == false).Select(s => new ExecutorModel() { ExecutorName = s.ExecutorKeyNavigation.ExecutorName, 
+                ExecutorProfileLink = s.ExecutorKeyNavigation.ExecutorProfileLink, OrderNumber = s.OrderNumber, RoleName = s.ExecutorRoleKeyNavigation.RoleName})
+            .OrderBy(ob => ob.OrderNumber).ToList();
+            var tehnologySelect = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Include(t => t.TagKeyNavigation.DirectionKeyNavigation).Where(x => 
+            x.ViewKey == 1 && x.IsDeleted == false).Select(s =>new TehnologyModel() { TName = s.TagKeyNavigation.Name, TLink = s.TagKeyNavigation.Link,
+                DName = s.TagKeyNavigation.DirectionKeyNavigation.Name, DLink = s.TagKeyNavigation.DirectionKeyNavigation.Link, OrderNumber = s.OrderNumber})
+            .OrderBy(ob => ob.OrderNumber).ToList();
 
-            
+            var layoutStyleSelect = _context.Elements.Join(_context.ViewElements, e => e.ElementKey, ve => ve.ElementKey, (e, ve) => new { 
+                ElementTypeKey = e.ElementTypeKey, ViewKey = ve.ViewKey, ElementName = e.ElementName, ElementKey = e.ElementKey, EIsDeleted = e.IsDeleted})
+                .Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new { ElementTypeName = et.ElementTypeName,
+                    ElementName = e.ElementName, ViewKey = e.ViewKey, ElementKey = e.ElementKey, EIsDeleted = e.EIsDeleted})
+                .Join(_context.ElementParameters, e => e.ElementKey,ep => ep.ElementKey,(e, ep) => new {Key = ep.Key, Value = ep.Value,
+                    EpIsDeleted = ep.IsDeleted, ElementTypeName = e.ElementTypeName, e = new { ElementName = e.ElementName, ViewKey = e.ViewKey,
+                    ElementKey = e.ElementKey, IsDeleted = e.EIsDeleted}}).Where(x => x.EpIsDeleted == false && x.e.ViewKey == 1 && x.e.IsDeleted == false)
+                    .Select(s => new LayoutStyleModel() {ElementName = s.e.ElementName, ElementTypeName = s.ElementTypeName, Key = s.Key, Value = s.Value}).ToList();
 
-            var layoutStyleSelect = _context.Elements
-                .Join(_context.ViewElements,
-                e => e.ElementKey,
-                ve => ve.ElementKey,
-                (e, ve) => new
-                {
-                    ElementTypeKey = e.ElementTypeKey,
-                    ViewKey = ve.ViewKey,
-                    ElementName = e.ElementName,
-                    ElementKey = e.ElementKey,
-                    EIsDeleted = e.IsDeleted
-                })
-                .Join(_context.ElementTypes,
-                e => e.ElementTypeKey,
-                et => et.ElementTypeKey,
-                (e, et) => new {
-                    ElementTypeName = et.ElementTypeName,
-                    ElementName = e.ElementName,
-                    ViewKey = e.ViewKey,
-                    ElementKey = e.ElementKey,
-                    EIsDeleted = e.EIsDeleted
-                })
-                .Join(_context.ElementParameters,
-                e => e.ElementKey,
-                ep => ep.ElementKey,
-                (e, ep) => new {
-                    Key = ep.Key,
-                    Value = ep.Value,
-                    EpIsDeleted = ep.IsDeleted,
-                    ElementTypeName = e.ElementTypeName,
-                    e = new {
-                        ElementName = e.ElementName,
-                        ViewKey = e.ViewKey,
-                        ElementKey = e.ElementKey,
-                        IsDeleted = e.EIsDeleted
-                    }
-                })
-                .Where(x => x.EpIsDeleted == false && x.e.ViewKey == 1 && x.e.IsDeleted == false)
-                .Select(s => new LayoutStyleModel() {
-                    ElementName = s.e.ElementName,
-                    ElementTypeName = s.ElementTypeName,
-                    Key = s.Key,
-                    Value = s.Value
-                }).ToList();
-
-            var layoutDataSelect = _context.Views
-                .Join(_context.ViewElements,
-                v => v.ViewKey,
-                ve => ve.ViewKey,
-                (v, ve) => new {
-                    OrderNumber = ve.OrderNumber,
-                    ElementKey = ve.ElementKey,
-                    IsDeleted = ve.IsDeleted
-                })
-                .Join(_context.Elements,
-                ve => ve.ElementKey,
-                e => e.ElementKey,
-                (ve, e) => new { 
-                    ElementTypeKey = e.ElementTypeKey,
-                    ElementName = e.ElementName,
-                    Value = e.Value,
-                    Path = e.Path,
-                    ValueText = e.Text,
-                    IsShowElementName = e.IsShowElementName,
-                    IsDeleted = e.IsDeleted,
-                    ve = new
-                    {
-                        OrderNumber = ve.OrderNumber,
-                        ElementKey = ve.ElementKey,
-                        IsDeleted = ve.IsDeleted
-                    }
-                })
-                .Join(_context.ElementTypes,
-                e => e.ElementTypeKey,
-                et => et.ElementTypeKey,
-                (e, et) => new { 
-                    ElementTypeName = et.ElementTypeName,
-                    ElementTypeKey = e.ElementTypeKey,
-                    ElementName = e.ElementName,
-                    Value = e.Value,
-                    Path = e.Path,
-                    ValueText = e.ValueText,
-                    IsShowElementName = e.IsShowElementName,
-                    OrderNumber = e.ve.OrderNumber,
-                    ElementKey = e.ve.ElementKey,
-                    VeIsDeleted = e.ve.IsDeleted,
-                    EIsDeleted = e.IsDeleted
-                })
-                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false)
-                .Select(s => 
-                new LayoutDataModel() {
-                    ElementName = s.ElementName,
-                    ElementTypeName = s.ElementTypeName,
-                    IsShowElementName = s.IsShowElementName,
-                    OrderNumber = s.OrderNumber,
-                    Path = s.Path,
-                    Value = s.Value,
-                    ValueText = s.ValueText
-                })
-                .OrderBy(ob => ob.OrderNumber).ToList();
+            var layoutDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new { OrderNumber = ve.OrderNumber,
+                    ElementKey = ve.ElementKey, IsDeleted = ve.IsDeleted }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new { 
+                    ElementTypeKey = e.ElementTypeKey, ElementName = e.ElementName, Value = e.Value, Path = e.Path, ValueText = e.Text, IsShowElementName = e.IsShowElementName,
+                    IsDeleted = e.IsDeleted, ve = new { OrderNumber = ve.OrderNumber, ElementKey = ve.ElementKey, IsDeleted = ve.IsDeleted}})
+                .Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new { ElementTypeName = et.ElementTypeName,
+                    ElementTypeKey = e.ElementTypeKey, ElementName = e.ElementName, Value = e.Value, Path = e.Path, ValueText = e.ValueText, IsShowElementName = e.IsShowElementName,
+                    OrderNumber = e.ve.OrderNumber, ElementKey = e.ve.ElementKey, VeIsDeleted = e.ve.IsDeleted, EIsDeleted = e.IsDeleted})
+                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false).Select(s => new LayoutDataModel() { ElementName = s.ElementName, 
+                    ElementTypeName = s.ElementTypeName,IsShowElementName = s.IsShowElementName, OrderNumber = s.OrderNumber, Path = s.Path, Value = s.Value,
+                    ValueText = s.ValueText}).OrderBy(ob => ob.OrderNumber).ToList();
             #endregion
 
 
@@ -180,27 +62,20 @@ namespace DataScienseProject.Services
             mainPageModel.TehnologyModels = tehnologySelect;
 
             mainPageModel.LayoutDataModels = new List<LayoutDataModel>();
+
+
             foreach (var data in layoutDataSelect)
             {
                 var layoutStyleBuff = new List<LayoutStyleModel>();
 
                 foreach (var style in layoutStyleSelect)
                 {
-                    if(data.ElementName == style.ElementName)
-                    {
+                    if (data.ElementName == style.ElementName)
                         layoutStyleBuff.Add(style);
-                    }
                 }
-                mainPageModel.LayoutDataModels.Add(new LayoutDataModel() { 
-                    ElementName = data.ElementName,
-                    ElementTypeName = data.ElementTypeName, 
-                    IsShowElementName = data.IsShowElementName, 
-                    LayoutStyleModel = layoutStyleBuff, 
-                    OrderNumber = data.OrderNumber,
-                    Path = data.Path,
-                    Value = data.Value,
-                    ValueText = data.ValueText
-                });
+                mainPageModel.LayoutDataModels.Add(new LayoutDataModel() { ElementName = data.ElementName, ElementTypeName = data.ElementTypeName,
+                    IsShowElementName = data.IsShowElementName, LayoutStyleModel = layoutStyleBuff, OrderNumber = data.OrderNumber,
+                    Path = data.Path, Value = data.Value, ValueText = data.ValueText});
             }
             return mainPageModel;
         }
