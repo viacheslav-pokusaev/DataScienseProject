@@ -79,6 +79,11 @@ header nav ul li > a {
   text-align: center;
 }
 
+.img-style-ex {
+    height: 350px;
+    width: 400px;
+}
+
 .iframe-style {
   border: 4px solid;
   border-color: #d8550f;
