@@ -16,7 +16,6 @@ namespace DataScienseProject.Services
         {
             _context = context;
         }
-
         public MainPageModel GetMainPageData()
         {
             #region Select from db

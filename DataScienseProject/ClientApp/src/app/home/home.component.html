@@ -1,16 +1,12 @@
-<div id="wrap">
-
   <div *ngIf="mainPageModel">
 
-    <!-- View Name -->
-    <div *ngIf="mainPageModel.projectTypeModels">
+    <!-- View Name -->    
       <div *ngFor="let val of mainPageModel.projectTypeModels">
         <h1 [innerHTML]="val.viewName"></h1>
-      </div>
-    </div>
+      </div>    
 
     <!-- Tehnology tags -->
-    <div *ngIf="mainPageModel.tehnologyModels" class="container" id="tags">
+    <div class="container" id="tags">
 
       <div class="row">
         <div class="col" *ngFor="let val of mainPageModel.tehnologyModels">
@@ -19,8 +15,7 @@
       </div>
     </div>
 
-    <!-- Description -->
-    <div *ngIf="mainPageModel.layoutDataModels">
+    <!-- Description -->    
       <div *ngFor="let val of mainPageModel.layoutDataModels">
         <!-- Heading -->
         <div *ngIf="val.isShowElementName">
@@ -31,21 +26,17 @@
         <div [innerHTML]="val.value"></div>
 
         <!-- Image -->
-        <div *ngIf="(val.elementTypeName === 'Image')">
-          <img [src]="val.path" [style]="sanitize(val.layoutStyleModel)"/>
+        <div *ngIf="(val.elementTypeName === 'Image')">          
+          <div [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
         </div>
 
         <!-- Iframe -->
         <div *ngIf="(val.elementTypeName === 'Iframe')">
-          <iframe [src]="val.path | safe" [style]="sanitize(val.layoutStyleModel)"></iframe>
+          <iframe [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)"></iframe>
         </div>
 
       </div>
-    </div>
+    
 
   </div>
-
-
-
-</div>
 
