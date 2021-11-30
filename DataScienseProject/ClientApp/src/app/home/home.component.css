@@ -6,10 +6,10 @@
   padding: 8px;
 }*/
 
-::selection {
+/*::selection {
   background-color: #d8550f;
   color: #fff;
-}
+}*/
 
 header nav ul li > a {
   color: #d8550f;
@@ -52,8 +52,19 @@ header nav ul li > a {
 
 .tag-style {
   font-family: Codec Pro;
-  color: #d8550f;
+  color: #fff;
   font-weight: 800 !important;
+
+  border-radius: 50px;
+  border: transparent;
+  position: relative;
+  background-color: #d8550f;
+  background-image: linear-gradient( 90deg,#f2a523,#d8550f,#d8550f,#f2a523);
+  transition: all .4s ease-in-out;
+  background-size: 300% 100%;
+  padding: 14px 35px;
+  text-align:center;
+  cursor: pointer;
 }
 
 .img-style {
@@ -68,3 +79,13 @@ header nav ul li > a {
   border-color: #d8550f;
   border-radius: 15px;  
 }
+
+.wrapper {
+  background: url('/img/bg.png') no-repeat center;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+

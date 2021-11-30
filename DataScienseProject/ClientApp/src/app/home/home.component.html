@@ -1,43 +1,51 @@
   <div *ngIf="mainPageModel">
 
-    <!-- View Name -->    
-      <div *ngFor="let val of mainPageModel.projectTypeModels">
-        <h1 class="text-center text-uppercase head-style" [innerHTML]="val.viewName"></h1>
-      </div>    
+  <!-- View Name -->
+  <div *ngFor="let val of mainPageModel.projectTypeModels">
+    <h1 class="text-center text-uppercase head-style" [innerHTML]="val.viewName"></h1>
+  </div>
 
-    <!-- Tehnology tags -->
-    <div class="container" id="tags">
+  <!-- Tehnology tags -->
+  <div class="container" id="tags">
 
-      <div class="row">
-        <div class="col" *ngFor="let val of mainPageModel.tehnologyModels">
-          <p class="tag-style" [innerHTML]="val.tName"></p>
-        </div>
+    <div class="row">
+      <div class="col col-md-2" *ngFor="let val of mainPageModel.tehnologyModels">
+        <p class="tag-style" [innerHTML]="val.tName"></p>
       </div>
     </div>
+  </div>
+  <!-- Executors -->
+  <div *ngFor="let val of mainPageModel.executorModels">
+    <h2 class="head-style">Executors:</h2>
+    <a class="text-style" [innerHTML]="val.executorName" [href]="val.executorProfileLink"></a>
+      - <p class="text-style" [innerHTML]="val.roleName"></p>
+  </div>
 
-    <!-- Description -->    
-      <div *ngFor="let val of mainPageModel.layoutDataModels">
-        <!-- Heading -->
-        <div *ngIf="val.isShowElementName">
-          <h2 class="head-style" [innerHTML]="val.elementName"></h2>
-        </div>
+  <!-- Description -->
+  <div *ngFor="let val of mainPageModel.layoutDataModels">
+    <!-- Heading -->
+    <div *ngIf="val.isShowElementName">
+      <h2 class="head-style" [innerHTML]="val.elementName"></h2>
+    </div>
 
-        <!-- Text -->
-        <div class="text-style" [innerHTML]="val.value"></div>
+    <!-- Text -->
+    <div class="text-style" [innerHTML]="val.value"></div>
 
-        <!-- Image -->
-        <div *ngIf="(val.elementTypeName === 'Image')">          
-          <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
-        </div>
+    <!-- Image -->
+    <div *ngIf="(val.elementTypeName === 'Image')">
+      <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
+    </div>
 
-        <!-- Iframe -->
-        <div *ngIf="(val.elementTypeName === 'Iframe')">
+    <!-- Iframe --> 
+    <div *ngIf="(val.elementTypeName === 'Iframe')">
+        <div class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white wrapper">
           <h2 class="head-style">Example:</h2>
           <iframe class="iframe-style" [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)"></iframe>
         </div>
+    </div>
 
-      </div>
-    
+    </div>
+
 
   </div>
 
