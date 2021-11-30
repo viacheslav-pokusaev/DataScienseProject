@@ -1,21 +1,41 @@
   <div *ngIf="mainPageModel">
 
-    <!-- View Name -->    
-      <div *ngFor="let val of mainPageModel.projectTypeModels">
-        <h1 class="text-center text-uppercase head-style" [innerHTML]="val.viewName"></h1>
-      </div>    
-
     <!-- Tehnology tags -->
     <div class="container" id="tags">
-
       <div class="row">
-        <div class="col" *ngFor="let val of mainPageModel.tehnologyModels">
-          <p class="tag-style" [innerHTML]="val.tName"></p>
+        <div class="col-3">
+          <h4 class="tag-style" style="color: #4b4b4b; font-weight: 200;">Tehnology tags:</h4>
+          <div class="col" *ngFor="let val of mainPageModel.tehnologyModels">
+            <p class="tag-style" [innerHTML]="val.tName"></p>
+          </div>
+        </div>
+        <div class="col-6">
+          <img
+          class=".img-style"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Svm_separating_hyperplanes_%28SVG%29.svg/330px-Svm_separating_hyperplanes_%28SVG%29.svg.png"
+          />
+        </div>
+        <div class="col-3">
+          <h4 class="tag-style" style="color: #4b4b4b; font-weight: 200;">Executors:</h4>
+          <div class="col" *ngFor="let val of mainPageModel.executorModels">
+            <div class="row text-style">
+              <a class="" [href]="val.executorProfileLink">{{val.executorName}}</a>
+              &nbsp;
+              &nbsp;
+              &nbsp;
+              <p>{{val.roleName}}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Description -->    
+    <!-- View Name -->
+    <div *ngFor="let val of mainPageModel.projectTypeModels">
+      <h1 class="text-center text-uppercase head-style" [innerHTML]="val.viewName"></h1>
+    </div>
+
+    <!-- Description -->
       <div *ngFor="let val of mainPageModel.layoutDataModels">
         <!-- Heading -->
         <div *ngIf="val.isShowElementName">
@@ -26,7 +46,7 @@
         <div class="text-style" [innerHTML]="val.value"></div>
 
         <!-- Image -->
-        <div *ngIf="(val.elementTypeName === 'Image')">          
+        <div *ngIf="(val.elementTypeName === 'Image')">
           <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
         </div>
 
@@ -37,7 +57,7 @@
         </div>
 
       </div>
-    
+
 
   </div>
 
