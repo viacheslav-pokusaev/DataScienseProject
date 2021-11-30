@@ -7,6 +7,7 @@ import { MainPageModel } from '../models/main-page.model';
 import { ProjectTypeModel } from '../models/project-type.model';
 import { TehnologyModel } from '../models/tehnology.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HomeService } from '../services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -16,11 +17,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class HomeComponent{
 
   public mainPageModel: MainPageModel;
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
   }
 
   ngOnInit() {
-    this.http.get<MainPageModel>('GetData/main').subscribe(
+
+    this.homeService.getData().subscribe(    
       (data: MainPageModel) => {
         this.mainPageModel = data;
       },
@@ -29,16 +31,40 @@ export class HomeComponent{
       })
   }
 
-  sanitize(styles: Array<LayoutStyleModel>) {
+  sanitizeStyles(styles: Array<LayoutStyleModel>) {
 
     var styleRes: string = "";
     styles.forEach(style =>{
       if(style.key !== "src"){
         var styleString = style.key + ": " + style.value + ";";
+        styleRes += styleString;              
+      }      
+    });
+    return this.sanitizer.bypassSecurityTrustStyle(styleRes);
+  }
+
+  sanitizeIframe(styles: Array<LayoutStyleModel>) {
+    var styleRes: string = "";
+    styles.forEach(style => {
+      if (style.key === "src") {
+        var styleString = style.value;
         styleRes += styleString;
       }
     });
-    return this.sanitizer.bypassSecurityTrustStyle(styleRes);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
+  }
+
+  sanitizeImage(styles: Array<LayoutStyleModel>) {   
+    var styleRes: string = "";
+    var base64: string = "";
+    styles.forEach(style => {
+      if (style.key == "src") {
+        base64 += style.value;
+      }     
+    });
+    var styleString = "<img src='" + "data:image/png;base64," + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
+    styleRes += styleString;
+    return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
 }
