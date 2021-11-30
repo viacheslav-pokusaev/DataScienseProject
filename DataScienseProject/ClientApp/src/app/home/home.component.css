@@ -59,16 +59,17 @@ header nav ul li > a {
   position: relative;
   background-color: #d8550f;
   background-image: linear-gradient( 90deg,#f2a523,#d8550f,#d8550f,#f2a523);
+  transition: all .4s ease-in-out;
   background-size: 300% 100%;
   padding: 14px 35px;
-  text-align:center;
+  text-align: center;
   cursor: pointer;
 }
 
 .tag-style:hover {
-    transition: all .4s ease-in-out;
-    color: #fff!important;
-    background-position: 100% 0px;
+  transition: all .4s ease-in-out;
+  color: #fff!important;
+  background-position: 100% 0px;
 }
 
 .img-style {
