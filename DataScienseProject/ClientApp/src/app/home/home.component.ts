@@ -25,7 +25,7 @@ export class HomeComponent{
 
   ngOnInit() {
 
-    this.homeService.getData().subscribe(    
+    this.homeService.getData().subscribe(
       (data: MainPageModel) => {
         this.mainPageModel = data;
       },
@@ -40,8 +40,8 @@ export class HomeComponent{
     styles.forEach(style =>{
       if(style.key !== "src"){
         var styleString = style.key + ": " + style.value + ";";
-        styleRes += styleString;              
-      }      
+        styleRes += styleString;
+      }
     });
     return this.sanitizer.bypassSecurityTrustStyle(styleRes);
   }
@@ -57,15 +57,15 @@ export class HomeComponent{
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
-  sanitizeImage(styles: Array<LayoutStyleModel>) {   
+  sanitizeImage(styles: Array<LayoutStyleModel>) {
     var styleRes: string = "";
     var base64: string = "";
     styles.forEach(style => {
       if (style.key == "src") {
         base64 += style.value;
-      }     
+      }
     });
-    var styleString = "<img src='" + "data:image/png;base64," + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
+    var styleString = "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
     styleRes += styleString;
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
