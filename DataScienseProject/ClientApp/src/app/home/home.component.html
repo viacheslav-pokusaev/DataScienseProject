@@ -4,10 +4,10 @@
 
     <!--Example 1 start-->
     <div class="container" id="tags">
-      <h4 class="tag-style">Example 1:</h4>
+      <h2 class="head-style text-center">Example 1:</h2>
       <div class="row">
         <div class="col-3">
-          <h4 class="tag-style" style="color: #4b4b4b; font-weight: 200;">Tehnology tags:</h4>
+          <h4 class="head-style">Tehnology tags:</h4>
           <div class="col" *ngFor="let val of mainPageModel.tehnologyModels">
             <p class="tag-style" [innerHTML]="val.tName"></p>
           </div>
@@ -19,7 +19,7 @@
           />
         </div>
         <div class="col-3">
-          <h4 class="tag-style" style="color: #4b4b4b; font-weight: 200;">Executors:</h4>
+          <h4 class="head-style">Executors:</h4>
           <div class="col" *ngFor="let val of mainPageModel.executorModels">
             <div class="row text-style">
               <a class="" [href]="val.executorProfileLink">{{val.executorName}}</a>
@@ -200,7 +200,7 @@
 
     <!-- View Name -->
     <div *ngFor="let val of mainPageModel.projectTypeModels">
-      <h1 class="text-center text-uppercase head-style" [innerHTML]="val.viewName"></h1>
+      <h1 class="text-center text-uppercase head-style line-style" [innerHTML]="val.viewName"></h1>
     </div>
 
   <!-- Description -->

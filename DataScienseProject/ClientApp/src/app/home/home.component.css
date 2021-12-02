@@ -117,4 +117,13 @@ header nav ul li > a {
   position: relative;
 }
 
+.line-style::before,
+.line-style::after {
+  display: inline-block;
+  content: "";
+  border-top: .3rem solid #d8550f;
+  width: 4rem;
+  margin: 0 1rem;
+  transform: translateY(-0.5rem);
+}
 
