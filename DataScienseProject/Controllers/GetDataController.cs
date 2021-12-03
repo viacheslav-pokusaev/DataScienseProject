@@ -28,10 +28,9 @@ namespace DataScienseProject.Controllers
         }
         [HttpGet]
         [Route("galery/{groupName}")]
-        public MainPageModel GetGaleryData(string groupName)
+        public List<GaleryModel> GetGaleryData(string groupName)
         {
-            var test = _getDataService.GetGaleryPageData(groupName);
-            throw new NotImplementedException();
+            return _getDataService.GetGaleryPageData(groupName);
         }
     }
 }

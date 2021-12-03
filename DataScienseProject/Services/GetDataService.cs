@@ -80,7 +80,13 @@ namespace DataScienseProject.Services
         }
         public List<GaleryModel> GetGaleryPageData(string groupName)
         {
-            throw new NotImplementedException();
+            var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new { ViewKey = gv.ViewKey,
+            g.GroupName, IsDeleted = g.IsDeleted }).Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new { ViewName = v.ViewName,
+                OrderNumber = v.OrderNumber, ViewKey = v.ViewKey, gv = new { GroupName = gv.GroupName, IsDeleted = gv.IsDeleted }})
+            .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new { ViewName = s.ViewName, ViewKey = s.ViewKey,
+            OrderNumber = s.OrderNumber}).OrderBy(ob => ob.OrderNumber).ToList();
+
+            return new List<GaleryModel>();
         }
     }
 }
