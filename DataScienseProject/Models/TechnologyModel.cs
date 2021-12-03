@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DataScienseProject.Models
 {
-    public class TehnologyModel
+    public class TechnologyModel
     {
         public string TName { get; set; }
         public string TLink { get; set; }

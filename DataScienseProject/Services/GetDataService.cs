@@ -28,7 +28,7 @@ namespace DataScienseProject.Services
                 ExecutorProfileLink = s.ExecutorKeyNavigation.ExecutorProfileLink, OrderNumber = s.OrderNumber, RoleName = s.ExecutorRoleKeyNavigation.RoleName})
             .OrderBy(ob => ob.OrderNumber).ToList();
             var tehnologySelect = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Include(t => t.TagKeyNavigation.DirectionKeyNavigation).Where(x => 
-            x.ViewKey == 1 && x.IsDeleted == false).Select(s =>new TehnologyModel() { TName = s.TagKeyNavigation.Name, TLink = s.TagKeyNavigation.Link,
+            x.ViewKey == 1 && x.IsDeleted == false).Select(s =>new TechnologyModel() { TName = s.TagKeyNavigation.Name, TLink = s.TagKeyNavigation.Link,
                 DName = s.TagKeyNavigation.DirectionKeyNavigation.Name, DLink = s.TagKeyNavigation.DirectionKeyNavigation.Link, OrderNumber = s.OrderNumber})
             .OrderBy(ob => ob.OrderNumber).ToList();
 
@@ -78,7 +78,7 @@ namespace DataScienseProject.Services
             }
             return mainPageModel;
         }
-        public List<GaleryModel> GetGaleryPageData(string groupName)
+        public List<GalleryModel> GetGaleryPageData(string groupName)
         {
             throw new NotImplementedException();
         }
