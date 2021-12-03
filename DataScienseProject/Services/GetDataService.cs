@@ -42,13 +42,13 @@ namespace DataScienseProject.Services
                     .Select(s => new LayoutStyleModel() {ElementName = s.e.ElementName, ElementTypeName = s.ElementTypeName, Key = s.Key, Value = s.Value}).ToList();
 
             var layoutDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new { OrderNumber = ve.OrderNumber,
-                    ElementKey = ve.ElementKey, IsDeleted = ve.IsDeleted }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new { 
+                    ElementKey = ve.ElementKey, IsDeleted = ve.IsDeleted, ViewKey = ve.ViewKey }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new { 
                     ElementTypeKey = e.ElementTypeKey, ElementName = e.ElementName, Value = e.Value, Path = e.Path, ValueText = e.Text, IsShowElementName = e.IsShowElementName,
-                    IsDeleted = e.IsDeleted, ve = new { OrderNumber = ve.OrderNumber, ElementKey = ve.ElementKey, IsDeleted = ve.IsDeleted}})
+                    IsDeleted = e.IsDeleted, ve = new { OrderNumber = ve.OrderNumber, ElementKey = ve.ElementKey, IsDeleted = ve.IsDeleted, ViewKey = ve.ViewKey}})
                 .Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new { ElementTypeName = et.ElementTypeName,
                     ElementTypeKey = e.ElementTypeKey, ElementName = e.ElementName, Value = e.Value, Path = e.Path, ValueText = e.ValueText, IsShowElementName = e.IsShowElementName,
-                    OrderNumber = e.ve.OrderNumber, ElementKey = e.ve.ElementKey, VeIsDeleted = e.ve.IsDeleted, EIsDeleted = e.IsDeleted})
-                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false).Select(s => new LayoutDataModel() { ElementName = s.ElementName, 
+                    OrderNumber = e.ve.OrderNumber, ElementKey = e.ve.ElementKey, VeIsDeleted = e.ve.IsDeleted, EIsDeleted = e.IsDeleted, ViewKey = e.ve.ViewKey})
+                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false && x.ViewKey == 1).Select(s => new LayoutDataModel() { ElementName = s.ElementName, 
                     ElementTypeName = s.ElementTypeName,IsShowElementName = s.IsShowElementName, OrderNumber = s.OrderNumber, Path = s.Path, Value = s.Value,
                     ValueText = s.ValueText}).OrderBy(ob => ob.OrderNumber).ToList();
             #endregion
