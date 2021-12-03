@@ -277,7 +277,7 @@ INSERT INTO [Views] (ViewTypeKey, ViewName, Description, Link, LogoPath, Created
 VALUES
 	((SELECT ViewTypeKey FROM dbo.ViewTypes WHERE ViewTypeName = @ViewTypeName), @ViewName, NULL, NULL,	NULL, (SELECT GETDATE()), (SELECT GETDATE()), 1, 0);
 
-DECLARE @ViewKey INT = (SELECT ViewKey FROM Views WHERE ViewName = @ViewName);
+DECLARE @ViewKey INT = (SELECT ViewKey FROM [Views] WHERE ViewName = @ViewName);
 
 INSERT INTO Elements (ElementTypeKey, LinkTypeKey, ElementName, Path, Text, Value, IsShowElementName, IsDeleted)
 VALUES
@@ -326,7 +326,7 @@ GO
 
 --SP GetViewFullInfo start
 
-DECLARE @ViewKey INT = 1;
+DECLARE @ViewKey INT = 2;
 
 --1
 SELECT 
@@ -402,4 +402,215 @@ WHERE
 	AND e.IsDeleted = 0
 
 --SP GetViewFullInfo end
+
+--Group filing start
+INSERT INTO [dbo].[Groups](GroupName, IsDeleted) VALUES('Group1', 0);
+INSERT INTO [dbo].[Groups](GroupName, IsDeleted) VALUES('Group2', 0);
+GO
+
+SELECT * FROM [dbo].[Groups];
+SELECT * FROM [dbo].[GroupViews];
+--Group filing end
+
+
+--GroupViews filing start
+INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(1, 1, 0);
+INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(2, 1, 0);
+INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(3, 2, 0);
+
+GO
+
+--GroupViews filing end
+
+
+--Views filling start
+--------------------------------------------------------------------------------------------
+--						Test1
+--------------------------------------------------------------------------------------------
+
+DECLARE @ViewName VARCHAR(MAX) = 'Test1';
+DECLARE @ViewTypeName VARCHAR(MAX) = 'Study task';
+
+
+-- Don't change
+DECLARE @ElementTypeKey_HtmlParagraph INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Html paragraph');
+DECLARE @ElementTypeKey_Iframe INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Iframe');
+DECLARE @ElementTypeKey_Image INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Image');
+
+DECLARE @LinkType_DockerShiny INt = (SELECT LinkTypeKey FROM dbo.LinkTypes WHERE LinkTypeName = 'Docker (Shiny)');
+-- Don't change END
+
+INSERT INTO [Views] (ViewTypeKey, ViewName, Description, Link, LogoPath, CreatedDate, ModifiedDate, OrderNumber, isDeleted)
+VALUES
+	((SELECT ViewTypeKey FROM dbo.ViewTypes WHERE ViewTypeName = @ViewTypeName), @ViewName, NULL, NULL,	NULL, (SELECT GETDATE()), (SELECT GETDATE()), 1, 0);
+
+DECLARE @ViewKey INT = (SELECT ViewKey FROM [Views] WHERE ViewName = @ViewName);
+
+INSERT INTO Elements (ElementTypeKey, LinkTypeKey, ElementName, Path, Text, Value, IsShowElementName, IsDeleted)
+VALUES
+	(@ElementTypeKey_Image, @LinkType_DockerShiny, 'Img2', NULL, 'Test text', NULL, 0, 0),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'Introduction2', NULL, NULL, 'SVM is one of the most popular methods for model building. Instead of reading scientific books, just look at how it really works. You need only just click 2 buttons: Show example -> Create Model<br>The example uses data from the very famous dataset - <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Fisher''s Irises</a>. The goal - identify the type of iris by the size of the leaf. Check it,  is it possible?!', 0, 0 ),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'How does SVM work2?', NULL, NULL, 'There are a lot of articles with detailed math explanations like <a href="https://scikit-learn.org/stable/modules/svm.html">this </a> or <a href = "https://monkeylearn.com/blog/introduction-to-support-vector-machines-svm/">that</a>. We want to say only a general idea - the SVM method tries to find the answer to two questions:<br> 1. Could two or more groups of points be split correctly using some geometric figure? The simplest case is using line.<br> 2. Which figure (line) is the best one?<br> How to determine "the best line"? SVM thinks that the best line should be as far from both groups of points as possible.<br>In plot #2 you can see 5 lines that SVM found after the first iteration. Legend contains distance from each line to the points. Obviously that now the best one line has 0.145 (virtual unites) to the nearest point. Now time to improve our model.', 1, 0 ),
+	(@ElementTypeKey_Iframe, @LinkType_DockerShiny, 'Embed2', NULL, NULL, NULL, 0, 0),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'Model improving2', NULL, NULL, 'Before the improving model I want notice that you can change the count of resulted lines. I think that best count of models is from 5 to 10. I select 10 models, but you can try your''s.<br> Click button ''Improve model''.<br> Now the best distance is 0.1575. Cool!<br> That''s time to explain the last plot. Mathematicians say that each line in the Decart coordinate system could be determined by the slope to the Ox axis and the intercept with Oy axis. More details see <a href="http://www.math.com/school/subject2/lessons/S2U4L2GL.html">here</a>. So each point on this plot is a potential line. The color shows the distance from this line to the two groups of points. Then the lightest point is better. Red points are our solutions.<br> As you can see Sentosa and Versicolor were easily separated one from another because there is a big distance between two groups of points. What happened if two groups of points are mixed up? Good question! Let''s try to do that.<br>', 1, 0),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'Mixed groups2', NULL, NULL, 'Let''s back to our Shiny application, to the Step#3 and change Sentosa to the Virginica in the first drop-down list. Now we can recreate and improve model using familiar buttons.', 1, 0);
+
+INSERT INTO ElementParameters (ElementKey, [Key], Value, IsDeleted)
+VALUES 
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img2'), 'height', '80%', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img2'), 'width', '80%', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed2'), 'src', 'http://212.3.101.119:3820', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed2'), 'width', '100%', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed2'), 'height', '400px', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed2'), 'frameborder', '1', 0);
+
+INSERT INTO ViewElements (ViewKey, ElementKey, OrderNumber, IsDeleted)
+VALUES 
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img2'), 1, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Introduction2'), 2, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'How does SVM work2?'), 3, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed2'), 4, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Model improving2'), 5, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Mixed groups2'), 6, 1);
+
+INSERT INTO ViewTags (ViewKey, TagKey, OrderNumber, IsDeleted)
+VALUES 
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'Classification'),1,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'SVM'),2,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'R Shany'),3,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'Ggplot'),4,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'Docker'),5,0);
+
+INSERT INTO ViewExecutors (ViewKey, ExecutorKey, ExecutorRoleKey, OrderNumber, IsDeleted)
+VALUES
+	(@ViewKey, (SELECT ExecutorKey FROM dbo.Executors WHERE ExecutorName = 'Pavel Pikuza'),(SELECT ExecutorRoleKey FROM dbo.ExecutorRoles WHERE RoleName = 'Development'), 1, 0);
+GO
+
+--------------------------------------------------------------------------------------------
+--						Test2
+--------------------------------------------------------------------------------------------
+
+DECLARE @ViewName VARCHAR(MAX) = 'Test2';
+DECLARE @ViewTypeName VARCHAR(MAX) = 'Study task';
+
+
+-- Don't change
+DECLARE @ElementTypeKey_HtmlParagraph INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Html paragraph');
+DECLARE @ElementTypeKey_Iframe INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Iframe');
+DECLARE @ElementTypeKey_Image INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Image');
+
+DECLARE @LinkType_DockerShiny INt = (SELECT LinkTypeKey FROM dbo.LinkTypes WHERE LinkTypeName = 'Docker (Shiny)');
+-- Don't change END
+
+INSERT INTO [Views] (ViewTypeKey, ViewName, Description, Link, LogoPath, CreatedDate, ModifiedDate, OrderNumber, isDeleted)
+VALUES
+	((SELECT ViewTypeKey FROM dbo.ViewTypes WHERE ViewTypeName = @ViewTypeName), @ViewName, NULL, NULL,	NULL, (SELECT GETDATE()), (SELECT GETDATE()), 1, 0);
+
+DECLARE @ViewKey INT = (SELECT ViewKey FROM [Views] WHERE ViewName = @ViewName);
+
+INSERT INTO [Elements] (ElementTypeKey, LinkTypeKey, ElementName, Path, Text, Value, IsShowElementName, IsDeleted)
+VALUES
+	(@ElementTypeKey_Image, @LinkType_DockerShiny, 'Img3', NULL, 'Test text', NULL, 0, 0),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'Introduction3', NULL, NULL, 'SVM is one of the most popular methods for model building. Instead of reading scientific books, just look at how it really works. You need only just click 2 buttons: Show example -> Create Model<br>The example uses data from the very famous dataset - <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Fisher''s Irises</a>. The goal - identify the type of iris by the size of the leaf. Check it,  is it possible?!', 0, 0 ),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'How does SVM work3?', NULL, NULL, 'There are a lot of articles with detailed math explanations like <a href="https://scikit-learn.org/stable/modules/svm.html">this </a> or <a href = "https://monkeylearn.com/blog/introduction-to-support-vector-machines-svm/">that</a>. We want to say only a general idea - the SVM method tries to find the answer to two questions:<br> 1. Could two or more groups of points be split correctly using some geometric figure? The simplest case is using line.<br> 2. Which figure (line) is the best one?<br> How to determine "the best line"? SVM thinks that the best line should be as far from both groups of points as possible.<br>In plot #2 you can see 5 lines that SVM found after the first iteration. Legend contains distance from each line to the points. Obviously that now the best one line has 0.145 (virtual unites) to the nearest point. Now time to improve our model.', 1, 0 ),
+	(@ElementTypeKey_Iframe, @LinkType_DockerShiny, 'Embed3', NULL, NULL, NULL, 0, 0),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'Model improving3', NULL, NULL, 'Before the improving model I want notice that you can change the count of resulted lines. I think that best count of models is from 5 to 10. I select 10 models, but you can try your''s.<br> Click button ''Improve model''.<br> Now the best distance is 0.1575. Cool!<br> That''s time to explain the last plot. Mathematicians say that each line in the Decart coordinate system could be determined by the slope to the Ox axis and the intercept with Oy axis. More details see <a href="http://www.math.com/school/subject2/lessons/S2U4L2GL.html">here</a>. So each point on this plot is a potential line. The color shows the distance from this line to the two groups of points. Then the lightest point is better. Red points are our solutions.<br> As you can see Sentosa and Versicolor were easily separated one from another because there is a big distance between two groups of points. What happened if two groups of points are mixed up? Good question! Let''s try to do that.<br>', 1, 0),
+	(@ElementTypeKey_HtmlParagraph, NULL, 'Mixed groups3', NULL, NULL, 'Let''s back to our Shiny application, to the Step#3 and change Sentosa to the Virginica in the first drop-down list. Now we can recreate and improve model using familiar buttons.', 1, 0);
+
+INSERT INTO ElementParameters (ElementKey, [Key], Value, IsDeleted)
+VALUES 
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img3'), 'height', '80%', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img3'), 'width', '80%', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed3'), 'src', 'http://212.3.101.119:3820', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed3'), 'width', '100%', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed3'), 'height', '400px', 0),
+	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed3'), 'frameborder', '1', 0);
+
+INSERT INTO ViewElements (ViewKey, ElementKey, OrderNumber, IsDeleted)
+VALUES 
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img3'), 1, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Introduction3'), 2, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'How does SVM work3?'), 3, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed3'), 4, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Model improving3'), 5, 0),
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Mixed groups3'), 6, 1);
+
+INSERT INTO ViewTags (ViewKey, TagKey, OrderNumber, IsDeleted)
+VALUES 
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'Classification'),1,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'SVM'),2,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'R Shany'),3,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'Ggplot'),4,0),
+	(@ViewKey,(SELECT TagKey FROM dbo.Tags WHERE Name = 'Docker'),5,0);
+
+INSERT INTO ViewExecutors (ViewKey, ExecutorKey, ExecutorRoleKey, OrderNumber, IsDeleted)
+VALUES
+	(@ViewKey, (SELECT ExecutorKey FROM dbo.Executors WHERE ExecutorName = 'Alexandr Belyaev'),(SELECT ExecutorRoleKey FROM dbo.ExecutorRoles WHERE RoleName = 'Development'), 1, 0);
+
+GO
+
+--Views filling end
+
+--Group select start
+--1
+DECLARE @GroupName Varchar(50) = 'Group1';
+
+SELECT
+	g.GroupName,
+	v.ViewName,
+	e.ExecutorName,
+	t.Name
+	FROM [dbo].GroupViews gv
+	LEFT JOIN dbo.Groups g ON g.GroupName = @GroupName AND g.IsDeleted = 0
+	LEFT JOIN dbo.[Views] v ON v.ViewKey = gv.ViewKey
+	LEFT JOIN dbo.[ViewExecutors] ve ON ve.ViewKey = v.ViewKey
+	LEFT JOIN dbo.[Executors] e ON e.ExecutorKey = ve.ExecutorKey
+	LEFT JOIN dbo.[ViewTags] vt ON vt.ViewKey = v.ViewKey
+	LEFT JOIN dbo.[Tags] t ON t.TagKey = vt.ViewTagKey
+	WHERE gv.IsDeleted = 0 AND gv.GroupKey = g.GroupKey AND gv.ViewKey = v.ViewKey
+	ORDER BY v.OrderNumber
+	GO
+--2
+DECLARE @GroupName Varchar(50) = 'Group1';
+
+SELECT
+	v.ViewName,
+	v.ViewKey,
+	v.OrderNumber
+	FROM [dbo].GroupViews gv
+	LEFT JOIN dbo.Groups g ON g.GroupName = @GroupName AND g.IsDeleted = 0
+	LEFT JOIN dbo.[Views] v ON v.ViewKey = gv.ViewKey
+	WHERE gv.GroupKey = g.GroupKey
+	ORDER BY v.OrderNumber 
+
+DECLARE @VIewKey INT = 1
+SELECT
+	e.ExecutorName,
+	er.RoleName
+	FROM [dbo].ViewExecutors ve
+	LEFT JOIN Executors e ON e.ExecutorKey = ve.ExecutorKey
+	LEFT JOIN ExecutorRoles er ON er.ExecutorRoleKey = ve.ExecutorRoleKey
+	WHERE ve.ViewKey = @VIewKey AND ve.IsDeleted = 0
+
+SELECT 
+	t.[Name]
+	FROM [dbo].ViewTags vt
+	LEFT JOIN Tags t ON t.TagKey = vt.TagKey
+	WHERE vt.ViewKey = @VIewKey AND vt.IsDeleted = 0
+
+
+DECLARE @ElementName Varchar(50) = 'Introduction'
+
+SELECT 
+	 e.Value	
+FROM [dbo].[Views] v
+LEFT JOIN dbo.ViewElements ve ON ve.ViewKey = v.ViewKey AND ve.IsDeleted = 0
+LEFT JOIN dbo.Elements e ON e.ElementKey = ve.ElementKey 
+WHERE
+	e.ElementName = @ElementName AND 
+	v.ViewKey = @VIewKey
+
+
+
+--Group select end
 

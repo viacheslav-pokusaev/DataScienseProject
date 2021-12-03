@@ -9,6 +9,6 @@ namespace DataScienseProject.Interfaces
     public interface IGetDataService
     {
         MainPageModel GetMainPageData();
-        List<GaleryModel> GetGaleryPageData();
+        List<GaleryModel> GetGaleryPageData(string groupName);
     }
 }

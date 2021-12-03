@@ -78,7 +78,7 @@ namespace DataScienseProject.Services
             }
             return mainPageModel;
         }
-        public List<GaleryModel> GetGaleryPageData()
+        public List<GaleryModel> GetGaleryPageData(string groupName)
         {
             throw new NotImplementedException();
         }
