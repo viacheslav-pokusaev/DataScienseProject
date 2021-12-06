@@ -24,7 +24,7 @@ import { GalleryComponent } from './components/gallery/gallery.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'gallery', component: GalleryComponent, pathMatch: 'full' }
+      { path: 'gallery/:groupName', component: GalleryComponent, pathMatch: 'full' }
     ])
   ],
   providers: [],

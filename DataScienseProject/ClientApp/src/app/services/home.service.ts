@@ -16,7 +16,7 @@ export class HomeService {
   };
 
   getGallery(groupName: string) {
-    return this.http.get<Array<GalleryModel>>('GetGallery/gallery/' + groupName);
+    return this.http.get<Array<GalleryModel>>('GetData/gallery/' + groupName);
   }
 
 }
