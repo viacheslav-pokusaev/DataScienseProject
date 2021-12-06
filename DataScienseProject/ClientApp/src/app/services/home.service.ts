@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { GalleryModel } from '../models/gallery.model';
 import { MainPageModel } from '../models/main-page.model';
 
 @Injectable({
@@ -13,5 +14,9 @@ export class HomeService {
   getData() {
     return this.http.get<MainPageModel>('GetData/main');
   };
+
+  getGallery(groupName: string) {
+    return this.http.get<Array<GalleryModel>>('GetData/gallery/' + groupName);
+  }
 
 }

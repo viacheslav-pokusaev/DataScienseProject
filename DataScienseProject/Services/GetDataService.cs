@@ -28,7 +28,7 @@ namespace DataScienseProject.Services
                 ExecutorProfileLink = s.ExecutorKeyNavigation.ExecutorProfileLink, OrderNumber = s.OrderNumber, RoleName = s.ExecutorRoleKeyNavigation.RoleName})
             .OrderBy(ob => ob.OrderNumber).ToList();
             var tehnologySelect = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Include(t => t.TagKeyNavigation.DirectionKeyNavigation).Where(x => 
-            x.ViewKey == 1 && x.IsDeleted == false).Select(s =>new TehnologyModel() { TName = s.TagKeyNavigation.Name, TLink = s.TagKeyNavigation.Link,
+            x.ViewKey == 1 && x.IsDeleted == false).Select(s =>new TechnologyModel() { TName = s.TagKeyNavigation.Name, TLink = s.TagKeyNavigation.Link,
                 DName = s.TagKeyNavigation.DirectionKeyNavigation.Name, DLink = s.TagKeyNavigation.DirectionKeyNavigation.Link, OrderNumber = s.OrderNumber})
             .OrderBy(ob => ob.OrderNumber).ToList();
 
@@ -78,7 +78,7 @@ namespace DataScienseProject.Services
             }
             return mainPageModel;
         }
-        public List<GaleryModel> GetGaleryPageData(string groupName)
+        public List<GalleryModel> GetGalleryPageData(string groupName)
         {
             var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new { ViewKey = gv.ViewKey,
             g.GroupName, IsDeleted = g.IsDeleted }).Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new { ViewName = v.ViewName,
@@ -97,7 +97,7 @@ namespace DataScienseProject.Services
             ElementKey = ve.ElementKey, ViewKey = v.ViewKey}).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new { Value = e.Value,
             ElementName = e.ElementName, ViewKey = ve.ViewKey}).Where(x => x.ViewKey == 1 && x.ElementName == "Introduction").Select(s => s.Value).ToList();
 
-            return new List<GaleryModel>(); 
+            return new List<GalleryModel>(); 
         }
     }
 }
