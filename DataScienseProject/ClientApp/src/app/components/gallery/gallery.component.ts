@@ -11,16 +11,16 @@ import { HomeService } from '../../services/home.service';
 })
 export class GalleryComponent implements OnInit {
 
-  public galleryModels: Array<GalleryModel>;
-  public groupName: string = "Group1";
+  public galleryModel: Array<GalleryModel>;
+  public groupName: string;
   constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
   }
 
-  ngOnInit() {    
+  ngOnInit() {
+
     this.homeService.getGallery(this.groupName).subscribe(
       (data: Array<GalleryModel>) => {
-        this.galleryModels = data;
-        console.log(data);
+        this.galleryModel = data;
       },
       error => {
         console.error('There was an error!', error);
