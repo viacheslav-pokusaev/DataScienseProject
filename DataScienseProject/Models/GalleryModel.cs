@@ -14,6 +14,6 @@ namespace DataScienseProject.Models
         public List<ExecutorModel> Executors { get; set; }
         public List<string> Tags { get; set; }
         public List<string> ShortDescription { get; set; }
-        public int? OrderNumber { get; set; }        
+        public int OrderNumber { get; set; }        
     }
 }
