@@ -23,7 +23,8 @@ import { GalleryComponent } from './components/gallery/gallery.component';
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' }
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'gallery', component: GalleryComponent, pathMatch: 'full' }
     ])
   ],
   providers: [],

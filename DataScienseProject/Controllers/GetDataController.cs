@@ -27,10 +27,10 @@ namespace DataScienseProject.Controllers
             return _getDataService.GetMainPageData();            
         }
         [HttpGet]
-        [Route("galery/{groupName}")]
-        public MainPageModel GetGaleryData(string groupName)
+        [Route("gallery")]
+        public MainPageModel GetGalleryData(string groupName)
         {
-            var test = _getDataService.GetGaleryPageData(groupName);
+            var test = _getDataService.GetGalleryPageData(groupName);
             throw new NotImplementedException();
         }
     }
