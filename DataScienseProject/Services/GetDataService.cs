@@ -86,7 +86,48 @@ namespace DataScienseProject.Services
             .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new { ViewName = s.ViewName, ViewKey = s.ViewKey,
             OrderNumber = s.OrderNumber}).OrderBy(ob => ob.OrderNumber).ToList();
 
-            return new List<GalleryModel>();
+            var executorDataSelect = _context.ViewExecutors.Include(e => e.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation)
+                .Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s => new { ExecutorName = s.ExecutorKeyNavigation.ExecutorName, ExecutorRole = 
+                s.ExecutorRoleKeyNavigation.RoleName}).ToList();
+
+            var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s => new { 
+                Name = s.TagKeyNavigation.Name}).ToList();
+
+            var shortDescriptionDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new { IsDeleted = ve.IsDeleted, 
+            ElementKey = ve.ElementKey, ViewKey = v.ViewKey}).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new { Value = e.Value,
+            ElementName = e.ElementName, ViewKey = ve.ViewKey}).Where(x => x.ViewKey == 1 && x.ElementName == "Introduction").Select(s => s.Value).ToList();
+
+            List<GalleryModel> galleryModels = new List<GalleryModel>();
+            GalleryModel galleryModel = new GalleryModel();
+
+
+            foreach (var data in groupDataSelect)
+            {
+                galleryModel.ViewKey = data.ViewKey;
+                galleryModel.ViewName = data.ViewName;
+                galleryModel.OrderNumber = data.OrderNumber;
+                galleryModels.Add(galleryModel);
+            }
+
+            foreach (var data in executorDataSelect)
+            {
+                galleryModel.Executors = new List<ExecutorModel>()
+                    {
+                        new ExecutorModel()
+                        {
+                            ExecutorName = data.ExecutorName,
+                            RoleName = data.ExecutorRole
+                        }
+                    };
+                galleryModels.Add(galleryModel);
+            }
+
+            galleryModel.Tags = tagDataSelect.Select(n => n.Name).ToList();
+            galleryModel.ShortDescription = shortDescriptionDataSelect;
+
+            galleryModels.Add(galleryModel);
+
+            return galleryModels; 
         }
     }
 }
