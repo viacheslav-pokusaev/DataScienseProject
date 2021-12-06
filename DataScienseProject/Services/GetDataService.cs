@@ -86,7 +86,18 @@ namespace DataScienseProject.Services
             .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new { ViewName = s.ViewName, ViewKey = s.ViewKey,
             OrderNumber = s.OrderNumber}).OrderBy(ob => ob.OrderNumber).ToList();
 
-            return new List<GaleryModel>();
+            var executorDataSelect = _context.ViewExecutors.Include(e => e.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation)
+                .Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s => new { ExecutorName = s.ExecutorKeyNavigation.ExecutorName, ExecutorRole = 
+                s.ExecutorRoleKeyNavigation.RoleName}).ToList();
+
+            var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s => new { 
+                Name = s.TagKeyNavigation.Name}).ToList();
+
+            var shortDescriptionDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new { IsDeleted = ve.IsDeleted, 
+            ElementKey = ve.ElementKey, ViewKey = v.ViewKey}).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new { Value = e.Value,
+            ElementName = e.ElementName, ViewKey = ve.ViewKey}).Where(x => x.ViewKey == 1 && x.ElementName == "Introduction").Select(s => s.Value).ToList();
+
+            return new List<GaleryModel>(); 
         }
     }
 }
