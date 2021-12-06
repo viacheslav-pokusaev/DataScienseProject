@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using DataScienseProject.Models.Gallery;
 
 namespace DataScienseProject.Services
 {
@@ -80,24 +81,36 @@ namespace DataScienseProject.Services
         }
         public List<GalleryModel> GetGalleryPageData(string groupName)
         {
+            var shortDescriptionElementName = "Introduction";
+            var galleryModels = new List<GalleryModel>();
+
             var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new { ViewKey = gv.ViewKey,
             g.GroupName, IsDeleted = g.IsDeleted }).Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new { ViewName = v.ViewName,
                 OrderNumber = v.OrderNumber, ViewKey = v.ViewKey, gv = new { GroupName = gv.GroupName, IsDeleted = gv.IsDeleted }})
-            .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new { ViewName = s.ViewName, ViewKey = s.ViewKey,
+            .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new GroupData{ ViewName = s.ViewName, ViewKey = (int)s.ViewKey,
             OrderNumber = s.OrderNumber}).OrderBy(ob => ob.OrderNumber).ToList();
 
+            groupDataSelect.ForEach(gds => {
             var executorDataSelect = _context.ViewExecutors.Include(e => e.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation)
-                .Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s => new { ExecutorName = s.ExecutorKeyNavigation.ExecutorName, ExecutorRole = 
+                .Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new ExecutorModel{ ExecutorName = s.ExecutorKeyNavigation.ExecutorName, RoleName = 
                 s.ExecutorRoleKeyNavigation.RoleName}).ToList();
 
-            var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s => new { 
+            var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new { 
                 Name = s.TagKeyNavigation.Name}).ToList();
 
-            var shortDescriptionDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new { IsDeleted = ve.IsDeleted, 
-            ElementKey = ve.ElementKey, ViewKey = v.ViewKey}).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new { Value = e.Value,
-            ElementName = e.ElementName, ViewKey = ve.ViewKey}).Where(x => x.ViewKey == 1 && x.ElementName == "Introduction").Select(s => s.Value).ToList();
+                var tagNames = new List<string>();
+                tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
 
-            return new List<GalleryModel>(); 
+                var shortDescriptionDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new{ IsDeleted = ve.IsDeleted,
+                ElementKey = ve.ElementKey, ViewKey = v.ViewKey }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new {
+                Value = e.Value, ElementName = e.ElementName, ViewKey = ve.ViewKey }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
+                .Select(s => s.Value).ToList();
+
+               galleryModels.Add(new GalleryModel() { ViewKey = gds.ViewKey, ViewName = gds.ViewName, OrderNumber = (int)gds.OrderNumber,
+               Executors = executorDataSelect, Tags = tagNames, ShortDescription = shortDescriptionDataSelect});
+            });
+
+            return galleryModels; 
         }
     }
 }

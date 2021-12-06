@@ -12,8 +12,8 @@ namespace DataScienseProject.Models
         public string ViewName { get; set; }
         public string Image { get; set; }
         public List<ExecutorModel> Executors { get; set; }
-        public List<TechnologyModel> Tags { get; set; }
-        public string ShortDescription { get; set; }
+        public List<string> Tags { get; set; }
+        public List<string> ShortDescription { get; set; }
         public int OrderNumber { get; set; }        
     }
 }
