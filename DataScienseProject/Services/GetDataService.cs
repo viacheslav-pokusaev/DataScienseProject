@@ -112,5 +112,11 @@ namespace DataScienseProject.Services
 
             return galleryModels; 
         }
+
+        public bool AddFeedback(FeedbackModel feedback)
+        {
+
+            return false;
+        }
     }
 }

@@ -32,5 +32,12 @@ namespace DataScienseProject.Controllers
         {
             return _getDataService.GetGalleryPageData(groupName);
         }
+
+        [HttpPost]
+        [Route("add-feedback")]
+        public bool AddFeedback([FromBody] FeedbackModel feedback)
+        {
+            return _getDataService.AddFeedback(feedback);
+        }
     }
 }

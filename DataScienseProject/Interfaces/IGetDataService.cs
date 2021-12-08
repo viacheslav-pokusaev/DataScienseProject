@@ -10,5 +10,7 @@ namespace DataScienseProject.Interfaces
     {
         MainPageModel GetMainPageData();
         List<GalleryModel> GetGalleryPageData(string groupName);
+
+        public bool AddFeedback(FeedbackModel feedback);
     }
 }
