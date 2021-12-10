@@ -8,7 +8,7 @@ namespace DataScienseProject.Models
 {
     public class GalleryModel
     {
-        public int ViewKey { get; set; }
+        public long ViewKey { get; set; }
         public string ViewName { get; set; }
         public string Image { get; set; }
         public List<ExecutorModel> Executors { get; set; }

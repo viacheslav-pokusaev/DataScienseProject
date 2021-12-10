@@ -28,7 +28,7 @@ namespace DataScienseProject.Controllers
         }
         [HttpGet]
         [Route("gallery/{groupName}")]
-        public List<GalleryModel> GetGaleryData(string groupName)
+        public List<GalleryModel> GetGalleryData(string groupName)
         {
             return _getDataService.GetGalleryPageData(groupName, HttpContext);
         }
