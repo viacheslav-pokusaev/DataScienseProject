@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Feedback } from '../../models/feedback.model';
 
 @Component({
   selector: 'app-footer',
@@ -9,9 +11,26 @@ import { ViewEncapsulation } from '@angular/core'
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  firstFormGroup: FormGroup;
+  feedback: Feedback = new Feedback();  
+
+  constructor(private _formBuilder: FormBuilder) {
+
+  }
 
   ngOnInit() {
+    this.firstFormGroup = this._formBuilder.group({
+      nameCtrl: ['', [Validators.required]],
+      emailCtrl: ['', [Validators.required, Validators.email]],
+      aboutCtrl: ['', [Validators.required, Validators.maxLength(500)]]
+    });
+
+  }
+
+  sendFeedback() {    
+    this.feedback.name = this.firstFormGroup.value.nameCtrl;
+    this.feedback.email = this.firstFormGroup.value.emailCtrl;
+    this.feedback.about = this.firstFormGroup.value.aboutCtrl;
   }
 
 }
