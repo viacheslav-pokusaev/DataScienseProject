@@ -30,7 +30,7 @@ namespace DataScienseProject.Controllers
         [Route("gallery/{groupName}")]
         public List<GalleryModel> GetGaleryData(string groupName)
         {
-            return _getDataService.GetGalleryPageData(groupName);
+            return _getDataService.GetGalleryPageData(groupName, HttpContext);
         }
     }
 }

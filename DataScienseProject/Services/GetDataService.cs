@@ -7,6 +7,7 @@ using System.Linq;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using DataScienseProject.Models.Gallery;
+using Microsoft.AspNetCore.Http;
 
 namespace DataScienseProject.Services
 {
@@ -79,8 +80,18 @@ namespace DataScienseProject.Services
             }
             return mainPageModel;
         }
-        public List<GalleryModel> GetGalleryPageData(string groupName)
+
+        public List<GalleryModel> GetGalleryPageData(string groupName, HttpContext http)
         {
+            var cookies = http.Request.Cookies.Where(x => x.Key == "gallery").ToList();
+            if (cookies.Count == 0)
+            {
+                http.Response.Cookies.Append(groupName, "test");
+            }
+            else
+            {
+                var x = cookies;
+            }
             var shortDescriptionElementName = "Introduction";
             var galleryModels = new List<GalleryModel>();
 
@@ -109,8 +120,12 @@ namespace DataScienseProject.Services
                galleryModels.Add(new GalleryModel() { ViewKey = gds.ViewKey, ViewName = gds.ViewName, OrderNumber = (int)gds.OrderNumber,
                Executors = executorDataSelect, Tags = tagNames, ShortDescription = shortDescriptionDataSelect});
             });
-
             return galleryModels; 
+        }
+
+        public List<GalleryModel> GetGaleryPageData()
+        {
+            throw new NotImplementedException();
         }
     }
 }
