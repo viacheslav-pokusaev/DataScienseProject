@@ -36,6 +36,8 @@ namespace DataScienseProject
                     opt.UseSqlServer(Configuration.GetConnectionString("Prod"));
             });
 
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+
             services.AddScoped<IGetDataService, GetDataService>();
 
             // In production, the Angular files will be served from this directory

@@ -7,15 +7,18 @@ using System.Linq;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using DataScienseProject.Models.Gallery;
+using Microsoft.AspNetCore.Http;
 
 namespace DataScienseProject.Services
 {
     public class GetDataService : IGetDataService
     {
         private readonly DataScienceProjectDbContext _context;
-        public GetDataService(DataScienceProjectDbContext context)
+        private readonly IAuthorizationService _authorizationService;
+        public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
         public MainPageModel GetMainPageData()
         {
@@ -79,10 +82,22 @@ namespace DataScienseProject.Services
             }
             return mainPageModel;
         }
-        public List<GalleryModel> GetGalleryPageData(string groupName)
+        public GalleryResult GetGalleryPageData(string groupName, HttpContext http)
         {
+            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
+            if (cookies.Count == 0)
+            {
+                return new GalleryResult() { ExceptionModel = new ExceptionModel() { ErrorMessage = "Insert password", StatusCode = 403} };
+            }
+            else
+            {
+                _authorizationService.CheckPass(groupName, "test");
+            }
+
             var shortDescriptionElementName = "Introduction";
-            var galleryModels = new List<GalleryModel>();
+            var galleryResult = new GalleryResult();
+
+            galleryResult.GalleryModels = new List<GalleryModel>();
 
             var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new { ViewKey = gv.ViewKey,
             g.GroupName, IsDeleted = g.IsDeleted }).Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new { ViewName = v.ViewName,
@@ -106,11 +121,11 @@ namespace DataScienseProject.Services
                 Value = e.Value, ElementName = e.ElementName, ViewKey = ve.ViewKey }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
                 .Select(s => s.Value).ToList();
 
-               galleryModels.Add(new GalleryModel() { ViewKey = gds.ViewKey, ViewName = gds.ViewName, OrderNumber = (int)gds.OrderNumber,
+               galleryResult.GalleryModels.Add(new GalleryModel() { ViewKey = gds.ViewKey, ViewName = gds.ViewName, OrderNumber = (int)gds.OrderNumber,
                Executors = executorDataSelect, Tags = tagNames, ShortDescription = shortDescriptionDataSelect});
             });
 
-            return galleryModels; 
+            return galleryResult; 
         }
     }
 }
