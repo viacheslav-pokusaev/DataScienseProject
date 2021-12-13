@@ -89,9 +89,13 @@ header nav ul li > a {
   text-align: center;
 }
 
+.img-border {
+  border: 15px solid #d8550f;
+}
+
 .img-style-ex {
-    height: 350px;
-    width: 400px;
+  height: 350px;
+  width: 400px;  
 }
 
 .iframe-style {

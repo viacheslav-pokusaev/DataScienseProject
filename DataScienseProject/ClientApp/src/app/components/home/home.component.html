@@ -9,28 +9,27 @@
   <div class="container" id="tags">
 
     <div class="row">
-
-      <div class="col-3">
-        <h4 class="head-style">Tehnology tags:</h4>
-        <div class="col" *ngFor="let val of mainPageModel.tehnologyModels">
-          <p class="tag-style" [innerHTML]="val.tName"></p>
+      <!-- Executors -->
+      <div class="col align-self-end">
+        <div class="col" *ngFor="let val of mainPageModel.executorModels">
+          <h4 class="head-style">Executors:</h4>
+          <span class="text-style">
+            <a [innerHTML]="val.executorName" [href]="val.executorProfileLink" [title]="val.roleName"></a>,            
+          </span>
         </div>
       </div>
 
       <!-- Image -->
-      <div class="col-6">
-        <img class="img-style img-style-ex" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Anatomy-1751201_1280.png" />
+      <div class="col align-self-center">
+        <img class="img-style img-style-ex img-border" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Anatomy-1751201_1280.png" />
       </div>
 
-      <!-- Executors -->
-      <div class="col-3">
-        <div class="col" *ngFor="let val of mainPageModel.executorModels">
-          <h4 class="head-style">Executors:</h4>
-          <span class="text-style">
-            <a [innerHTML]="val.executorName" [href]="val.executorProfileLink"></a>
-            - <span [innerHTML]="val.roleName"></span>
-          </span>
-        </div>
+      <!-- Tehnology tags -->
+      <div class="col align-self-start">
+        <h4 class="head-style">Tehnology tags:</h4>
+        <span *ngFor="let val of mainPageModel.tehnologyModels">
+          <span class="text-style" [innerHTML]="val.tName"></span>,
+        </span>
       </div>
 
     </div>

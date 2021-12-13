@@ -12,7 +12,10 @@ import { Feedback } from '../../models/feedback.model';
 export class FooterComponent implements OnInit {
 
   firstFormGroup: FormGroup;
-  feedback: Feedback = new Feedback();  
+  feedback: Feedback = new Feedback();
+  name: string = "";
+  email: string = "";
+  message: string = "";
 
   constructor(private _formBuilder: FormBuilder) {
 
@@ -31,6 +34,9 @@ export class FooterComponent implements OnInit {
     this.feedback.name = this.firstFormGroup.value.nameCtrl;
     this.feedback.email = this.firstFormGroup.value.emailCtrl;
     this.feedback.about = this.firstFormGroup.value.aboutCtrl;
+    this.name = "";
+    this.email = "";
+    this.message = "";
   }
 
 }
