@@ -20,6 +20,7 @@ import { ViewEncapsulation } from '@angular/core'
 export class HomeComponent{
 
   public mainPageModel: MainPageModel;
+  iframeHeight: string;
   constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
   }
 
@@ -51,7 +52,12 @@ export class HomeComponent{
     styles.forEach(style => {
       if (style.key === "src") {
         var styleString = style.value;
-        styleRes += styleString;
+        styleRes += styleString;       
+      }
+    });
+    styles.forEach(style => {
+      if (style.key === "height") {
+        this.iframeHeight = style.key + ": " + style.value + ";";
       }
     });
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
