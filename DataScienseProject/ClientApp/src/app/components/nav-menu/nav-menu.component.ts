@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  public groupName: string = "Group1";
 
   collapse() {
     this.isExpanded = false;

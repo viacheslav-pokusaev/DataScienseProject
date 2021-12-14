@@ -4,7 +4,7 @@ using System.Collections.Generic;
 #nullable disable
 
 namespace DataScienseProject.Entities
-{ 
+{
     public partial class ElementType
     {
         public ElementType()

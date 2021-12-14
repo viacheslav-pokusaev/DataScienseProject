@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GalleryModel } from '../../models/gallery.model';
 import { HomeService } from '../../services/home.service';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-gallery',
@@ -11,16 +12,17 @@ import { HomeService } from '../../services/home.service';
 })
 export class GalleryComponent implements OnInit {
 
-  public galleryModel: Array<GalleryModel>;
-  public groupName: string;
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
+  public galleryModels: Array<GalleryModel>;
+  public groupName: string = "Group1";
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, config: NgbCarouselConfig) {
+    config.interval = 5000;
   }
 
   ngOnInit() {
 
     this.homeService.getGallery(this.groupName).subscribe(
       (data: Array<GalleryModel>) => {
-        this.galleryModel = data;
+        this.galleryModels = data;
       },
       error => {
         console.error('There was an error!', error);

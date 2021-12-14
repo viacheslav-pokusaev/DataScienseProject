@@ -2,7 +2,7 @@ USE master;
 GO 
 
 DROP DATABASE CS_DS_Portfolio
-
+GO
 ------------------------------------------------------------------------------------------
 --								Database creating
 ------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE dbo.LinkTypes (
 	LinkTypeName VARCHAR(MAX)
 );
 
-CREATE TABLE dbo.Elements (
+CREATE TABLE dbo.[Elements] (
 	ElementKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1),
 	ElementTypeKey INT NOT NULL FOREIGN KEY REFERENCES ElementTypes(ElementTypeKey),
 	LinkTypeKey INT FOREIGN KEY REFERENCES LinkTypes(LinkTypeKey),
@@ -127,6 +127,9 @@ CREATE TABLE dbo.GroupViews (
 CREATE TABLE dbo.Passwords (
 	PasswordKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1),
 	GroupKey INT FOREIGN KEY REFERENCES Groups(GroupKey),
+	PasswordValue Varchar(50),
+	CreatedDate Date,
+	ExpirationDate Date,
 	IsDeleted BIT
 );
 
@@ -149,8 +152,9 @@ CREATE TABLE dbo.VisitViews (
 CREATE TABLE dbo.Feedback (
 	FeedbackKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1),
 	VisitKey BIGINT FOREIGN KEY REFERENCES VisitLogs(VisitKey),
+	ViewKey BIGINT FOREIGN KEY REFERENCES [Views](ViewKey),
 	Email VARCHAR(MAX),
-	Text VARCHAR(MAX)
+	[Text] VARCHAR(MAX)
 );
 
 ------------------------------------------------------------------------------------------

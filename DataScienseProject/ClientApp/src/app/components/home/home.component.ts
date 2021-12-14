@@ -8,11 +8,14 @@ import { ProjectTypeModel } from '../../models/project-type.model';
 import { TechnologyModel } from '../../models/technology.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeService } from '../../services/home.service';
+import { ViewEncapsulation } from '@angular/core'
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent{
 
@@ -22,7 +25,7 @@ export class HomeComponent{
 
   ngOnInit() {
 
-    this.homeService.getData().subscribe(
+    this.homeService.getData().subscribe(    
       (data: MainPageModel) => {
         this.mainPageModel = data;
       },
@@ -37,8 +40,8 @@ export class HomeComponent{
     styles.forEach(style =>{
       if(style.key !== "src"){
         var styleString = style.key + ": " + style.value + ";";
-        styleRes += styleString;
-      }
+        styleRes += styleString;              
+      }      
     });
     return this.sanitizer.bypassSecurityTrustStyle(styleRes);
   }
@@ -54,13 +57,13 @@ export class HomeComponent{
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
-  sanitizeImage(styles: Array<LayoutStyleModel>) {
+  sanitizeImage(styles: Array<LayoutStyleModel>) {   
     var styleRes: string = "";
     var base64: string = "";
     styles.forEach(style => {
       if (style.key == "src") {
         base64 += style.value;
-      }
+      }     
     });
     var styleString = "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
     styleRes += styleString;
