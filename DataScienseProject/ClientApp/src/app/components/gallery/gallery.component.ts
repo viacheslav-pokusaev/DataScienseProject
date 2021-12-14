@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GalleryModel } from '../../models/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { GalleryResult } from 'src/app/models/gallery-result.model';
 
 @Component({
   selector: 'app-gallery',
@@ -21,8 +22,8 @@ export class GalleryComponent implements OnInit {
   ngOnInit() {
 
     this.homeService.getGallery(this.groupName).subscribe(
-      (data: Array<GalleryModel>) => {
-        this.galleryModels = data;
+      (data: GalleryResult) => {
+        this.galleryModels = data.galleryModels;
       },
       error => {
         console.error('There was an error!', error);
