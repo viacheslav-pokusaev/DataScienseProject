@@ -1,4 +1,4 @@
 export class ExceptionModel{
-  public errorMessge: string;
+  public errorMessage: string;
   public statusCode: number;
 }

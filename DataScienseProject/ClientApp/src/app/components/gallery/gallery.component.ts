@@ -5,6 +5,8 @@ import { GalleryModel } from '../../models/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryResult } from 'src/app/models/gallery-result.model';
+import { ExceptionModel } from 'src/app/models/exception.model';
+import { AuthorizeModel } from 'src/app/models/authorize.model';
 
 @Component({
   selector: 'app-gallery',
@@ -14,6 +16,7 @@ import { GalleryResult } from 'src/app/models/gallery-result.model';
 export class GalleryComponent implements OnInit {
 
   public galleryModels: Array<GalleryModel>;
+  public exceptionModel: ExceptionModel = new ExceptionModel();
   public groupName: string = "Group1";
   constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, config: NgbCarouselConfig) {
     config.interval = 5000;
@@ -23,11 +26,20 @@ export class GalleryComponent implements OnInit {
 
     this.homeService.getGallery(this.groupName).subscribe(
       (data: GalleryResult) => {
-        this.galleryModels = data.galleryModels;
+        if(data.exceptionModel.statusCode !== 403){
+          this.galleryModels = data.galleryModels;
+        }
+          this.exceptionModel = data.exceptionModel;
       },
       error => {
         console.error('There was an error!', error);
-      })
-  }
+      });
+}
 
+public login() {
+  var authorizeData: AuthorizeModel = new AuthorizeModel();
+  authorizeData.groupName = this.groupName;
+  authorizeData.password = (<HTMLInputElement>document.getElementById("pass")).value;
+  this.homeService.setAuthorize(authorizeData).subscribe();
+  }
 }

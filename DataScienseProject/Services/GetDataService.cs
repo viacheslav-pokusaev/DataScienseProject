@@ -124,6 +124,7 @@ namespace DataScienseProject.Services
                galleryResult.GalleryModels.Add(new GalleryModel() { ViewKey = gds.ViewKey, ViewName = gds.ViewName, OrderNumber = (int)gds.OrderNumber,
                Executors = executorDataSelect, Tags = tagNames, ShortDescription = shortDescriptionDataSelect});
             });
+            galleryResult.ExceptionModel = new ExceptionModel() { ErrorMessage = "success", StatusCode = 200};
 
             return galleryResult; 
         }

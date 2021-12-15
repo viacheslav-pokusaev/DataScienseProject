@@ -16,8 +16,7 @@ namespace DataScienseProject.Services
         }
         public bool CheckPass(string groupName, string password)
         {
-
-            return false;
+            return password == "test"? true : false;
         }
     }
 }

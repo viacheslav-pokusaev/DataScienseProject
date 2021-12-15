@@ -1,5 +1,14 @@
 <div class="container">
-  <div class="row">
+  <div class="row" *ngIf="exceptionModel.statusCode === 403">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <h1>{{exceptionModel.errorMessage }}</h1>
+      <input id="pass" type="text" placeholder="password"/>
+      <input type="button" value="Authorize" (click)="login()"/>
+    </div>
+    <div class="col-2"></div>
+  </div>
+  <div class="row" *ngIf="exceptionModel.statusCode === 200">
     <div class="col-md-12 py-3">
       <ngb-carousel *ngIf="galleryModels">
         <ng-template ngbSlide *ngFor="let model of galleryModels">

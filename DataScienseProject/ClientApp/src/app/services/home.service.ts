@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthorizeModel } from '../models/authorize.model';
 import { GalleryResult } from '../models/gallery-result.model';
 import { MainPageModel } from '../models/main-page.model';
 
@@ -17,6 +18,10 @@ export class HomeService {
 
   getGallery(groupName: string) {
     return this.http.get<GalleryResult>('GetData/gallery/' + groupName);
+  }
+
+  setAuthorize(authorizeModel: AuthorizeModel){
+    return this.http.post<AuthorizeModel>('Authorize/authorize', authorizeModel);
   }
 
 }
