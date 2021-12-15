@@ -105,29 +105,29 @@
 </div>-->
 
 
-<div class="d-flex align-content-stretch flex-wrap">
-  <div *ngIf="galleryModels">
+<!--<div class="d-flex align-content-stretch flex-wrap">-->
+  <!--<div *ngIf="galleryModels">
 
-    <div class="row justify-content-md-center">
+    <div class="row">
 
-      <div class="col col-sm-3 h-50" *ngFor="let model of galleryModels">
+      <div class="col" *ngFor="let model of galleryModels">-->
         <!-- Img -->
-        <div class="container" style="background-image: url('/img/test1.jpg');">
+        <!--<div class="container gal-container" style="background-image: url('/img/test1.jpg');">
           <div class="overlay">
             <div class="items"></div>
-            <div class="items head">
+            <div class="items head">-->
               <!--ViewName-->
-              <h1 [innerHTML]="model.viewName"></h1>
+              <!--<h1 [innerHTML]="model.viewName"></h1>
             </div>
-            <div class="items desc">
+            <div class="items desc">-->
               <!-- Short Description -->
-              <div *ngFor="let val of model.shortDescription">
+              <!--<div *ngFor="let val of model.shortDescription">
                 <span [innerHTML]="val"></span>
               </div>
             </div>
-            <div class="items">
+            <div class="items">-->
               <!-- Tehnology tags -->
-              <div class="row justify-content-center">
+              <!--<div class="row justify-content-center">
                 <div class="col-sm tags" *ngFor="let val of model.tags">
                   <span [innerHTML]="val"></span>
                 </div>
@@ -137,37 +137,85 @@
         </div> 
       </div>
 
-      <div class="col col-sm-3 h-50" *ngFor="let model of galleryModels">
-        <!-- Img -->
-        <div class="container" style="background-image: url('/img/test1.jpg');">
-          <div class="overlay">
-            <div class="items"></div>
-            <div class="items head">
-              <!--ViewName-->
-              <h1 [innerHTML]="model.viewName"></h1>
-            </div>
-            <div class="items desc">
-              <!-- Short Description -->
-              <div *ngFor="let val of model.shortDescription">
-                <span [innerHTML]="val"></span>
-              </div>
-            </div>
-            <div class="items">
-              <!-- Tehnology tags -->
-              <div class="row justify-content-center">
-                <div class="col-sm tags" *ngFor="let val of model.tags">
-                  <span [innerHTML]="val"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> 
       </div>
 
 
+    </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="box" *ngIf="galleryModels">
+
+
+  <div class="child" *ngFor="let model of galleryModels">
+    <!-- Img -->
+    <div class="container gal-container" style="background-image: url('/img/test1.jpg');">
+      <div class="overlay">
+        <div class="items"></div>
+        <div class="items head">
+          <!--ViewName-->
+          <h1 [innerHTML]="model.viewName"></h1>
+        </div>
+        <div class="items desc">
+          <!-- Short Description -->
+          <div *ngFor="let val of model.shortDescription">
+            <span [innerHTML]="val"></span>
+          </div>
+        </div>
+        <div class="items">
+          <!-- Tehnology tags -->
+          <div class="row justify-content-center">
+            <div class="col-sm tags" *ngFor="let val of model.tags">
+              <span [innerHTML]="val"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-
-
   </div>
-  </div>
+
+
+  <!--<div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>
+  <div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>
+  <div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>
+  <div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>-->
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--</div>-->

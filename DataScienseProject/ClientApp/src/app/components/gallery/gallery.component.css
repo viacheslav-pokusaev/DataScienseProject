@@ -1,22 +1,38 @@
-.container {
+.box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 20px;
+}
+
+
+.child {
+  flex: 1 1 21%; /* explanation below */
+  margin: 5px;
+  
+
+}
+
+.gal-container {
   /*width: 500px;*/
   /*height: 500px;  */
   background-color: black;
   background-size: cover;
   cursor: pointer;
-  -webkit-box-shadow: 0 0 5px #000;
+  /* -webkit-box-shadow: 0 0 5px #000;*/
   box-shadow: 0 0 5px #000;
   padding: 0;
   border-radius: 13px;
-  margin: 10px;
+  /*margin: 20px;*/
+
 }
 
 .overlay {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 2fr 2fr 1fr;
+ /* width: 100%;
+  height: 100%;*/
+  /*display: grid;*/
+  /*grid-template-columns: 1fr;
+  grid-template-rows: 1fr 2fr 2fr 1fr;*/
   background: linear-gradient(rgba(216, 85, 15, 0.5),rgba(242, 165, 35, 0.5));
   color: #FEF5DF;
   opacity: 0;
@@ -48,7 +64,7 @@
 
 
 
-h1::before {
+/*h1::before {
   content: "";
   position: absolute;
   display: block;
@@ -60,7 +76,7 @@ h1::before {
   transform: scaleX(0);
   transform-origin: top right;
   transition: transform 0.3s ease;
-}
+}*/
 
 
 
@@ -112,14 +128,8 @@ h1::before {
   opacity: 1;
 }
 
-
 .container:hover .overlay.head {
     transform: translateY(0px);
-}
-
-.container:hover .overlay hr {
-  width: 400px;
-  transition-delay: 0.4s;
 }
 
 .container:hover .desc {
