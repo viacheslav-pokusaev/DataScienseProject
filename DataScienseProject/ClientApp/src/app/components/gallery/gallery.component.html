@@ -1,43 +1,173 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 py-3">
-      <ngb-carousel *ngIf="galleryModels">
-        <ng-template ngbSlide *ngFor="let model of galleryModels">
+<!--<div class="container">
+  <div class="row">-->
+    <!--<div class="col-md-12 py-3">-->
+    <!--<ngb-carousel *ngIf="galleryModels">
+    <ng-template ngbSlide *ngFor="let model of galleryModels">-->
+    <!-- Img -->
+    <!--<img class="d-block w-100 img" src="/img/test1.jpg" alt="Random slide">
+  <div class="carousel-caption">-->
+    <!-- ViewName -->
+    <!--<h1 [innerHTML]="model.viewName"></h1>-->
+    <!-- Executors -->
+    <!--<div class="container">
+    <div class="row">
+      <div class="col-sm" *ngFor="let val of model.executors">
+        <span [innerHTML]="val.executorName"></span> -
+        <span [innerHTML]="val.roleName"></span>
+      </div>
+    </div>
+  </div>-->
+    <!-- Tehnology tags -->
+    <!--<div class="container">
+    <div class="row">
+      <div class="col-sm" *ngFor="let val of model.tags">
+        <span [innerHTML]="val"></span>
+      </div>
+    </div>
+  </div>-->
+    <!-- Short Description -->
+    <!--<div *ngFor="let val of model.shortDescription">
+          <p [innerHTML]="val"></p>
+        </div>
 
-          <!-- Img -->
-          <img class="d-block w-100 img" src="/img/test1.jpg" alt="Random slide">
-          <div class="carousel-caption">
+      </div>
+    </ng-template>
+  </ngb-carousel>-->
 
-            <!-- ViewName -->
-            <h1 [innerHTML]="model.viewName"></h1>
+    <!--<div *ngIf="galleryModels">
 
-            <!-- Executors -->
-            <div class="container">
-              <div class="row">
-                <div class="col-sm" *ngFor="let val of model.executors">
-                  <span [innerHTML]="val.executorName"></span> -
-                  <span [innerHTML]="val.roleName"></span>
+
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="card h-100" *ngFor="let model of galleryModels">-->
+            <!-- Img -->
+            <!--<img src="/img/test1.jpg" class="card-img-top img" alt="...">
+            <div class="card-body">
+
+              <div class="card-img-overlay">-->
+                <!-- ViewName -->
+                <!--<h1 class="card-title" [innerHTML]="model.viewName"></h1>-->
+
+                <!-- Executors -->
+                <!--<div class="container">
+                  <div class="row">
+                    <div class="col-sm" *ngFor="let val of model.executors">
+                      <span [innerHTML]="val.executorName"></span> -
+                      <span [innerHTML]="val.roleName"></span>
+                    </div>
+                  </div>
+                </div>-->
+
+                <!-- Tehnology tags -->
+                <!--<div class="container">
+                  <div class="row">
+                    <div class="col-sm" *ngFor="let val of model.tags">
+                      <span [innerHTML]="val"></span>
+                    </div>
+                  </div>
+                </div>-->
+
+                <!-- Short Description -->
+                <!--<div *ngFor="let val of model.shortDescription">
+                  <p [innerHTML]="val"></p>
                 </div>
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+    </div>-->
+
+
+    <!--</div>-->
+
+
+
+
+
+
+    
+
+
+  <!--</div>
+</div>-->
+
+
+<div class="d-flex align-content-stretch flex-wrap">
+  <div *ngIf="galleryModels">
+
+    <div class="row justify-content-md-center">
+
+      <div class="col col-sm-3 h-50" *ngFor="let model of galleryModels">
+        <!-- Img -->
+        <div class="container" style="background-image: url('/img/test1.jpg');">
+          <div class="overlay">
+            <div class="items"></div>
+            <div class="items head">
+              <!--ViewName-->
+              <h1 [innerHTML]="model.viewName"></h1>
+            </div>
+            <div class="items desc">
+              <!-- Short Description -->
+              <div *ngFor="let val of model.shortDescription">
+                <span [innerHTML]="val"></span>
               </div>
             </div>
-
-            <!-- Tehnology tags -->
-            <div class="container">
-              <div class="row">
-                <div class="col-sm" *ngFor="let val of model.tags">
+            <div class="items">
+              <!-- Tehnology tags -->
+              <div class="row justify-content-center">
+                <div class="col-sm tags" *ngFor="let val of model.tags">
                   <span [innerHTML]="val"></span>
                 </div>
               </div>
             </div>
-
-            <!-- Short Description -->
-            <div *ngFor="let val of model.shortDescription">
-              <p [innerHTML]="val"></p>
-            </div>
-
           </div>
-        </ng-template>
-      </ngb-carousel>
+        </div> 
+      </div>
+
+      <div class="col col-sm-3 h-50" *ngFor="let model of galleryModels">
+        <!-- Img -->
+        <div class="container" style="background-image: url('/img/test1.jpg');">
+          <div class="overlay">
+            <div class="items"></div>
+            <div class="items head">
+              <!--ViewName-->
+              <h1 [innerHTML]="model.viewName"></h1>
+            </div>
+            <div class="items desc">
+              <!-- Short Description -->
+              <div *ngFor="let val of model.shortDescription">
+                <span [innerHTML]="val"></span>
+              </div>
+            </div>
+            <div class="items">
+              <!-- Tehnology tags -->
+              <div class="row justify-content-center">
+                <div class="col-sm tags" *ngFor="let val of model.tags">
+                  <span [innerHTML]="val"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>
+
+
     </div>
+
+
+
   </div>
-</div>
+  </div>
