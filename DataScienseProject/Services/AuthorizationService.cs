@@ -16,19 +16,24 @@ namespace DataScienseProject.Services
         {
             _context = context;
         }
-        public void CheckPass(AuthorizeModel authorizeModel, HttpContext http)
+        public bool CheckPass(AuthorizeModel authorizeModel, HttpContext http)
         {
             var pass = _context.Passwords.Join(_context.Groups, p => p.GroupKey, g => g.GroupKey, (p, g) => new
             {
                 Password = p.PasswordValue,
                 GroupName = g.GroupName,
                 ExpirationDate = p.ExpirationDate
-            }).FirstOrDefault();
+            }).Where(x => x.Password == authorizeModel.Password && x.GroupName == authorizeModel.GroupName).FirstOrDefault();
 
-            if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(pass.ExpirationDate)) < 0)
+            if (pass != null)
             {
-                http.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
+                if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(pass.ExpirationDate)) < 0)
+                {
+                    http.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
+                    return true;
+                }
             }
+            return false;
         }
     }
 }

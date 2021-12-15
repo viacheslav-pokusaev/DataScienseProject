@@ -623,4 +623,6 @@ WHERE
 --Password add start
 	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) 
 		VALUES(1, 'test', GETDATE(), GETDATE() + 1, 0); 
+
+	select * from [dbo].Passwords;
 --Password add end

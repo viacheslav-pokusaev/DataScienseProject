@@ -5,6 +5,6 @@ namespace DataScienseProject.Interfaces
 {
     public interface IAuthorizationService
     {
-        void CheckPass(AuthorizeModel authorizeModel, HttpContext http);
+        bool CheckPass(AuthorizeModel authorizeModel, HttpContext http);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Authorize;
+using DataScienseProject.Models.Gallery;
 using DataScienseProject.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,14 @@ namespace DataScienseProject.Controllers
         }
         [HttpPost]
         [Route("checkPass")]
-        public void Authorize(AuthorizeModel authorizeModel)
+        public ExceptionModel Authorize(AuthorizeModel authorizeModel)
         {
-            _authorizationService.CheckPass(authorizeModel, HttpContext);
+            if (_authorizationService.CheckPass(authorizeModel, HttpContext))
+            {
+                HttpContext.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
+                return new ExceptionModel() { ErrorMessage = "", StatusCode = 200 };
+            }
+            return new ExceptionModel() { ErrorMessage = "Password incorect or expired", StatusCode = 403 };
         }
     }
 }

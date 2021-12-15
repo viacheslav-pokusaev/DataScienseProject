@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthorizeModel } from '../models/authorize.model';
+import { ExceptionModel } from '../models/exception.model';
 import { GalleryResult } from '../models/gallery-result.model';
 import { MainPageModel } from '../models/main-page.model';
 
@@ -21,7 +22,7 @@ export class HomeService {
   }
 
   setAuthorize(authorizeModel: AuthorizeModel){
-    return this.http.post<AuthorizeModel>('Authorize/checkPass', authorizeModel);
+    return this.http.post<ExceptionModel>('Authorize/checkPass', authorizeModel);
   }
 
 }

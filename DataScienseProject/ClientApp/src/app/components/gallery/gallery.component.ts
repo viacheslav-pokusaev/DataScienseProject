@@ -18,7 +18,7 @@ export class GalleryComponent implements OnInit {
   public galleryModels: Array<GalleryModel>;
   public exceptionModel: ExceptionModel = new ExceptionModel();
   public groupName: string = "Group1";
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, config: NgbCarouselConfig) {
+  constructor(private homeService: HomeService, config: NgbCarouselConfig) {
     config.interval = 5000;
   }
 
@@ -30,9 +30,15 @@ public login() {
   var authorizeData: AuthorizeModel = new AuthorizeModel();
   authorizeData.groupName = this.groupName;
   authorizeData.password = (<HTMLInputElement>document.getElementById("pass")).value;
-  this.homeService.setAuthorize(authorizeData).subscribe(() => {
-    this.getGallery();
-  });
+  this.homeService.setAuthorize(authorizeData).subscribe((res: ExceptionModel) => {
+      if(res.statusCode === 200){
+        this.getGallery();
+      }
+      else{
+        this.exceptionModel = res;
+        alert(res.errorMessage);
+      }
+    });
   }
 
   private getGallery(){
