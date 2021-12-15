@@ -23,7 +23,19 @@ export class GalleryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getGallery();
+  }
 
+public login() {
+  var authorizeData: AuthorizeModel = new AuthorizeModel();
+  authorizeData.groupName = this.groupName;
+  authorizeData.password = (<HTMLInputElement>document.getElementById("pass")).value;
+  this.homeService.setAuthorize(authorizeData).subscribe(() => {
+    this.getGallery();
+  });
+  }
+
+  private getGallery(){
     this.homeService.getGallery(this.groupName).subscribe(
       (data: GalleryResult) => {
         if(data.exceptionModel.statusCode !== 403){
@@ -34,12 +46,6 @@ export class GalleryComponent implements OnInit {
       error => {
         console.error('There was an error!', error);
       });
-}
-
-public login() {
-  var authorizeData: AuthorizeModel = new AuthorizeModel();
-  authorizeData.groupName = this.groupName;
-  authorizeData.password = (<HTMLInputElement>document.getElementById("pass")).value;
-  this.homeService.setAuthorize(authorizeData).subscribe();
   }
 }
+

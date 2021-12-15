@@ -1,5 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
+using DataScienseProject.Models.Authorize;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,19 @@ namespace DataScienseProject.Services
         {
             _context = context;
         }
-        public bool CheckPass(string groupName, string password)
+        public void CheckPass(AuthorizeModel authorizeModel, HttpContext http)
         {
-            return password == "test"? true : false;
+            var pass = _context.Passwords.Join(_context.Groups, p => p.GroupKey, g => g.GroupKey, (p, g) => new
+            {
+                Password = p.PasswordValue,
+                GroupName = g.GroupName,
+                ExpirationDate = p.ExpirationDate
+            }).FirstOrDefault();
+
+            if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(pass.ExpirationDate)) < 0)
+            {
+                http.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
+            }
         }
     }
 }

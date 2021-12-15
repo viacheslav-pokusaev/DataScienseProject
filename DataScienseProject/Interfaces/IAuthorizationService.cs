@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DataScienseProject.Models.Authorize;
+using Microsoft.AspNetCore.Http;
 
 namespace DataScienseProject.Interfaces
 {
     public interface IAuthorizationService
     {
-        bool CheckPass(string groupName, string Password);
+        void CheckPass(AuthorizeModel authorizeModel, HttpContext http);
     }
 }

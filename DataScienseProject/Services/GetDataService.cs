@@ -89,10 +89,6 @@ namespace DataScienseProject.Services
             {
                 return new GalleryResult() { ExceptionModel = new ExceptionModel() { ErrorMessage = "Insert password", StatusCode = 403} };
             }
-            else
-            {
-                _authorizationService.CheckPass(groupName, "test");
-            }
 
             var shortDescriptionElementName = "Introduction";
             var galleryResult = new GalleryResult();

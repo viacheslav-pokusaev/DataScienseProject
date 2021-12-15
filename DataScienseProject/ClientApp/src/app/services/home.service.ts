@@ -21,7 +21,7 @@ export class HomeService {
   }
 
   setAuthorize(authorizeModel: AuthorizeModel){
-    return this.http.post<AuthorizeModel>('Authorize/authorize', authorizeModel);
+    return this.http.post<AuthorizeModel>('Authorize/checkPass', authorizeModel);
   }
 
 }
