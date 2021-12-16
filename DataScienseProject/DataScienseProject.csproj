@@ -43,18 +43,20 @@
     <None Remove="ClientApp\src\app\models\main-page.model.ts" />
     <None Remove="ClientApp\src\app\models\project-type.model.ts" />
     <None Remove="ClientApp\src\app\models\technology.model.ts" />
+    <None Remove="ClientApp\src\app\pipes\join.pipe.ts" />
     <None Remove="ClientApp\src\app\safe.pipe.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\models\executor.model.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\models\feedback.model.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\models\gallery.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\feedback\feedback.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\gallery\gallery.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\layout-style.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\layout-data.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\main-page.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\project-type.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\technology.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\pipes\join.pipe.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\pipes\safe.pipe.ts" />
   </ItemGroup>
 

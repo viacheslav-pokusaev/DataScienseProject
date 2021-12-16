@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { GalleryModel } from '../../models/gallery.model';
+import { GalleryModel } from '../../models/gallery/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';

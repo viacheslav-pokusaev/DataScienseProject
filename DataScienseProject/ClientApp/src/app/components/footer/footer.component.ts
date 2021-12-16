@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Feedback } from '../../models/feedback.model';
+import { Feedback } from '../../models/feedback/feedback.model';
+import { HomeService } from '../../services/home.service';
 
 @Component({
   selector: 'app-footer',
@@ -17,7 +18,7 @@ export class FooterComponent implements OnInit {
   email: string = "";
   message: string = "";
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: FormBuilder, private homeService: HomeService) {
 
   }
 
@@ -25,18 +26,26 @@ export class FooterComponent implements OnInit {
     this.firstFormGroup = this._formBuilder.group({
       nameCtrl: ['', [Validators.required]],
       emailCtrl: ['', [Validators.required, Validators.email]],
-      aboutCtrl: ['', [Validators.required, Validators.maxLength(500)]]
+      textCtrl: ['', [Validators.required, Validators.maxLength(500)]]
     });
 
   }
 
-  sendFeedback() {    
+  sendFeedback(): void {    
     this.feedback.name = this.firstFormGroup.value.nameCtrl;
     this.feedback.email = this.firstFormGroup.value.emailCtrl;
-    this.feedback.about = this.firstFormGroup.value.aboutCtrl;
+    this.feedback.text = this.firstFormGroup.value.textCtrl;
     this.name = "";
     this.email = "";
     this.message = "";
+
+    this.homeService.addFeedback(this.feedback).subscribe(
+      (response) => {
+        console.log('Fine!');
+      },
+      error => {
+        console.error('There was an error!', error);
+      })
   }
 
 }
