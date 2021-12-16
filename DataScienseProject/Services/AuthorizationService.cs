@@ -27,7 +27,7 @@ namespace DataScienseProject.Services
 
             if (pass != null)
             {
-                if (DateTime.Compare(DateTime.Now, Convert.ToDateTime(pass.ExpirationDate)) < 0)
+                if (DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) <= 0)
                 {
                     http.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
                     return true;
