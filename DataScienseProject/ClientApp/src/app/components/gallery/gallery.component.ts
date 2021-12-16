@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GalleryModel } from '../../models/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gallery',
@@ -14,7 +15,7 @@ export class GalleryComponent implements OnInit {
 
   public galleryModels: Array<GalleryModel>;
   public groupName: string = "Group1";
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, config: NgbCarouselConfig) {
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, config: NgbCarouselConfig, private router: Router) {
     config.interval = 5000;
   }
 
@@ -29,4 +30,8 @@ export class GalleryComponent implements OnInit {
       })
   }
 
+  modelDetails(id: number) {    
+    this.homeService.getId(id);
+    this.router.navigate(['gallery/model/', id]);
+  }
 }

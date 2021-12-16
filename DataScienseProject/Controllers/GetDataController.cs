@@ -21,10 +21,10 @@ namespace DataScienseProject.Controllers
         }
 
         [HttpGet]
-        [Route("main")]
-        public MainPageModel GetMainPageData()
+        [Route("gallery/model/{id}")]
+        public MainPageModel GetMainPageData(int id)
         {
-            return _getDataService.GetMainPageData();            
+            return _getDataService.GetMainPageData(id);            
         }
         [HttpGet]
         [Route("gallery/{groupName}")]

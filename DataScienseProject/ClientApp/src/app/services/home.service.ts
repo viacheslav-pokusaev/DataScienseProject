@@ -7,16 +7,20 @@ import { MainPageModel } from '../models/main-page.model';
   providedIn: 'root'
 })
 export class HomeService {
+  modelId: number;
 
   constructor(private http: HttpClient) {       
   }
 
   getData() {
-    return this.http.get<MainPageModel>('GetData/main');
+    return this.http.get<MainPageModel>('GetData/gallery/model/' + this.modelId);
   };
 
   getGallery(groupName: string) {
     return this.http.get<Array<GalleryModel>>('GetData/gallery/' + groupName);
   }
 
+  getId(id) {    
+    this.modelId = id;
+  }
 }

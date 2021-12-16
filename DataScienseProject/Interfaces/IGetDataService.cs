@@ -9,7 +9,7 @@ namespace DataScienseProject.Interfaces
 {
     public interface IGetDataService
     {
-        MainPageModel GetMainPageData();
+        MainPageModel GetMainPageData(int id);
         List<GalleryModel> GetGalleryPageData(string groupName, HttpContext http);
     }
 }

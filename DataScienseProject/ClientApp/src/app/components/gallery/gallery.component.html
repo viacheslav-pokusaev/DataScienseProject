@@ -148,13 +148,6 @@
 
 
 
-
-
-
-
-
-
-
 <div class="box" *ngIf="galleryModels">
 
 
@@ -164,8 +157,8 @@
       <div class="overlay">
         <div class="items"></div>
         <div class="items head">
-          <!--ViewName-->
-          <h1 [innerHTML]="model.viewName"></h1>
+          <!--ViewName-->                 
+            <h1 [innerHTML]="model.viewName" (click)="modelDetails(model.viewKey)"></h1>          
         </div>
         <div class="items desc">
           <!-- Short Description -->
@@ -184,38 +177,6 @@
       </div>
     </div>
   </div>
-
-
-  <!--<div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>
-  <div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>
-  <div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>
-  <div class="container gal-container" style="background-image: url('/img/test1.jpg');">dddddddddddddddddddddddddd</div>-->
-
+  
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!--</div>-->

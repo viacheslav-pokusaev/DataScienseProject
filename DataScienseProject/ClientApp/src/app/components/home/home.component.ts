@@ -25,7 +25,6 @@ export class HomeComponent{
   }
 
   ngOnInit() {
-
     this.homeService.getData().subscribe(    
       (data: MainPageModel) => {
         this.mainPageModel = data;
