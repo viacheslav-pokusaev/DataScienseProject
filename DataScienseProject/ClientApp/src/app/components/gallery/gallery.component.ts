@@ -1,9 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { GalleryModel } from '../../models/gallery/gallery.model';
 import { HomeService } from '../../services/home.service';
-import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,8 +12,8 @@ export class GalleryComponent implements OnInit {
 
   public galleryModels: Array<GalleryModel>;
   public groupName: string = "Group1";
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, config: NgbCarouselConfig, private router: Router) {
-    config.interval = 5000;
+  constructor( private homeService: HomeService, private router: Router) {
+    
   }
 
   ngOnInit() {
