@@ -1,4 +1,4 @@
-import { ExceptionModel } from "./exception.model";
+import { ExceptionModel } from "./status.model";
 import { GalleryModel } from "./gallery.model";
 
 export class GalleryResult{

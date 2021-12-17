@@ -3,9 +3,10 @@ import { GalleryModel } from '../../models/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryResult } from 'src/app/models/gallery-result.model';
-import { ExceptionModel } from 'src/app/models/exception.model';
+import { ExceptionModel } from 'src/app/models/status.model';
 import { AuthorizeModel } from 'src/app/models/authorize.model';
 import { ExecutorModel } from 'src/app/models/executor.model';
+import { FilterModel } from 'src/app/models/filter.model';
 
 @Component({
   selector: 'app-gallery',
@@ -16,6 +17,9 @@ export class GalleryComponent implements OnInit {
 
   public tags: Array<string> = new Array;
   public executors: Array<ExecutorModel> = new Array;
+
+  public tagModelChange: string;
+  public executorModelChange: string;
 
   public galleryModels: Array<GalleryModel>;
   public exceptionModel: ExceptionModel = new ExceptionModel();
@@ -66,6 +70,14 @@ public login() {
       error => {
         console.error('There was an error!', error);
       });
+  }
+
+  public filterSelect(event: any){
+    let filter = new FilterModel();
+    filter.groupName = this.groupName;
+    filter.executorName = this.executorModelChange;
+    filter.tagName = this.tagModelChange;
+    this.homeService.getGalleryWithFilters(this.groupName, filter);
   }
 }
 

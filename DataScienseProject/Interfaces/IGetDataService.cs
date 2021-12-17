@@ -11,6 +11,6 @@ namespace DataScienseProject.Interfaces
     public interface IGetDataService
     {
         MainPageModel GetMainPageData();
-        GalleryResult GetGalleryPageData(string groupName, HttpContext cookies);
+        GalleryResult GetGalleryPageData(string groupName, HttpContext http, FilterModel filter);
     }
 }

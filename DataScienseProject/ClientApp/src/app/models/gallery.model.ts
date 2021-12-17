@@ -1,5 +1,4 @@
 import { ExecutorModel } from "./executor.model"
-import { TechnologyModel } from "./technology.model";
 
 export class GalleryModel {
   viewKey: number;
@@ -8,5 +7,5 @@ export class GalleryModel {
   executors: Array<ExecutorModel>;
   tags: Array<string>;
   shortDescription: Array<string>;
-  orderNumber?: number;  
+  orderNumber?: number;
 }

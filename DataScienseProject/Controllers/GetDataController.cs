@@ -31,7 +31,14 @@ namespace DataScienseProject.Controllers
         [Route("gallery/{groupName}")]
         public GalleryResult GetGaleryData(string groupName)
         {
-            return _getDataService.GetGalleryPageData(groupName, HttpContext);
+            return _getDataService.GetGalleryPageData(groupName, HttpContext, null);
+        }
+
+        [HttpPost]
+        [Route("gallery/{groupName}")]
+        public GalleryResult GetGaleryData(string groupName, [FromBody]FilterModel filter)
+        {
+            return _getDataService.GetGalleryPageData(groupName, HttpContext, filter);
         }
     }
 }

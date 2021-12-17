@@ -82,7 +82,7 @@ namespace DataScienseProject.Services
             }
             return mainPageModel;
         }
-        public GalleryResult GetGalleryPageData(string groupName, HttpContext http)
+        public GalleryResult GetGalleryPageData(string groupName, HttpContext http, FilterModel filter)
         {
             var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
             if (cookies.Count == 0)
