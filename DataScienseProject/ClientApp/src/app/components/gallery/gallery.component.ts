@@ -32,52 +32,57 @@ export class GalleryComponent implements OnInit {
     this.getGallery();
   }
 
-public login() {
-  var authorizeData: AuthorizeModel = new AuthorizeModel();
-  authorizeData.groupName = this.groupName;
-  authorizeData.password = (<HTMLInputElement>document.getElementById("pass")).value;
-  this.homeService.setAuthorize(authorizeData).subscribe((res: ExceptionModel) => {
-      if(res.statusCode === 200){
+  public login() {
+    var authorizeData: AuthorizeModel = new AuthorizeModel();
+    authorizeData.groupName = this.groupName;
+    authorizeData.password = (<HTMLInputElement>document.getElementById("pass")).value;
+    this.homeService.setAuthorize(authorizeData).subscribe((res: ExceptionModel) => {
+      if (res.statusCode === 200) {
         this.getGallery();
       }
-      else{
+      else {
         this.exceptionModel = res;
         alert(res.errorMessage);
       }
     });
   }
 
-  private getGallery(){
+  private getGallery() {
     this.homeService.getGallery(this.groupName).subscribe(
       (data: GalleryResult) => {
-        if(data.exceptionModel.statusCode !== 403){
+        if (data.exceptionModel.statusCode !== 403) {
           this.galleryModels = data.galleryModels;
           data.galleryModels.forEach(gm => {
             gm.tags.forEach(t => {
-              if(this.tags.indexOf(t) === -1) {
+              if (this.tags.indexOf(t) === -1) {
                 this.tags.push(t);
               }
             });
             gm.executors.forEach(e => {
-              if(this.executors.find(e => e.executorName == e.executorName) === undefined){
-                  this.executors.push(e);
-                }
+              if (this.executors.find(e => e.executorName == e.executorName) === undefined) {
+                this.executors.push(e);
+              }
             });
           });
         }
-          this.exceptionModel = data.exceptionModel;
+        this.exceptionModel = data.exceptionModel;
       },
       error => {
         console.error('There was an error!', error);
       });
   }
 
-  public filterSelect(event: any){
+  public filterSelect(event: any, filterType: string) {
     let filter = new FilterModel();
     filter.groupName = this.groupName;
-    filter.executorName = this.executorModelChange;
-    filter.tagName = this.tagModelChange;
-    this.homeService.getGalleryWithFilters(this.groupName, filter);
+    if (filterType === "tag") {
+      filter.tagName = event.target.value;
+    }
+    else if (filterType === "executor") {
+      filter.executorName == event.target.value;
+    }
+
+    this.homeService.getGalleryWithFilters(filter).subscribe();
   }
 }
 

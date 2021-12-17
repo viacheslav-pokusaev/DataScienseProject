@@ -26,7 +26,7 @@ export class HomeService {
     return this.http.post<ExceptionModel>('Authorize/checkPass', authorizeModel);
   }
 
-  getGalleryWithFilters(groupName: string, filter: FilterModel){
-    return this.http.post<GalleryResult>('GetData/gallery/' + groupName, filter);
+  getGalleryWithFilters(filter: FilterModel){
+    return this.http.post<GalleryResult>('GetData/gallery', filter);
   }
 }
