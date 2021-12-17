@@ -9,6 +9,7 @@ namespace DataScienseProject.Entities
     {
         public View()
         {
+            Feedbacks = new HashSet<Feedback>();
             GroupViews = new HashSet<GroupView>();
             ViewElements = new HashSet<ViewElement>();
             ViewExecutors = new HashSet<ViewExecutor>();
@@ -29,6 +30,7 @@ namespace DataScienseProject.Entities
         public bool? IsDeleted { get; set; }
 
         public virtual ViewType ViewTypeKeyNavigation { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<GroupView> GroupViews { get; set; }
         public virtual ICollection<ViewElement> ViewElements { get; set; }
         public virtual ICollection<ViewExecutor> ViewExecutors { get; set; }

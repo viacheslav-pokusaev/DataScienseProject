@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthorizeModel } from '../models/authorize.model';
+import { ExceptionModel } from '../models/exception.model';
+import { GalleryResult } from '../models/gallery-result.model';
 import { MainPageModel } from '../models/main-page.model';
 
 @Injectable({
@@ -7,11 +10,19 @@ import { MainPageModel } from '../models/main-page.model';
 })
 export class HomeService {
 
-  constructor(private http: HttpClient) {       
+  constructor(private http: HttpClient) {
   }
 
   getData() {
     return this.http.get<MainPageModel>('GetData/main');
   };
+
+  getGallery(groupName: string) {
+    return this.http.get<GalleryResult>('GetData/gallery/' + groupName);
+  }
+
+  setAuthorize(authorizeModel: AuthorizeModel){
+    return this.http.post<ExceptionModel>('Authorize/checkPass', authorizeModel);
+  }
 
 }

@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row" *ngIf="statusModel.statusCode === 403" style="margin-bottom: 5%;">
+    <div class="col-2"></div>
+    <div class="col-8" style="text-align: center; border: orange; border-style: groove;">
+      <h1 class="head-style">{{statusModel.errorMessage }}</h1>
+      <input class="input-style" id="pass" type="text" placeholder="password"/>
+      <input class="tag-style" type="button" value="Authorize" (click)="login()"/>
+    </div>
+    <div class="col-2"></div>
+  </div>
+  <div class="row" *ngIf="statusModel.statusCode === 200">
+    <div class="col-md-12 py-3">
+      <ngb-carousel *ngIf="galleryModels">
+        <ng-template ngbSlide *ngFor="let model of galleryModels">
+
+          <!-- Img -->
+          <img class="d-block w-100 img" src="/img/test1.jpg" alt="Random slide">
+          <div class="carousel-caption">
+
+            <!-- ViewName -->
+            <h1 [innerHTML]="model.viewName"></h1>
+
+            <!-- Executors -->
+            <div class="container">
+              <div class="row">
+                <div class="col-sm" *ngFor="let val of model.executors">
+                  <span [innerHTML]="val.executorName"></span> -
+                  <span [innerHTML]="val.roleName"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tehnology tags -->
+            <div class="container">
+              <div class="row">
+                <div class="col-sm" *ngFor="let val of model.tags">
+                  <span [innerHTML]="val"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Short Description -->
+            <div *ngFor="let val of model.shortDescription">
+              <p [innerHTML]="val"></p>
+            </div>
+
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+  </div>
+</div>

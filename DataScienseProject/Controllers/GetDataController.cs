@@ -1,6 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models;
+using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,11 +28,10 @@ namespace DataScienseProject.Controllers
             return _getDataService.GetMainPageData();            
         }
         [HttpGet]
-        [Route("galery/{groupName}")]
-        public MainPageModel GetGaleryData(string groupName)
+        [Route("gallery/{groupName}")]
+        public GalleryResult GetGaleryData(string groupName)
         {
-            var test = _getDataService.GetGaleryPageData(groupName);
-            throw new NotImplementedException();
+            return _getDataService.GetGalleryPageData(groupName, HttpContext);
         }
     }
 }

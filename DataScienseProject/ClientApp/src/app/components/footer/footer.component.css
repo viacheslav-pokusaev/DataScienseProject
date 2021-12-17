@@ -1,0 +1,176 @@
+h1 {
+  font-size: calc(20px + (30 - 20) * ((100vw - 300px) / (1920 - 300)));
+}
+
+button {
+  font-size: calc( 16px + (25 - 16) * ((100vw - 300px) / (1920 - 300)) ) !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  color: #f2a523 !important;
+  font-weight: 400 !important;
+}
+
+img {
+  margin-left: -65px;
+}
+
+.lh25 {
+  line-height: 25px;
+}
+
+.p-l-r-80 {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.copyright {
+  background: #f2a523;
+  font-size: calc(15px + (16 - 13) * ((100vw - 300px) / (1920 - 300)));
+  font-weight: 500;
+}
+
+.contact-details p { 
+  font-size: 125%;
+}
+
+.contact-details h6.contact-sub-text {
+  font-weight: 300;
+  margin-bottom: 25px;
+}
+
+h6.contact-sub-text {
+  font-weight: 400;
+  font-size: calc(14px + (18 - 13) * ((100vw - 300px) / (1920 - 300)));
+}
+
+.bg-footer {
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background: #f2a523;
+}
+
+.bg-footer .btn-default, h6 {
+  text-transform: none;
+}
+
+.bg-footer .btn:hover {
+  border: none;
+}
+
+.bg-footer .booking {
+  margin: 0 auto;
+}
+
+.bg-footer .booking .btn {
+  background: #fff;
+  margin-top: 5px;
+}
+
+div.d-flex.align-items-end {
+  justify-content: center;
+}
+
+div.d-flex.align-items-end h6 {
+  font-size: calc(17px + (18 - 13) * ((100vw - 300px) / (1920 - 300)));
+  padding-bottom: 7px;
+}
+
+.justify-content-center {
+  display: flex !important;
+  align-items: flex-end;
+}
+
+.form-footer .form-group
+{
+  margin-bottom: 30px;
+}
+
+.form-footer .form-group input {
+  width: 100%;
+  background-color: #f2a523;
+  padding: 30px 30px;
+  border: 3px solid #fff;
+  border-radius: 25px;
+  color: #fff;
+}
+
+.form-footer .form-group textarea {
+  width: 100%;
+  background-color: #f2a523;
+  padding: 30px 30px;
+  border: 3px solid #fff;
+  border-radius: 25px;
+  color: #fff;
+}
+
+.form-footer .form-group input {
+  outline: none;
+}
+
+.form-footer .form-group  textarea :focus {
+  outline: none;
+}
+
+.form-footer .form-group input {
+  padding: 10px 30px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  background-color: #f5f5f8;
+}
+
+.form-control::placeholder {
+  color: #fff;
+  opacity: 1;
+}
+
+::placeholder {
+  color: #fff;
+  opacity: 1;
+}
+
+form {
+  padding: 60px;
+}
+
+form .form-group{
+  margin-bottom: 60px;
+}
+
+form .form-group .form-control:focus{
+  box-shadow: none;
+}
+
+form .form-group label {
+  color: #d8550f;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+form .btn-default {
+  padding: 14px 30px;
+  letter-spacing: 1px;
+}
+
+.booking .btn-default {
+  font-weight: 500;
+  padding: 18px 45px;
+  text-transform: uppercase;
+}
+
+.form-group input {
+  padding: 18px 20px;
+  border-radius: 35px;
+}
+
+.btn-default {
+  border-radius: 50px;
+}
+
+footer {
+  padding: 70px 0 10px;
+  text-align: left;
+  font-family: 'Codec Pro', sans-serif;
+}
