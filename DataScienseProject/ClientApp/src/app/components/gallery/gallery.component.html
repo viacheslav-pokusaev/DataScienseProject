@@ -1,4 +1,13 @@
-<div class="row indentation" *ngIf="galleryModels">
+<div class="row" *ngIf="statusModel.statusCode === 403" style="margin-bottom: 5%;">
+    <div class="col-2"></div>
+    <div class="col-8" style="text-align: center; border: orange; border-style: groove;">
+      <h1 class="head-style">{{statusModel.errorMessage }}</h1>
+      <input class="input-style" id="pass" type="text" placeholder="password"/>
+      <input class="tag-style" type="button" value="Authorize" (click)="login()"/>
+    </div>
+    <div class="col-2"></div>
+  </div>
+<div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
   <div class="col" *ngFor="let model of galleryModels">
     <!-- Img -->
     <div class="container gal-container" style="background-image: url('/img/test1.jpg');">

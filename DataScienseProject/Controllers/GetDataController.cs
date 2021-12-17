@@ -1,6 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models;
+using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,7 +29,7 @@ namespace DataScienseProject.Controllers
         }
         [HttpGet]
         [Route("gallery/{groupName}")]
-        public List<GalleryModel> GetGalleryData(string groupName)
+        public GalleryResult GetGaleryData(string groupName)
         {
             return _getDataService.GetGalleryPageData(groupName, HttpContext);
         }

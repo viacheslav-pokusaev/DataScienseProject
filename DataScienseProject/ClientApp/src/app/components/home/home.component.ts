@@ -12,7 +12,7 @@ import { ViewEncapsulation } from '@angular/core';
   styleUrls: ['./home.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent{
+export class HomeComponent {
 
   public mainPageModel: MainPageModel;
   iframeHeight: string;
@@ -20,23 +20,20 @@ export class HomeComponent{
   }
 
   ngOnInit() {
-    this.homeService.getData().subscribe(    
-      (data: MainPageModel) => {
-        this.mainPageModel = data;
-      },
-      error => {
-        console.error('There was an error!', error);
-      })
+
+    this.homeService.getData().subscribe((data: MainPageModel) => {
+      this.mainPageModel = data;
+    },
+      error => { console.error('There was an error!', error); });
   }
 
   sanitizeStyles(styles: Array<LayoutStyleModel>) {
-
     var styleRes: string = "";
-    styles.forEach(style =>{
-      if(style.key !== "src"){
+    styles.forEach(style => {
+      if (style.key !== "src") {
         var styleString = style.key + ": " + style.value + ";";
-        styleRes += styleString;              
-      }      
+        styleRes += styleString;
+      }
     });
     return this.sanitizer.bypassSecurityTrustStyle(styleRes);
   }
@@ -57,13 +54,13 @@ export class HomeComponent{
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
-  sanitizeImage(styles: Array<LayoutStyleModel>) {   
+  sanitizeImage(styles: Array<LayoutStyleModel>) {
     var styleRes: string = "";
     var base64: string = "";
     styles.forEach(style => {
       if (style.key == "src") {
         base64 += style.value;
-      }     
+      }
     });
     var styleString = "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
     styleRes += styleString;

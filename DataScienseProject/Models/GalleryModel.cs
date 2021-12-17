@@ -1,4 +1,5 @@
 ﻿using DataScienseProject.Entities;
+using DataScienseProject.Models.Gallery;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace DataScienseProject.Models
         public List<ExecutorModel> Executors { get; set; }
         public List<string> Tags { get; set; }
         public List<string> ShortDescription { get; set; }
-        public int OrderNumber { get; set; }        
+        public int OrderNumber { get; set; }
     }
 }

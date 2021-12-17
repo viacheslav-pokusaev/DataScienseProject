@@ -1,4 +1,5 @@
 ﻿using DataScienseProject.Models;
+using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace DataScienseProject.Interfaces
     public interface IGetDataService
     {
         MainPageModel GetMainPageData(int id);
-        List<GalleryModel> GetGalleryPageData(string groupName, HttpContext http);
+        GalleryResult GetGalleryPageData(string groupName, HttpContext cookies);
     }
 }
