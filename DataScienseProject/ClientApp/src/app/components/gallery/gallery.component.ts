@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { GalleryModel } from '../../models/gallery.model';
+import { GalleryModel } from '../../models/gallery/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryResult } from 'src/app/models/gallery-result.model';
 import { StatusModel } from 'src/app/models/status.model';
 import { AuthorizeModel } from 'src/app/models/authorize.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gallery',
@@ -16,7 +17,7 @@ export class GalleryComponent implements OnInit {
   public galleryModels: Array<GalleryModel>;
   public statusModel: StatusModel = new StatusModel();
   public groupName: string = "Group1";
-  constructor(private homeService: HomeService, config: NgbCarouselConfig) { }
+  constructor( private homeService: HomeService, private router: Router) { }
 
   ngOnInit() {
     this.getGallery();
@@ -39,5 +40,9 @@ export class GalleryComponent implements OnInit {
     },
       error => { console.error('There was an error!', error); });
   }
-}
 
+  modelDetails(id: number) {    
+    this.homeService.getId(id);
+    this.router.navigate(['gallery/model/', id]);
+  }
+}

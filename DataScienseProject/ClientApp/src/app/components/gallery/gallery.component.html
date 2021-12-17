@@ -1,5 +1,4 @@
-<div class="container">
-  <div class="row" *ngIf="statusModel.statusCode === 403" style="margin-bottom: 5%;">
+<div class="row" *ngIf="statusModel.statusCode === 403" style="margin-bottom: 5%;">
     <div class="col-2"></div>
     <div class="col-8" style="text-align: center; border: orange; border-style: groove;">
       <h1 class="head-style">{{statusModel.errorMessage }}</h1>
@@ -8,45 +7,35 @@
     </div>
     <div class="col-2"></div>
   </div>
-  <div class="row" *ngIf="statusModel.statusCode === 200">
-    <div class="col-md-12 py-3">
-      <ngb-carousel *ngIf="galleryModels">
-        <ng-template ngbSlide *ngFor="let model of galleryModels">
-
-          <!-- Img -->
-          <img class="d-block w-100 img" src="/img/test1.jpg" alt="Random slide">
-          <div class="carousel-caption">
-
-            <!-- ViewName -->
-            <h1 [innerHTML]="model.viewName"></h1>
-
-            <!-- Executors -->
-            <div class="container">
-              <div class="row">
-                <div class="col-sm" *ngFor="let val of model.executors">
-                  <span [innerHTML]="val.executorName"></span> -
-                  <span [innerHTML]="val.roleName"></span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tehnology tags -->
-            <div class="container">
-              <div class="row">
-                <div class="col-sm" *ngFor="let val of model.tags">
-                  <span [innerHTML]="val"></span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Short Description -->
-            <div *ngFor="let val of model.shortDescription">
-              <p [innerHTML]="val"></p>
-            </div>
-
+<div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
+  <div class="col" *ngFor="let model of galleryModels">
+    <!-- Img -->
+    <div class="container gal-container" style="background-image: url('/img/test1.jpg');">
+      <div class="items head hide-name">
+        <!--ViewName-->
+        <h1 [innerHTML]="model.viewName" (click)="modelDetails(model.viewKey)"></h1>
+      </div>
+      <div class="overlay">
+        <div class="items"></div>
+        <div class="items head">
+          <!--ViewName-->
+          <h1 class="name" [innerHTML]="model.viewName" (click)="modelDetails(model.viewKey)"></h1>
+        </div>
+        <div class="items desc">
+          <!-- Short Description -->
+          <div *ngFor="let val of model.shortDescription">
+            <span [innerHTML]="val"></span>
           </div>
-        </ng-template>
-      </ngb-carousel>
+        </div>
+        <div class="items">
+          <!-- Tehnology tags -->
+          <div class="row justify-content-center">
+            <div class="col-sm tags" *ngFor="let val of model.tags">
+              <span [innerHTML]="val"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

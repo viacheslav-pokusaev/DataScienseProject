@@ -20,15 +20,15 @@ namespace DataScienseProject.Services
             _context = context;
             _authorizationService = authorizationService;
         }
-        public MainPageModel GetMainPageData()
+        public MainPageModel GetMainPageData(int id)
         {
             #region Select from db
 
-            var projectTypeSelect = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s =>
+            var projectTypeSelect = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == id && x.IsDeleted == false).Select(s =>
                 new ProjectTypeModel() { ViewName = s.ViewName, ViewTypeName = s.ViewTypeKeyNavigation.ViewTypeName }).ToList();
 
             var executorSelect = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x =>
-            x.ViewKey == 1 && x.IsDeleted == false).Select(s => new ExecutorModel()
+            x.ViewKey == id && x.IsDeleted == false).Select(s => new ExecutorModel()
             {
                 ExecutorName = s.ExecutorKeyNavigation.ExecutorName,
                 ExecutorProfileLink = s.ExecutorKeyNavigation.ExecutorProfileLink,
@@ -38,7 +38,7 @@ namespace DataScienseProject.Services
             .OrderBy(ob => ob.OrderNumber).ToList();
 
             var tehnologySelect = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Include(t => t.TagKeyNavigation.DirectionKeyNavigation).Where(x =>
-            x.ViewKey == 1 && x.IsDeleted == false).Select(s => new TechnologyModel()
+            x.ViewKey == id && x.IsDeleted == false).Select(s => new TechnologyModel()
             {
                 TagName = s.TagKeyNavigation.Name,
                 TagLink = s.TagKeyNavigation.Link,
@@ -77,7 +77,7 @@ namespace DataScienseProject.Services
                         ElementKey = e.ElementKey,
                         IsDeleted = e.EIsDeleted
                     }
-                }).Where(x => x.EpIsDeleted == false && x.e.ViewKey == 1 && x.e.IsDeleted == false)
+                }).Where(x => x.EpIsDeleted == false && x.e.ViewKey == id && x.e.IsDeleted == false)
                     .Select(s => new LayoutStyleModel() { ElementName = s.e.ElementName, ElementTypeName = s.ElementTypeName, Key = s.Key, Value = s.Value }).ToList();
 
             var layoutDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
@@ -112,7 +112,7 @@ namespace DataScienseProject.Services
                     EIsDeleted = e.IsDeleted,
                     ViewKey = e.ve.ViewKey
                 })
-                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false && x.ViewKey == 1).Select(s => new LayoutDataModel()
+                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false && x.ViewKey == id).Select(s => new LayoutDataModel()
                 {
                     ElementName = s.ElementName,
                     ElementTypeName = s.ElementTypeName,

@@ -1,15 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component } from '@angular/core';
-import { ExecutorModel } from '../../models/executor.model';
+import { Component } from '@angular/core';
 import { LayoutStyleModel } from '../../models/layout-style.model';
-import { LayoutDataModel } from '../../models/layout-data.model';
 import { MainPageModel } from '../../models/main-page.model';
-import { ProjectTypeModel } from '../../models/project-type.model';
-import { TechnologyModel } from '../../models/technology.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeService } from '../../services/home.service';
-import { ViewEncapsulation } from '@angular/core'
-
+import { ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +15,7 @@ import { ViewEncapsulation } from '@angular/core'
 export class HomeComponent {
 
   public mainPageModel: MainPageModel;
+  iframeHeight: string;
   constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
   }
 
@@ -47,7 +43,12 @@ export class HomeComponent {
     styles.forEach(style => {
       if (style.key === "src") {
         var styleString = style.value;
-        styleRes += styleString;
+        styleRes += styleString;       
+      }
+    });
+    styles.forEach(style => {
+      if (style.key === "height") {
+        this.iframeHeight = style.key + ": " + style.value + ";";
       }
     });
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);

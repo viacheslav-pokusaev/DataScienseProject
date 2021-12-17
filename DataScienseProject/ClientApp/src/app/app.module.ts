@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { SafePipe } from './pipes/safe.pipe';
+import { JoinPipe } from './pipes/join.pipe';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './components/footer/footer.component';
@@ -20,6 +21,7 @@ import { FooterComponent } from './components/footer/footer.component';
     NavMenuComponent,
     HomeComponent,
     SafePipe,
+    JoinPipe,
     GalleryComponent,
     FooterComponent
   ],
@@ -30,8 +32,9 @@ import { FooterComponent } from './components/footer/footer.component';
     NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'gallery/:groupName', component: GalleryComponent, pathMatch: 'full' }
+      { path: '', redirectTo: '/gallery/:groupName', pathMatch: 'full' },
+      { path: 'gallery/:groupName', component: GalleryComponent, pathMatch: 'full' },
+      { path: 'gallery/model/:id', component: HomeComponent, pathMatch: 'full' }
     ])
   ],
   providers: [],

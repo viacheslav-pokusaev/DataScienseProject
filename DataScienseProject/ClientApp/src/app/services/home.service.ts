@@ -1,20 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthorizeModel } from '../models/authorize.model';
-import { ExceptionModel } from '../models/exception.model';
+import { StatusModel } from '../models/status.model';
 import { GalleryResult } from '../models/gallery-result.model';
+import { Feedback } from '../models/feedback/feedback.model';
+import { GalleryModel } from '../models/gallery/gallery.model';
 import { MainPageModel } from '../models/main-page.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
+  modelId: number;
 
   constructor(private http: HttpClient) {
   }
 
   getData() {
-    return this.http.get<MainPageModel>('GetData/main');
+    return this.http.get<MainPageModel>('GetData/gallery/model/' + this.modelId);
   };
 
   getGallery(groupName: string) {
@@ -22,7 +25,15 @@ export class HomeService {
   }
 
   setAuthorize(authorizeModel: AuthorizeModel){
-    return this.http.post<ExceptionModel>('Authorize/checkPass', authorizeModel);
+    return this.http.post<StatusModel>('Authorize/checkPass', authorizeModel);
   }
 
+  getId(id) {    
+    this.modelId = id;
+  }
+
+  addFeedback(feedback: Feedback) {
+    feedback.viewKey = this.modelId;
+    return this.http.post<any>('AddFeedback/add', feedback);
+  }
 }
