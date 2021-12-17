@@ -29,7 +29,7 @@ namespace DataScienseProject.Controllers
         }
         [HttpGet]
         [Route("gallery/{groupName}")]
-        public GalleryResult GetGaleryData(string groupName, string pass)
+        public GalleryResult GetGaleryData(string groupName)
         {
             return _getDataService.GetGalleryPageData(groupName, HttpContext);
         }

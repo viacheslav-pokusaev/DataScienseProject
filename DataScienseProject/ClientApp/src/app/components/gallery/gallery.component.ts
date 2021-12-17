@@ -1,12 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { GalleryModel } from '../../models/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryResult } from 'src/app/models/gallery-result.model';
 import { ExceptionModel } from 'src/app/models/exception.model';
 import { AuthorizeModel } from 'src/app/models/authorize.model';
+import { ExecutorModel } from 'src/app/models/executor.model';
 
 @Component({
   selector: 'app-gallery',
@@ -14,6 +13,9 @@ import { AuthorizeModel } from 'src/app/models/authorize.model';
   styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
+
+  public tags: Array<string> = new Array;
+  public executors: Array<ExecutorModel> = new Array;
 
   public galleryModels: Array<GalleryModel>;
   public exceptionModel: ExceptionModel = new ExceptionModel();
@@ -46,6 +48,18 @@ public login() {
       (data: GalleryResult) => {
         if(data.exceptionModel.statusCode !== 403){
           this.galleryModels = data.galleryModels;
+          data.galleryModels.forEach(gm => {
+            gm.tags.forEach(t => {
+              if(this.tags.indexOf(t) === -1) {
+                this.tags.push(t);
+              }
+            });
+            gm.executors.forEach(e => {
+              if(this.executors.find(e => e.executorName == e.executorName) === undefined){
+                  this.executors.push(e);
+                }
+            });
+          });
         }
           this.exceptionModel = data.exceptionModel;
       },
