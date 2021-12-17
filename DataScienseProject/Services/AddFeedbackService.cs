@@ -1,11 +1,7 @@
 ﻿using DataScienseProject.Context;
-
+using DataScienseProject.Entities;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Feedback;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DataScienseProject.Services
 {
@@ -18,9 +14,12 @@ namespace DataScienseProject.Services
             _context = context;                
         }
 
-        public Feedback AddFeedback(Feedback feedback)
+        public FeedbackModel AddFeedback(FeedbackModel feedback)
         {            
-            return new Feedback();
+            _context.Feedbacks.Add(new Feedback() { ViewKey = feedback.ViewKey, Email = feedback.Email, Text = feedback.Text });
+            _context.SaveChanges();           
+
+            return feedback;            
         }
     }
 }

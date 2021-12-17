@@ -1,13 +1,7 @@
-﻿using DataScienseProject.Context;
-using DataScienseProject.Interfaces;
-using DataScienseProject.Models;
+﻿using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Feedback;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace DataScienseProject.Controllers
 {
@@ -23,7 +17,7 @@ namespace DataScienseProject.Controllers
 
         [HttpPost]
         [Route("add")]
-        public Feedback Add(Feedback feedback)
+        public FeedbackModel Add([FromBody]FeedbackModel feedback)
         {
             return _addFeedbackService.AddFeedback(feedback);
         }

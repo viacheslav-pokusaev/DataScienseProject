@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace DataScienseProject.Models.Feedback
 {
-    public class Feedback
-    {
-        public int FeedbackKey { get; set; }
+    public class FeedbackModel
+    {        
         public int VisitKey { get; set; }
         public int ViewKey { get; set; }
         public string Text { get; set; }

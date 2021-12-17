@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Feedback } from '../models/feedback/feedback.model';
 import { GalleryModel } from '../models/gallery/gallery.model';
 import { MainPageModel } from '../models/main-page.model';
@@ -26,7 +25,7 @@ export class HomeService {
     this.modelId = id;
   }
 
-  addFeedback(feedback: Feedback): Observable<any> {
+  addFeedback(feedback: Feedback) {
     feedback.viewKey = this.modelId;
     return this.http.post<any>('AddFeedback/add', feedback);
   }

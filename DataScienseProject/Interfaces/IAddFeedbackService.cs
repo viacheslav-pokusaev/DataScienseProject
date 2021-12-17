@@ -1,14 +1,9 @@
-﻿
-using DataScienseProject.Models.Feedback;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DataScienseProject.Models.Feedback;
 
 namespace DataScienseProject.Interfaces
 {
     public interface IAddFeedbackService
     {
-        Feedback AddFeedback(Feedback feedback);
+        FeedbackModel AddFeedback(FeedbackModel feedback);
     }
 }

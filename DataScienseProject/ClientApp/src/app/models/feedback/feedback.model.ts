@@ -1,5 +1,4 @@
-export class Feedback {
-  feedbackKey: number;
+export class Feedback {  
   visitKey: number;
   viewKey: number;
   text: string;
