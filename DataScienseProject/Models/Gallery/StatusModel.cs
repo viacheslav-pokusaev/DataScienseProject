@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DataScienseProject.Models.Gallery
 {
-    public class ExceptionModel
+    public class StatusModel
     {
         public string ErrorMessage { get; set; }
         public int StatusCode { get; set; }

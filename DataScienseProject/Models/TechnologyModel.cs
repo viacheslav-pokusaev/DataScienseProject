@@ -7,10 +7,10 @@ namespace DataScienseProject.Models
 {
     public class TechnologyModel
     {
-        public string TName { get; set; }
-        public string TLink { get; set; }
-        public string DName { get; set; }
-        public string DLink { get; set; }
+        public string TagName { get; set; }
+        public string TagLink { get; set; }
+        public string DirectoryName { get; set; }
+        public string DirectoryLink { get; set; }
         public int? OrderNumber { get; set; }
     }
 }
