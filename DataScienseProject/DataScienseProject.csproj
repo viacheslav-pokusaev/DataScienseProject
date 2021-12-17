@@ -43,7 +43,6 @@
     <None Remove="ClientApp\src\app\models\main-page.model.ts" />
     <None Remove="ClientApp\src\app\models\project-type.model.ts" />
     <None Remove="ClientApp\src\app\models\technology.model.ts" />
-    <None Remove="ClientApp\src\app\pipes\join.pipe.ts" />
     <None Remove="ClientApp\src\app\safe.pipe.ts" />
   </ItemGroup>
 
@@ -56,8 +55,6 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\main-page.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\project-type.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\technology.model.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\pipes\join.pipe.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\pipes\safe.pipe.ts" />
   </ItemGroup>
 
   <ItemGroup>

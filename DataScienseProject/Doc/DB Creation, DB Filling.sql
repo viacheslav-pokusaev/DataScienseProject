@@ -577,8 +577,6 @@ SELECT
 --2
 DECLARE @GroupName Varchar(50) = 'Group1';
 
-SELECT * FROM [dbo].Groups;
-
 SELECT
 	v.ViewName,
 	v.ViewKey,
@@ -619,10 +617,3 @@ WHERE
 
 
 --Group select end
-
---Password add start
-	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) 
-		VALUES(1, 'test', GETDATE(), GETDATE() + 1, 0); 
-
-	select * from [dbo].Passwords;
---Password add end
