@@ -175,18 +175,56 @@ namespace DataScienseProject.Services
                 ViewKey = gv.ViewKey,
                 g.GroupName,
                 IsDeleted = g.IsDeleted
-            }).Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new
+            })
+            .Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new
             {
                 ViewName = v.ViewName,
                 OrderNumber = v.OrderNumber,
                 ViewKey = v.ViewKey,
                 gv = new { GroupName = gv.GroupName, IsDeleted = gv.IsDeleted }
             })
+            .Join(_context.ViewTags, v => v.ViewKey, vt => vt.ViewKey, (v, vt) => new
+            {
+                ViewName = v.ViewName,
+                OrderNumber = v.OrderNumber,
+                ViewKey = v.ViewKey,
+                gv = v.gv,
+                TagKey = vt.TagKey
+            })
+            .Join(_context.Tags, vt => vt.TagKey, t => t.TagKey, (vt, t) => new
+            {
+                ViewName = vt.ViewName,
+                OrderNumber = vt.OrderNumber,
+                ViewKey = vt.ViewKey,
+                gv = vt.gv,
+                TagName = t.Name
+            })
+            .Join(_context.ViewExecutors, t => t.ViewKey, ve => ve.ViewKey, (t, ve) => new
+            {
+                ViewName = t.ViewName,
+                OrderNumber = t.OrderNumber,
+                ViewKey = t.ViewKey,
+                TagName = t.TagName,
+                gv = t.gv,
+                ExecutorKey = ve.ExecutorKey
+            })
+            .Join(_context.Executors, ve => ve.ExecutorKey, e => e.ExecutorKey, (ve, e) => new
+            {
+                ViewName = ve.ViewName,
+                OrderNumber = ve.OrderNumber,
+                ViewKey = ve.ViewKey,
+                TagName = ve.TagName,
+                gv = ve.gv,
+                ExecutorKey = ve.ExecutorKey,
+                ExecutorName = e.ExecutorName
+            })
             .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new GroupData
             {
                 ViewName = s.ViewName,
                 ViewKey = (int)s.ViewKey,
-                OrderNumber = s.OrderNumber
+                OrderNumber = s.OrderNumber,
+                TagName = s.TagName,
+                ExecutorName = s.ExecutorName
             }).OrderBy(ob => ob.OrderNumber).ToList();
 
             groupDataSelect.ForEach(gds =>
@@ -195,8 +233,7 @@ namespace DataScienseProject.Services
                     .Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new ExecutorModel
                     {
                         ExecutorName = s.ExecutorKeyNavigation.ExecutorName,
-                        RoleName =
-                    s.ExecutorRoleKeyNavigation.RoleName
+                        RoleName = s.ExecutorRoleKeyNavigation.RoleName
                     }).ToList();
 
                 var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new
@@ -220,15 +257,33 @@ namespace DataScienseProject.Services
                 }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
                 .Select(s => s.Value).ToList();
 
-                galleryResult.GalleryModels.Add(new GalleryModel()
+                if (filter != null)
                 {
-                    ViewKey = gds.ViewKey,
-                    ViewName = gds.ViewName,
-                    OrderNumber = (int)gds.OrderNumber,
-                    Executors = executorDataSelect,
-                    Tags = tagNames,
-                    ShortDescription = shortDescriptionDataSelect
-                });
+                    if (gds.TagName == filter.TagName)
+                    {
+                        galleryResult.GalleryModels.Add(new GalleryModel()
+                        {
+                            ViewKey = gds.ViewKey,
+                            ViewName = gds.ViewName,
+                            OrderNumber = (int)gds.OrderNumber,
+                            Executors = executorDataSelect,
+                            Tags = tagNames,
+                            ShortDescription = shortDescriptionDataSelect
+                        });
+                    }
+                }
+                else
+                {
+                    galleryResult.GalleryModels.Add(new GalleryModel()
+                    {
+                        ViewKey = gds.ViewKey,
+                        ViewName = gds.ViewName,
+                        OrderNumber = (int)gds.OrderNumber,
+                        Executors = executorDataSelect,
+                        Tags = tagNames,
+                        ShortDescription = shortDescriptionDataSelect
+                    });
+                }
             });
 
             galleryResult.ExceptionModel = new ExceptionModel() { ErrorMessage = "success", StatusCode = 200 };

@@ -9,6 +9,6 @@ namespace DataScienseProject.Models.Gallery
     {
         public string GroupName { get; set; }
         public string TagName { get; set; }
-        public string ExecutopName { get; set; }
+        public string ExecutorName { get; set; }
     }
 }

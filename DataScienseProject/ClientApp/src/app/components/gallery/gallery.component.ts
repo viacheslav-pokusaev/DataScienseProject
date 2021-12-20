@@ -18,10 +18,10 @@ export class GalleryComponent implements OnInit {
   public tags: Array<string> = new Array;
   public executors: Array<ExecutorModel> = new Array;
 
-  public tagModelChange: string;
-  public executorModelChange: string;
+  public tagFilterValue: string;
+  public executorFilterValue: string;
 
-  public galleryModels: Array<GalleryModel>;
+  public galleryModels: Array<GalleryModel> = new Array;
   public exceptionModel: ExceptionModel = new ExceptionModel();
   public groupName: string = "Group1";
   constructor(private homeService: HomeService, config: NgbCarouselConfig) {
@@ -51,16 +51,20 @@ export class GalleryComponent implements OnInit {
     this.homeService.getGallery(this.groupName).subscribe(
       (data: GalleryResult) => {
         if (data.exceptionModel.statusCode !== 403) {
-          this.galleryModels = data.galleryModels;
+          data.galleryModels.forEach(gm => {
+            if (this.galleryModels.find(e => e.viewKey == gm.viewKey) === undefined) {
+              this.galleryModels.push(gm);
+            }
+          })
           data.galleryModels.forEach(gm => {
             gm.tags.forEach(t => {
               if (this.tags.indexOf(t) === -1) {
                 this.tags.push(t);
               }
             });
-            gm.executors.forEach(e => {
-              if (this.executors.find(e => e.executorName == e.executorName) === undefined) {
-                this.executors.push(e);
+            gm.executors.forEach(ex => {
+              if (this.executors.find(e => e.executorName == ex.executorName) === undefined) {
+                this.executors.push(ex);
               }
             });
           });
@@ -76,11 +80,14 @@ export class GalleryComponent implements OnInit {
     let filter = new FilterModel();
     filter.groupName = this.groupName;
     if (filterType === "tag") {
-      filter.tagName = event.target.value;
+      this.tagFilterValue = event.target.value;
     }
     else if (filterType === "executor") {
-      filter.executorName == event.target.value;
+      this.executorFilterValue = event.target.value;
     }
+
+    filter.tagName = this.tagFilterValue;
+    filter.executorName == this.executorFilterValue;
 
     this.homeService.getGalleryWithFilters(filter).subscribe();
   }
