@@ -55,7 +55,7 @@ export class GalleryComponent implements OnInit {
             if (this.galleryModels.find(e => e.viewKey == gm.viewKey) === undefined) {
               this.galleryModels.push(gm);
             }
-          })
+          });
           data.galleryModels.forEach(gm => {
             gm.tags.forEach(t => {
               if (this.tags.indexOf(t) === -1) {
@@ -89,7 +89,29 @@ export class GalleryComponent implements OnInit {
     filter.tagName = this.tagFilterValue;
     filter.executorName == this.executorFilterValue;
 
-    this.homeService.getGalleryWithFilters(filter).subscribe();
+    this.homeService.getGalleryWithFilters(filter).subscribe((data: GalleryResult) => {
+      if (data.exceptionModel.statusCode !== 403) {
+        this.galleryModels = new Array;
+        data.galleryModels.forEach(gm => {
+          if (this.galleryModels.find(e => e.viewKey === gm.viewKey) === undefined) {
+            this.galleryModels.push(gm);
+          }
+        });
+        data.galleryModels.forEach(gm => {
+          gm.tags.forEach(t => {
+            if (this.tags.indexOf(t) === -1) {
+              this.tags.push(t);
+            }
+          });
+          gm.executors.forEach(ex => {
+            if (this.executors.find(e => e.executorName == ex.executorName) === undefined) {
+              this.executors.push(ex);
+            }
+          });
+        });
+      }
+      this.exceptionModel = data.exceptionModel;
+    });
   }
 }
 
