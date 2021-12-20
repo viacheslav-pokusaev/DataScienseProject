@@ -51,11 +51,7 @@ export class GalleryComponent implements OnInit {
     this.homeService.getGallery(this.groupName).subscribe(
       (data: GalleryResult) => {
         if (data.exceptionModel.statusCode !== 403) {
-          data.galleryModels.forEach(gm => {
-            if (this.galleryModels.find(e => e.viewKey == gm.viewKey) === undefined) {
-              this.galleryModels.push(gm);
-            }
-          });
+          this.galleryModels = data.galleryModels;
           data.galleryModels.forEach(gm => {
             gm.tags.forEach(t => {
               if (this.tags.indexOf(t) === -1) {
@@ -91,12 +87,7 @@ export class GalleryComponent implements OnInit {
 
     this.homeService.getGalleryWithFilters(filter).subscribe((data: GalleryResult) => {
       if (data.exceptionModel.statusCode !== 403) {
-        this.galleryModels = new Array;
-        data.galleryModels.forEach(gm => {
-          if (this.galleryModels.find(e => e.viewKey === gm.viewKey) === undefined) {
-            this.galleryModels.push(gm);
-          }
-        });
+        this.galleryModels = data.galleryModels;
         data.galleryModels.forEach(gm => {
           gm.tags.forEach(t => {
             if (this.tags.indexOf(t) === -1) {

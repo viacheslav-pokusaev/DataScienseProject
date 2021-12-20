@@ -257,40 +257,44 @@ namespace DataScienseProject.Services
                 }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
                 .Select(s => s.Value).AsNoTracking().ToList();
 
+                var galleryModel = new GalleryModel()
+                {
+                    ViewKey = gds.ViewKey,
+                    ViewName = gds.ViewName,
+                    OrderNumber = (int)gds.OrderNumber,
+                    Executors = executorDataSelect,
+                    Tags = tagNames,
+                    ShortDescription = shortDescriptionDataSelect
+                };
                 if (filter != null)
                 {
                     if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
                     (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
                     (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
                     {
-                        galleryResult.GalleryModels.Add(new GalleryModel()
-                        {
-                            ViewKey = gds.ViewKey,
-                            ViewName = gds.ViewName,
-                            OrderNumber = (int)gds.OrderNumber,
-                            Executors = executorDataSelect,
-                            Tags = tagNames,
-                            ShortDescription = shortDescriptionDataSelect
-                        });
+                        if (UniqulityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                            galleryResult.GalleryModels.Add(galleryModel);
                     }
                 }
                 else
                 {
-                    galleryResult.GalleryModels.Add(new GalleryModel()
-                    {
-                        ViewKey = gds.ViewKey,
-                        ViewName = gds.ViewName,
-                        OrderNumber = (int)gds.OrderNumber,
-                        Executors = executorDataSelect,
-                        Tags = tagNames,
-                        ShortDescription = shortDescriptionDataSelect
-                    });
+                    if (UniqulityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                        galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
 
             galleryResult.ExceptionModel = new ExceptionModel() { ErrorMessage = "success", StatusCode = 200 };
 
             return galleryResult;
+        }
+
+        public bool UniqulityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
+        {
+            if (currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
