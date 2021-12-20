@@ -12,6 +12,6 @@ namespace DataScienseProject.Interfaces
     {
         MainPageModel GetMainPageData();
         GalleryResult GetGalleryPageData(string groupName, HttpContext http, FilterModel filter);
-        bool UniqulityCheck(GalleryModel galleryModel, List<GalleryModel> currentList);
+        bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList);
     }
 }

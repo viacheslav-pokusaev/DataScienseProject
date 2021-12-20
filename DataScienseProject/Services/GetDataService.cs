@@ -272,13 +272,13 @@ namespace DataScienseProject.Services
                     (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
                     (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
                     {
-                        if (UniqulityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
                             galleryResult.GalleryModels.Add(galleryModel);
                     }
                 }
                 else
                 {
-                    if (UniqulityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
                         galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
@@ -288,7 +288,7 @@ namespace DataScienseProject.Services
             return galleryResult;
         }
 
-        public bool UniqulityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
+        public bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
         {
             if (currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null)
             {
