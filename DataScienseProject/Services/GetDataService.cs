@@ -25,7 +25,7 @@ namespace DataScienseProject.Services
             #region Select from db
 
             var projectTypeSelect = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s =>
-                new ProjectTypeModel() { ViewName = s.ViewName, ViewTypeName = s.ViewTypeKeyNavigation.ViewTypeName }).ToList();
+                new ProjectTypeModel() { ViewName = s.ViewName, ViewTypeName = s.ViewTypeKeyNavigation.ViewTypeName }).AsNoTracking().ToList();
 
             var executorSelect = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x =>
             x.ViewKey == 1 && x.IsDeleted == false).Select(s => new ExecutorModel()
@@ -35,7 +35,7 @@ namespace DataScienseProject.Services
                 OrderNumber = s.OrderNumber,
                 RoleName = s.ExecutorRoleKeyNavigation.RoleName
             })
-            .OrderBy(ob => ob.OrderNumber).ToList();
+            .OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
 
             var tehnologySelect = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Include(t => t.TagKeyNavigation.DirectionKeyNavigation).Where(x =>
             x.ViewKey == 1 && x.IsDeleted == false).Select(s => new TechnologyModel()
@@ -46,7 +46,7 @@ namespace DataScienseProject.Services
                 DLink = s.TagKeyNavigation.DirectionKeyNavigation.Link,
                 OrderNumber = s.OrderNumber
             })
-            .OrderBy(ob => ob.OrderNumber).ToList();
+            .OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
 
             var layoutStyleSelect = _context.Elements.Join(_context.ViewElements, e => e.ElementKey, ve => ve.ElementKey, (e, ve) => new
             {
@@ -121,7 +121,7 @@ namespace DataScienseProject.Services
                     Path = s.Path,
                     Value = s.Value,
                     ValueText = s.ValueText
-                }).OrderBy(ob => ob.OrderNumber).ToList();
+                }).OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
             #endregion
 
 
@@ -225,7 +225,7 @@ namespace DataScienseProject.Services
                 OrderNumber = s.OrderNumber,
                 TagName = s.TagName,
                 ExecutorName = s.ExecutorName
-            }).OrderBy(ob => ob.OrderNumber).ToList();
+            }).OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
 
             groupDataSelect.ForEach(gds =>
             {
@@ -234,12 +234,12 @@ namespace DataScienseProject.Services
                     {
                         ExecutorName = s.ExecutorKeyNavigation.ExecutorName,
                         RoleName = s.ExecutorRoleKeyNavigation.RoleName
-                    }).ToList();
+                    }).AsNoTracking().ToList();
 
                 var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new
                 {
                     Name = s.TagKeyNavigation.Name
-                }).ToList();
+                }).AsNoTracking().ToList();
 
                 var tagNames = new List<string>();
                 tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
@@ -255,22 +255,21 @@ namespace DataScienseProject.Services
                     ElementName = e.ElementName,
                     ViewKey = ve.ViewKey
                 }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
-                .Select(s => s.Value).ToList();
+                .Select(s => s.Value).AsNoTracking().ToList();
 
-                if (filter != null)
+                if (filter != null && ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
+                (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
+                (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName)))
                 {
-                    if (gds.TagName == filter.TagName)
+                    galleryResult.GalleryModels.Add(new GalleryModel()
                     {
-                        galleryResult.GalleryModels.Add(new GalleryModel()
-                        {
-                            ViewKey = gds.ViewKey,
-                            ViewName = gds.ViewName,
-                            OrderNumber = (int)gds.OrderNumber,
-                            Executors = executorDataSelect,
-                            Tags = tagNames,
-                            ShortDescription = shortDescriptionDataSelect
-                        });
-                    }
+                        ViewKey = gds.ViewKey,
+                        ViewName = gds.ViewName,
+                        OrderNumber = (int)gds.OrderNumber,
+                        Executors = executorDataSelect,
+                        Tags = tagNames,
+                        ShortDescription = shortDescriptionDataSelect
+                    });
                 }
                 else
                 {
