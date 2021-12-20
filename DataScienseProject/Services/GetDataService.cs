@@ -257,19 +257,22 @@ namespace DataScienseProject.Services
                 }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
                 .Select(s => s.Value).AsNoTracking().ToList();
 
-                if (filter != null && ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
-                (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
-                (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName)))
+                if (filter != null)
                 {
-                    galleryResult.GalleryModels.Add(new GalleryModel()
+                    if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
+                    (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
+                    (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
                     {
-                        ViewKey = gds.ViewKey,
-                        ViewName = gds.ViewName,
-                        OrderNumber = (int)gds.OrderNumber,
-                        Executors = executorDataSelect,
-                        Tags = tagNames,
-                        ShortDescription = shortDescriptionDataSelect
-                    });
+                        galleryResult.GalleryModels.Add(new GalleryModel()
+                        {
+                            ViewKey = gds.ViewKey,
+                            ViewName = gds.ViewName,
+                            OrderNumber = (int)gds.OrderNumber,
+                            Executors = executorDataSelect,
+                            Tags = tagNames,
+                            ShortDescription = shortDescriptionDataSelect
+                        });
+                    }
                 }
                 else
                 {

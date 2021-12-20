@@ -87,7 +87,7 @@ export class GalleryComponent implements OnInit {
     }
 
     filter.tagName = this.tagFilterValue;
-    filter.executorName == this.executorFilterValue;
+    filter.executorName = this.executorFilterValue;
 
     this.homeService.getGalleryWithFilters(filter).subscribe((data: GalleryResult) => {
       if (data.exceptionModel.statusCode !== 403) {
