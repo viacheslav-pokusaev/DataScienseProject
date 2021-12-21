@@ -7,6 +7,7 @@
 }
 
 .col {
+  display: grid;
   margin: 5px;
   flex-basis: 30%;
 }
