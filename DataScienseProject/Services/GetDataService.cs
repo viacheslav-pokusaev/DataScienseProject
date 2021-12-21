@@ -15,6 +15,8 @@ namespace DataScienseProject.Services
     {
         private readonly DataScienceProjectDbContext _context;
         private readonly IAuthorizationService _authorizationService;
+
+        private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
@@ -159,21 +161,18 @@ namespace DataScienseProject.Services
         }
         public GalleryResult GetGalleryPageData(string groupName, HttpContext http, FilterModel filter)
         {
-            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
-            if (cookies.Count == 0)
-            {
-                return new GalleryResult() { StatusModel = new StatusModel() { ErrorMessage = "Insert password", StatusCode = 403 } };
-            }
+            var isAuthorizedResult = _authorizationService.IsAuthorized(http);
+            if (isAuthorizedResult.StatusCode == 403) return new GalleryResult() { StatusModel = isAuthorizedResult };
 
-            var shortDescriptionElementName = "Introduction";
             var galleryResult = new GalleryResult();
 
             galleryResult.GalleryModels = new List<GalleryModel>();
 
+            #region Group data select start
             var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new
             {
                 ViewKey = gv.ViewKey,
-                g.GroupName,
+                GroupName = g.GroupName,
                 IsDeleted = g.IsDeleted
             })
             .Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new
@@ -254,9 +253,9 @@ namespace DataScienseProject.Services
                     Value = e.Value,
                     ElementName = e.ElementName,
                     ViewKey = ve.ViewKey
-                }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
+                }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == SHORT_DESCRIPTION_ELEMENT_NAME)
                 .Select(s => s.Value).AsNoTracking().ToList();
-
+                #endregion
                 var galleryModel = new GalleryModel()
                 {
                     ViewKey = gds.ViewKey,
@@ -266,21 +265,21 @@ namespace DataScienseProject.Services
                     Tags = tagNames,
                     ShortDescription = shortDescriptionDataSelect
                 };
-                if (filter != null)
-                {
-                    if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
-                    (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
-                    (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
-                    {
-                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                            galleryResult.GalleryModels.Add(galleryModel);
-                    }
-                }
-                else
-                {
+                //if (filter != null)
+                //{
+                //    //if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
+                //    //(filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
+                //    //(gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
+                //    //{
+                //        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                //            galleryResult.GalleryModels.Add(galleryModel);
+                //    //}
+                //}
+                //else
+                //{
                     if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
                         galleryResult.GalleryModels.Add(galleryModel);
-                }
+                //}
             });
             galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
 
@@ -289,11 +288,7 @@ namespace DataScienseProject.Services
 
         public bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
         {
-            if (currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null)
-            {
-                return true;
-            }
-            return false;
+            return currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null? true : false;
         }
     }
 }
