@@ -12,8 +12,9 @@
     <div class="col-1"></div>
     <div class="col-4">
       <div class="row">
-        <label class="col-4">Tags: </label>
+        <label class="col-4 text-style">Tags: </label>
         <select class="col-8 select-style" (change)="filterSelect($event, 'tag')">
+          <option disabled selected value="undefined">Select a technology</option>
           <option *ngFor="let tag of tags" value={{tag}}>{{tag}}</option>
         </select>
       </div>
@@ -21,8 +22,9 @@
     <div class="col-2"></div>
     <div class="col-4">
       <div class="row">
-        <label class="col-4">Executors: </label>
+        <label class="col-4 text-style">Executors: </label>
         <select class="col-8 select-style" (change)="filterSelect($event, 'executor')">
+          <option disabled selected value="undefined">Select an executor</option>
           <option *ngFor="let executor of executors" value={{executor.executorName}}>{{executor.executorName}}</option>
         </select>
       </div>

@@ -66,7 +66,7 @@
   letter-spacing: 1px;
   transform: translateY(40px);
   transition: all 0.7s;
-  margin-bottom: 10px !important;
+  margin-bottom: 15px !important;
 }
 
 .tags span {
@@ -134,11 +134,14 @@
 
 .select-style {
   font-family: 'Codec Pro', sans-serif;
-  color: #fff;
-  background-color: #f2a523;
   padding: 8px 16px;
-  border: none;
+  border: 3px solid #d8550f;
 }
+
+  .select-style:focus-visible {
+    box-shadow: none;
+    outline: 0;
+  }
 
 .text-style {
   font-family: 'Codec Pro', sans-serif;
