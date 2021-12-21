@@ -20,33 +20,33 @@ namespace DataScienseProject.Services
             _context = context;
             _authorizationService = authorizationService;
         }
-        public MainPageModel GetMainPageData()
+        public MainPageModel GetMainPageData(int id)
         {
             #region Select from db
 
-            var projectTypeSelect = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == 1 && x.IsDeleted == false).Select(s =>
-                new ProjectTypeModel() { ViewName = s.ViewName, ViewTypeName = s.ViewTypeKeyNavigation.ViewTypeName }).AsNoTracking().ToList();
+            var projectTypeSelect = _context.Views.Include(vt => vt.ViewTypeKeyNavigation).Where(x => x.ViewKey == id && x.IsDeleted == false).Select(s =>
+                new ProjectTypeModel() { ViewName = s.ViewName, ViewTypeName = s.ViewTypeKeyNavigation.ViewTypeName }).ToList();
 
             var executorSelect = _context.ViewExecutors.Include(ve => ve.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation).Where(x =>
-            x.ViewKey == 1 && x.IsDeleted == false).Select(s => new ExecutorModel()
+            x.ViewKey == id && x.IsDeleted == false).Select(s => new ExecutorModel()
             {
                 ExecutorName = s.ExecutorKeyNavigation.ExecutorName,
                 ExecutorProfileLink = s.ExecutorKeyNavigation.ExecutorProfileLink,
                 OrderNumber = s.OrderNumber,
                 RoleName = s.ExecutorRoleKeyNavigation.RoleName
             })
-            .OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
+            .OrderBy(ob => ob.OrderNumber).ToList();
 
             var tehnologySelect = _context.ViewTags.Include(vt => vt.TagKeyNavigation).Include(t => t.TagKeyNavigation.DirectionKeyNavigation).Where(x =>
-            x.ViewKey == 1 && x.IsDeleted == false).Select(s => new TechnologyModel()
+            x.ViewKey == id && x.IsDeleted == false).Select(s => new TechnologyModel()
             {
-                TName = s.TagKeyNavigation.Name,
-                TLink = s.TagKeyNavigation.Link,
-                DName = s.TagKeyNavigation.DirectionKeyNavigation.Name,
-                DLink = s.TagKeyNavigation.DirectionKeyNavigation.Link,
+                TagName = s.TagKeyNavigation.Name,
+                TagLink = s.TagKeyNavigation.Link,
+                DirectoryName = s.TagKeyNavigation.DirectionKeyNavigation.Name,
+                DirectoryLink = s.TagKeyNavigation.DirectionKeyNavigation.Link,
                 OrderNumber = s.OrderNumber
             })
-            .OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
+            .OrderBy(ob => ob.OrderNumber).ToList();
 
             var layoutStyleSelect = _context.Elements.Join(_context.ViewElements, e => e.ElementKey, ve => ve.ElementKey, (e, ve) => new
             {
@@ -77,7 +77,7 @@ namespace DataScienseProject.Services
                         ElementKey = e.ElementKey,
                         IsDeleted = e.EIsDeleted
                     }
-                }).Where(x => x.EpIsDeleted == false && x.e.ViewKey == 1 && x.e.IsDeleted == false)
+                }).Where(x => x.EpIsDeleted == false && x.e.ViewKey == id && x.e.IsDeleted == false)
                     .Select(s => new LayoutStyleModel() { ElementName = s.e.ElementName, ElementTypeName = s.ElementTypeName, Key = s.Key, Value = s.Value }).ToList();
 
             var layoutDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
@@ -112,7 +112,7 @@ namespace DataScienseProject.Services
                     EIsDeleted = e.IsDeleted,
                     ViewKey = e.ve.ViewKey
                 })
-                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false && x.ViewKey == 1).Select(s => new LayoutDataModel()
+                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false && x.ViewKey == id).Select(s => new LayoutDataModel()
                 {
                     ElementName = s.ElementName,
                     ElementTypeName = s.ElementTypeName,
@@ -121,7 +121,7 @@ namespace DataScienseProject.Services
                     Path = s.Path,
                     Value = s.Value,
                     ValueText = s.ValueText
-                }).OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
+                }).OrderBy(ob => ob.OrderNumber).ToList();
             #endregion
 
 
@@ -162,7 +162,7 @@ namespace DataScienseProject.Services
             var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
             if (cookies.Count == 0)
             {
-                return new GalleryResult() { ExceptionModel = new ExceptionModel() { ErrorMessage = "Insert password", StatusCode = 403 } };
+                return new GalleryResult() { StatusModel = new StatusModel() { ErrorMessage = "Insert password", StatusCode = 403 } };
             }
 
             var shortDescriptionElementName = "Introduction";
@@ -282,8 +282,7 @@ namespace DataScienseProject.Services
                         galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
-
-            galleryResult.ExceptionModel = new ExceptionModel() { ErrorMessage = "success", StatusCode = 200 };
+            galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
 
             return galleryResult;
         }

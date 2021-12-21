@@ -3,23 +3,18 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './components/home/home.component';
-import { SafePipe } from './pipes/safe.pipe';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './components/footer/footer.component';
-
-
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    SafePipe,
     GalleryComponent,
     FooterComponent
   ],
@@ -30,8 +25,8 @@ import { FooterComponent } from './components/footer/footer.component';
     NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'gallery/:groupName', component: GalleryComponent, pathMatch: 'full' }
+      { path: 'gallery/:groupName', component: GalleryComponent, pathMatch: 'full' },
+      { path: 'gallery/model/:id', component: HomeComponent, pathMatch: 'full' }
     ])
   ],
   providers: [],

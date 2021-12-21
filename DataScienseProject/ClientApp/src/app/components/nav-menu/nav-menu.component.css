@@ -23,9 +23,11 @@ html {
   color: #d8550f;
   text-transform: uppercase;
   font-weight: 800 !important;
+  transition: all .4s ease-in-out;
 }
 
 .link-style:hover {
+  transition: all .4s ease-in-out;
   color: #f2a523;
   pointer-events: visible;
   text-decoration: none;

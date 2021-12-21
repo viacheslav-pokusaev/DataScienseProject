@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { GalleryModel } from '../../models/gallery.model';
+import { GalleryModel } from '../../models/gallery/gallery.model';
 import { HomeService } from '../../services/home.service';
-import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-import { GalleryResult } from 'src/app/models/gallery-result.model';
-import { ExceptionModel } from 'src/app/models/status.model';
-import { AuthorizeModel } from 'src/app/models/authorize.model';
-import { ExecutorModel } from 'src/app/models/executor.model';
-import { FilterModel } from 'src/app/models/filter.model';
+import { GalleryResult } from '../../models/gallery-result.model';
+import { StatusModel } from '../../models/status.model';
+import { ExecutorModel } from '../../models/executor.model';
+import { AuthorizeModel } from '../../models/authorize.model';
+import { FilterModel } from '../../models/filter.model';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-gallery',
@@ -21,12 +22,11 @@ export class GalleryComponent implements OnInit {
   public tagFilterValue: string;
   public executorFilterValue: string;
 
-  public galleryModels: Array<GalleryModel> = new Array;
-  public exceptionModel: ExceptionModel = new ExceptionModel();
+  public galleryModels: Array<GalleryModel>;
+  public statusModel: StatusModel = new StatusModel();
   public groupName: string = "Group1";
-  constructor(private homeService: HomeService, config: NgbCarouselConfig) {
-    config.interval = 5000;
-  }
+
+  constructor(private homeService: HomeService, private router: Router) { }
 
   ngOnInit() {
     this.getGallery();
@@ -36,12 +36,12 @@ export class GalleryComponent implements OnInit {
     var authorizeData: AuthorizeModel = new AuthorizeModel();
     authorizeData.groupName = this.groupName;
     authorizeData.password = (<HTMLInputElement>document.getElementById("pass")).value;
-    this.homeService.setAuthorize(authorizeData).subscribe((res: ExceptionModel) => {
+    this.homeService.setAuthorize(authorizeData).subscribe((res: StatusModel) => {
       if (res.statusCode === 200) {
         this.getGallery();
       }
       else {
-        this.exceptionModel = res;
+        this.statusModel = res;
         alert(res.errorMessage);
       }
     });
@@ -50,7 +50,7 @@ export class GalleryComponent implements OnInit {
   private getGallery() {
     this.homeService.getGallery(this.groupName).subscribe(
       (data: GalleryResult) => {
-        if (data.exceptionModel.statusCode !== 403) {
+        if (data.statusModel.statusCode !== 403) {
           this.galleryModels = data.galleryModels;
           data.galleryModels.forEach(gm => {
             gm.tags.forEach(t => {
@@ -65,7 +65,7 @@ export class GalleryComponent implements OnInit {
             });
           });
         }
-        this.exceptionModel = data.exceptionModel;
+        this.statusModel = data.statusModel;
       },
       error => {
         console.error('There was an error!', error);
@@ -86,7 +86,7 @@ export class GalleryComponent implements OnInit {
     filter.executorName = this.executorFilterValue;
 
     this.homeService.getGalleryWithFilters(filter).subscribe((data: GalleryResult) => {
-      if (data.exceptionModel.statusCode !== 403) {
+      if (data.statusModel.statusCode !== 403) {
         this.galleryModels = data.galleryModels;
         data.galleryModels.forEach(gm => {
           gm.tags.forEach(t => {
@@ -101,8 +101,11 @@ export class GalleryComponent implements OnInit {
           });
         });
       }
-      this.exceptionModel = data.exceptionModel;
+      this.statusModel = data.statusModel;
     });
   }
+  modelDetails(id: number) {
+    this.homeService.getId(id);
+    this.router.navigate(['gallery/model/', id]);
+  }
 }
-

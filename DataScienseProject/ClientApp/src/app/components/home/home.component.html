@@ -6,59 +6,70 @@
   </div>
 
   <!-- Tehnology tags -->
-  <div class="container" id="tags">
+  <div class="container">
 
-    <div class="row">
-
-      <div class="col-3">
-        <h4 class="head-style">Tehnology tags:</h4>
-        <div class="col" *ngFor="let val of mainPageModel.tehnologyModels">
-          <p class="tag-style" [innerHTML]="val.tName"></p>
-        </div>
-      </div>
-
-      <!-- Image -->
-      <div class="col-6">
-        <img class="img-style img-style-ex" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Anatomy-1751201_1280.png" />
-      </div>
-
+    <div class="row ex">
       <!-- Executors -->
-      <div class="col-3">
+      <div class="col align-self-end nopadding">
         <div class="col" *ngFor="let val of mainPageModel.executorModels">
-          <h4 class="head-style">Executors:</h4>
+          <h3 class="head-style ex-tag-style">Executors:</h3>
           <span class="text-style">
-            <a [innerHTML]="val.executorName" [href]="val.executorProfileLink"></a>
-            - <span [innerHTML]="val.roleName"></span>
+            <a [innerHTML]="val.executorName" [href]="val.executorProfileLink" [title]="val.roleName">              
+            </a>;
           </span>
         </div>
       </div>
 
+      <!-- Image -->
+      <div class="col align-self-center">
+        <img class="img-style img-style-ex img-border" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Anatomy-1751201_1280.png" />
+      </div>
+
+      <!-- Tehnology tags -->
+      <div class="col align-self-start">
+        <h3 class="head-style ex-tag-style">Tehnology tags:</h3>
+        <span *ngFor="let val of mainPageModel.tehnologyModels">
+          <span class="tag-style" [innerHTML]="val.tagName"></span>;
+        </span>
+      </div>
+
     </div>
-    </div>  
+  </div>
 
   <!-- Description -->
   <div *ngFor="let val of mainPageModel.layoutDataModels">
-    <!-- Heading -->
-    <div *ngIf="val.isShowElementName">
-      <h2 class="head-style" [innerHTML]="val.elementName"></h2>
+
+    <div class="container">
+      <!-- Heading -->
+      <div *ngIf="val.isShowElementName">
+        <h2 class="head-style" [innerHTML]="val.elementName"></h2>
+      </div>
+
+      <!-- Text -->
+      <div class="text-style" [innerHTML]="val.value"></div>
+
+      <!-- Image -->
+      <div *ngIf="(val.elementTypeName === 'Image')">
+        <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
+      </div>
     </div>
 
-    <!-- Text -->
-    <div class="text-style" [innerHTML]="val.value"></div>
-
-    <!-- Image -->
-    <div *ngIf="(val.elementTypeName === 'Image')">
-      <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
-    </div>
-
-    <!-- Iframe --> 
-    <div *ngIf="(val.elementTypeName === 'Iframe')">
-        <div class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white wrapper">
-          <h2 class="head-style">Example:</h2>
-          <iframe class="iframe-style" [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)"></iframe>
+    <!-- Iframe -->
+    <div class="ifarme-container" *ngIf="(val.elementTypeName === 'Iframe')" [style]="iframeHeight">
+      <div id="rel1">
+        <h2 class="text-white text-center head-style">Example:</h2>
+      </div>
+      <div id="rel2">
+        <div class="text-center shadow-1-strong rounded mb-5 text-white">
+          <div class="container">
+            <iframe class="iframe-style" [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)"></iframe>
+          </div>
         </div>
-    </div>
-
+      </div>
     </div>
 
   </div>
+
+</div>
+
+<app-footer></app-footer>

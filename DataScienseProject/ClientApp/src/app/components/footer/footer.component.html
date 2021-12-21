@@ -31,32 +31,30 @@
       <div class="col-sm-5">
         <h1 class="text-white text-center">Send feedback</h1>
         <div class="form form-footer m-t-95">
-          <form #myForm [formGroup]="firstFormGroup" (ngSubmit)="onSubmit(myForm)" class="row">
+          <form #myForm [formGroup]="firstFormGroup" (ngSubmit)="sendFeedback(myForm)" class="row">
             <div class="col-12">
               <div class="form-group">
                 <textarea class="form-control" rows="5" placeholder="Message" name="text"
-                          formControlName="aboutCtrl" aria-label="textarea-about"></textarea>
+                          formControlName="textCtrl" aria-label="textarea-about" [(ngModel)]="message"></textarea>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <input type="email" placeholder="E-mail" formControlName="emailCtrl"
-                       aria-label="input-email">
+                       aria-label="input-email" [(ngModel)]="email">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <input type="text" formControlName="nameCtrl" placeholder="Name"
-                       aria-label="input-name">
+                       aria-label="input-name" [(ngModel)]="name">
               </div>
             </div>
-            <div class="col-sm-12 d-flex justify-content-center m-b-25" id="hide-captcha">
-              <!--<re-captcha formControlName="captchaCtrl" siteKey={{siteKey}}>
-              </re-captcha>-->
+            <div class="col-sm-12 d-flex justify-content-center m-b-25" id="hide-captcha">              
             </div>
             <div class="form-group booking">
               <button class="btn btn-default primary-btn m-0-auto bg-black p-l-r-80 button-sound"
-                      type="submit" [disabled]="firstFormGroup.invalid">
+                      type="submit">
                 Submit
               </button>
             </div>
@@ -72,147 +70,3 @@
     <h6 class="text-white copyright"><span>Custom Solutions</span> &copy; 2020</h6>
   </div>
 </footer>
-<!-- footer end -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<footer class="agency bg-footer">
-
-
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-3">
-        <img src="/img/logo-footer.png" alt="Custom Solutions Logo Footer" loading="lazy" />
-      </div>
-      <div class="col-sm-4">
-
-        <h1 class="text-white">Contact us</h1>
-
-        <div class="contact-details m-t-105">
-          <h6 class="contact-sub-text text-white">
-            <i aria-hidden="true" class="fa fa-envelope m-r-15"></i>
-            <span>sales</span>@customsolutions.info
-          </h6>
-          <h6 class="contact-sub-text text-white">
-            <i aria-hidden="true" class="fa fa-envelope m-r-15"></i>
-            <span>info</span>@customsolutions.info
-          </h6>
-          <h6 class="contact-sub-text text-white lh25">
-            <i aria-hidden="true" class="fa fa-map-marker m-r-20"></i>Naberezhna Peremohy St, 7, Dnipro, Dnipropetrovsk Oblast, 49000<br>
-          </h6>
-        </div>
-
-      </div>
-      <div class="col-sm-5">
-
-        <h1 class="text-white text-center">Send feedback</h1>
-        <div _ngcontent-serverapp-c47="" class="form form-footer m-t-95">
-          <form _ngcontent-serverapp-c47="" novalidate="" class="row ng-untouched ng-pristine ng-invalid">
-            <div _ngcontent-serverapp-c47="" class="col-12">
-              <div _ngcontent-serverapp-c47="" class="form-group">
-                <textarea _ngcontent-serverapp-c47="" rows="5" placeholder="Message" name="text" formcontrolname="aboutCtrl" aria-label="textarea-about" class="form-control ng-untouched ng-pristine ng-invalid"></textarea>
-              </div>
-            </div>
-            <div _ngcontent-serverapp-c47="" class="col-sm-6">
-              <div _ngcontent-serverapp-c47="" class="form-group">
-                <input _ngcontent-serverapp-c47="" type="email" placeholder="E-mail" formcontrolname="emailCtrl" aria-label="input-email" class="ng-untouched ng-pristine ng-invalid">
-              </div>
-            </div>
-            <div _ngcontent-serverapp-c47="" class="col-sm-6">
-              <div _ngcontent-serverapp-c47="" class="form-group">
-                <input _ngcontent-serverapp-c47="" type="text" formcontrolname="nameCtrl" placeholder="Name" aria-label="input-name" class="ng-untouched ng-pristine ng-invalid">
-              </div>
-            </div>
-            <div _ngcontent-serverapp-c47="" id="hide-captcha" class="col-sm-12 d-flex justify-content-center m-b-25" style="display: none !important;">-->
-              <!--<re-captcha _ngcontent-serverapp-c47="" formcontrolname="captchaCtrl" id="ngrecaptcha-0" class="ng-untouched ng-pristine ng-invalid">
-                <div style="width: 304px; height: 78px;">
-                <div>
-                  <iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LfhjtUZAAAAAAWZadSPJQyJSIm1eS59XbbcgdEv&amp;co=aHR0cHM6Ly9jdXN0b21zb2x1dGlvbnMuaW5mbzo0NDM.&amp;hl=en&amp;v=_7Co1fh8iT2hcjvquYJ_3zSP&amp;size=normal&amp;cb=5ggg3nt8423e" width="304" height="78" role="presentation" name="a-nzemocr7wwdm" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe>
-                  </div>
-                <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
-                  </div>
-                <iframe style="display: none;">
-                </iframe>
-                </re-captcha>-->
-            <!--</div>
-            <div _ngcontent-serverapp-c47="" class="form-group booking">
-              <button _ngcontent-serverapp-c47="" type="submit" class="btn btn-default primary-btn m-0-auto bg-black p-l-r-80 button-sound" disabled=""> Submit </button>
-            </div>
-          </form>
-        </div>
-
-
-      </div>
-    </div>
-  </div>-->
-
-
-  <!--<div class="d-flex justify-content-center m-b-10 m-t-10">
-    <div class="addthis_inline_follow_toolbox">
-      <div id="atftbx" class="at-follow-tbx-element addthis-smartlayers addthis-animated at4-show">
-        <p><span></span></p><div class="addthis_toolbox addthis_default_style">
-          <a class="at300b at-follow-btn" data-svc="linkedin" data-svc-id="custom-it-solutions" title="Follow on LinkedIn" href="http://www.linkedin.com/company/custom-it-solutions" target="_blank">
-            <span class="at-icon-wrapper" style="background-color: rgb(0, 119, 181); line-height: 32px; height: 32px; width: 32px; border-radius: 24%;">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" version="1.1" role="img" aria-labelledby="at-svg-linkedin-1" class="at-icon at-icon-linkedin" style="fill: rgb(255, 255, 255); width: 32px; height: 32px;"><title id="at-svg-linkedin-1">LinkedIn</title><g><path d="M26 25.963h-4.185v-6.55c0-1.56-.027-3.57-2.175-3.57-2.18 0-2.51 1.7-2.51 3.46v6.66h-4.182V12.495h4.012v1.84h.058c.558-1.058 1.924-2.174 3.96-2.174 4.24 0 5.022 2.79 5.022 6.417v7.386zM8.23 10.655a2.426 2.426 0 0 1 0-4.855 2.427 2.427 0 0 1 0 4.855zm-2.098 1.84h4.19v13.468h-4.19V12.495z" fill-rule="evenodd"></path></g></svg>
-            </span><span class="addthis_follow_label"><span class="at4-visually-hidden">Follow on </span>LinkedIn</span>
-          </a><a class="at300b at-follow-btn" data-svc="instagram" data-svc-id="custom_solutions.info" title="Follow on Instagram" href="http://instagram.com/custom_solutions.info" target="_blank"><span class="at-icon-wrapper" style="background-color: rgb(224, 53, 102); line-height: 32px; height: 32px; width: 32px; border-radius: 24%;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" version="1.1" role="img" aria-labelledby="at-svg-instagram-2" class="at-icon at-icon-instagram" style="fill: rgb(255, 255, 255); width: 32px; height: 32px;"><title id="at-svg-instagram-2">Instagram</title><g><path d="M16 5c-2.987 0-3.362.013-4.535.066-1.17.054-1.97.24-2.67.512a5.392 5.392 0 0 0-1.95 1.268 5.392 5.392 0 0 0-1.267 1.95c-.272.698-.458 1.498-.512 2.67C5.013 12.637 5 13.012 5 16s.013 3.362.066 4.535c.054 1.17.24 1.97.512 2.67.28.724.657 1.337 1.268 1.95a5.392 5.392 0 0 0 1.95 1.268c.698.27 1.498.457 2.67.51 1.172.054 1.547.067 4.534.067s3.362-.013 4.535-.066c1.17-.054 1.97-.24 2.67-.51a5.392 5.392 0 0 0 1.95-1.27 5.392 5.392 0 0 0 1.268-1.95c.27-.698.457-1.498.51-2.67.054-1.172.067-1.547.067-4.534s-.013-3.362-.066-4.535c-.054-1.17-.24-1.97-.51-2.67a5.392 5.392 0 0 0-1.27-1.95 5.392 5.392 0 0 0-1.95-1.267c-.698-.272-1.498-.458-2.67-.512C19.363 5.013 18.988 5 16 5zm0 1.982c2.937 0 3.285.01 4.445.064 1.072.05 1.655.228 2.042.38.514.198.88.437 1.265.822.385.385.624.75.823 1.265.15.387.33.97.38 2.042.052 1.16.063 1.508.063 4.445 0 2.937-.01 3.285-.064 4.445-.05 1.072-.228 1.655-.38 2.042-.198.514-.437.88-.822 1.265-.385.385-.75.624-1.265.823-.387.15-.97.33-2.042.38-1.16.052-1.508.063-4.445.063-2.937 0-3.285-.01-4.445-.064-1.072-.05-1.655-.228-2.042-.38-.514-.198-.88-.437-1.265-.822a3.408 3.408 0 0 1-.823-1.265c-.15-.387-.33-.97-.38-2.042-.052-1.16-.063-1.508-.063-4.445 0-2.937.01-3.285.064-4.445.05-1.072.228-1.655.38-2.042.198-.514.437-.88.822-1.265.385-.385.75-.624 1.265-.823.387-.15.97-.33 2.042-.38 1.16-.052 1.508-.063 4.445-.063zm0 12.685a3.667 3.667 0 1 1 0-7.334 3.667 3.667 0 0 1 0 7.334zm0-9.316a5.65 5.65 0 1 0 0 11.3 5.65 5.65 0 0 0 0-11.3zm7.192-.222a1.32 1.32 0 1 1-2.64 0 1.32 1.32 0 0 1 2.64 0" fill-rule="evenodd"></path></g></svg></span><span class="addthis_follow_label"><span class="at4-visually-hidden">Follow on </span>Instagram</span></a><a class="at300b at-follow-btn" data-svc="youtube" data-svc-id="UCMcvdQCXx5kg_gd6j-80RpA" title="Follow on YouTube" href="http://www.youtube.com/channel/UCMcvdQCXx5kg_gd6j-80RpA?sub_confirmation=1" target="_blank">
-            <span class="at-icon-wrapper" style="background-color: rgb(205, 32, 31); line-height: 32px; height: 32px; width: 32px; border-radius: 24%;">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" version="1.1" role="img" aria-labelledby="at-svg-youtube-3" class="at-icon at-icon-youtube" style="fill: rgb(255, 255, 255); width: 32px; height: 32px;">
-                <title id="at-svg-youtube-3">YouTube</title>
-                <g>
-                  <path d="M13.73 18.974V12.57l5.945 3.212-5.944 3.192zm12.18-9.778c-.837-.908-1.775-.912-2.205-.965C20.625 8 16.007 8 16.007 8c-.01 0-4.628 0-7.708.23-.43.054-1.368.058-2.205.966-.66.692-.875 2.263-.875 2.263S5 13.303 5 15.15v1.728c0 1.845.22 3.69.22 3.69s.215 1.57.875 2.262c.837.908 1.936.88 2.426.975 1.76.175 7.482.23 7.482.15 0 .08 4.624.072 7.703-.16.43-.052 1.368-.057 2.205-.965.66-.69.875-2.262.875-2.262s.22-1.845.22-3.69v-1.73c0-1.844-.22-3.69-.22-3.69s-.215-1.57-.875-2.262z" fill-rule="evenodd">
-                  </path>
-                </g>
-              </svg>
-            </span><span class="addthis_follow_label"><span class="at4-visually-hidden">Follow on </span>YouTube</span>
-          </a>
-
-          <a class="at300b at-follow-btn" data-svc="facebook" data-svc-id="CustomSolutions.info" title="Follow on Facebook" href="http://www.facebook.com/CustomSolutions.info" target="_blank"><span class="at-icon-wrapper" style="background-color: rgb(59, 89, 152); line-height: 32px; height: 32px; width: 32px; border-radius: 24%;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" version="1.1" role="img" aria-labelledby="at-svg-facebook-4" class="at-icon at-icon-facebook" style="fill: rgb(255, 255, 255); width: 32px; height: 32px;"><title id="at-svg-facebook-4">Facebook</title><g><path d="M22 5.16c-.406-.054-1.806-.16-3.43-.16-3.4 0-5.733 1.825-5.733 5.17v2.882H9v3.913h3.837V27h4.604V16.965h3.823l.587-3.913h-4.41v-2.5c0-1.123.347-1.903 2.198-1.903H22V5.16z" fill-rule="evenodd"></path></g></svg></span><span class="addthis_follow_label"><span class="at4-visually-hidden">Follow on </span>Facebook</span></a><a class="at300b at-follow-btn" data-svc="twitter" data-svc-id="CstmSltns" title="Follow on Twitter" href="http://twitter.com/intent/follow?source=followbutton&amp;variant=1.0&amp;screen_name=CstmSltns" target="_blank">
-            <span class="at-icon-wrapper" style="background-color: rgb(29, 161, 242); line-height: 32px; height: 32px; width: 32px; border-radius: 24%;">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" version="1.1" role="img" aria-labelledby="at-svg-twitter-5" class="at-icon at-icon-twitter" style="fill: rgb(255, 255, 255); width: 32px; height: 32px;"><title id="at-svg-twitter-5">Twitter</title><g><path d="M27.996 10.116c-.81.36-1.68.602-2.592.71a4.526 4.526 0 0 0 1.984-2.496 9.037 9.037 0 0 1-2.866 1.095 4.513 4.513 0 0 0-7.69 4.116 12.81 12.81 0 0 1-9.3-4.715 4.49 4.49 0 0 0-.612 2.27 4.51 4.51 0 0 0 2.008 3.755 4.495 4.495 0 0 1-2.044-.564v.057a4.515 4.515 0 0 0 3.62 4.425 4.52 4.52 0 0 1-2.04.077 4.517 4.517 0 0 0 4.217 3.134 9.055 9.055 0 0 1-5.604 1.93A9.18 9.18 0 0 1 6 23.85a12.773 12.773 0 0 0 6.918 2.027c8.3 0 12.84-6.876 12.84-12.84 0-.195-.005-.39-.014-.583a9.172 9.172 0 0 0 2.252-2.336" fill-rule="evenodd"></path></g></svg>
-            </span><span class="addthis_follow_label"><span class="at4-visually-hidden">Follow on </span>Twitter</span>
-          </a><div class="atclear"></div>
-        </div>
-      </div>
-    </div>
-  </div>-->
-
-
-
-
-
-
-
-  <!--<div class="text-center">
-    <h6 class="text-white copyright"><span>Custom Solutions</span> © 2020</h6>
-  </div>
-
-
-
-</footer>-->
-

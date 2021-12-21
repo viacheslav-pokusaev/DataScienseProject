@@ -26,14 +26,14 @@ namespace DataScienseProject.Controllers
         }
         [HttpPost]
         [Route("checkPass")]
-        public ExceptionModel Authorize(AuthorizeModel authorizeModel)
+        public StatusModel Authorize(AuthorizeModel authorizeModel)
         {
             if (_authorizationService.CheckPass(authorizeModel, HttpContext))
             {
                 HttpContext.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
-                return new ExceptionModel() { ErrorMessage = "", StatusCode = 200 };
+                return new StatusModel() { ErrorMessage = "", StatusCode = 200 };
             }
-            return new ExceptionModel() { ErrorMessage = "Password incorect or expired", StatusCode = 403 };
+            return new StatusModel() { ErrorMessage = "Password incorect or expired", StatusCode = 403 };
         }
     }
 }
