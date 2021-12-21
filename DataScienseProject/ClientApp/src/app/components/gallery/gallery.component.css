@@ -30,12 +30,16 @@
   margin-bottom: 2%;
 }
 
-.input-style{
-    width: 100%;
-    background-color: #f2a523;
-    padding: 2% 2%;
-    border: 3px solid #fff;
-    border-radius: 25px;
-    color: #fff;
-    font-size: 32px;
-  }
+.select-style {
+  font-family: 'Codec Pro', sans-serif;
+  color: #fff;
+  background-color: #f2a523;
+  padding: 8px 16px;
+  border: none;
+}
+
+.text-style {
+  font-family: 'Codec Pro', sans-serif;
+  color: #d8550f;
+  font-weight: 800;
+}
