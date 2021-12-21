@@ -43,3 +43,13 @@
   color: #d8550f;
   font-weight: 800;
 }
+
+.input-style{
+  width: 100%;
+  background-color: #f2a523;
+  padding: 2% 2%;
+  border: 3px solid #fff;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 32px;
+}
