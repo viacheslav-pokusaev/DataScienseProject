@@ -1,11 +1,11 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Authorize;
+using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DataScienseProject.Services
 {
@@ -16,7 +16,7 @@ namespace DataScienseProject.Services
         {
             _context = context;
         }
-        public bool CheckPass(AuthorizeModel authorizeModel, HttpContext http)
+        public bool CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http)
         {
             var pass = _context.Passwords.Join(_context.Groups, p => p.GroupKey, g => g.GroupKey, (p, g) => new
             {
@@ -31,6 +31,17 @@ namespace DataScienseProject.Services
                 return true;
             }
             return false;
+        }
+
+        public StatusModel IsAuthorized(HttpContext http)
+        {
+            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
+            if (cookies.Count == 0)
+            {
+                return new StatusModel() { ErrorMessage = "Insert password", StatusCode = 403 };
+            }
+
+            return new StatusModel() { ErrorMessage = "", StatusCode = 200 };
         }
     }
 }

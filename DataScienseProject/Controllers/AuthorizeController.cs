@@ -1,5 +1,4 @@
-﻿using DataScienseProject.Context;
-using DataScienseProject.Interfaces;
+﻿using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Authorize;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ namespace DataScienseProject.Controllers
         [Route("checkPass")]
         public StatusModel Authorize(AuthorizeModel authorizeModel)
         {
-            if (_authorizationService.CheckPass(authorizeModel, HttpContext))
+            if (_authorizationService.CheckPasswordIsValid(authorizeModel, HttpContext))
             {
                 HttpContext.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
                 return new StatusModel() { ErrorMessage = "", StatusCode = 200 };

@@ -8,7 +8,6 @@ import { AuthorizeModel } from '../../models/authorize.model';
 import { FilterModel } from '../../models/filter.model';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -16,8 +15,8 @@ import { Router } from '@angular/router';
 })
 export class GalleryComponent implements OnInit {
 
-  public tags: Array<string> = new Array;
-  public executors: Array<ExecutorModel> = new Array;
+  public tags: Set<string> = new Set;
+  public executors: Set<ExecutorModel> = new Set;
 
   public tagFilterValue: string;
   public executorFilterValue: string;
@@ -50,22 +49,7 @@ export class GalleryComponent implements OnInit {
   private getGallery() {
     this.homeService.getGallery(this.groupName).subscribe(
       (data: GalleryResult) => {
-        if (data.statusModel.statusCode !== 403) {
-          this.galleryModels = data.galleryModels;
-          data.galleryModels.forEach(gm => {
-            gm.tags.forEach(t => {
-              if (this.tags.indexOf(t) === -1) {
-                this.tags.push(t);
-              }
-            });
-            gm.executors.forEach(ex => {
-              if (this.executors.find(e => e.executorName == ex.executorName) === undefined) {
-                this.executors.push(ex);
-              }
-            });
-          });
-        }
-        this.statusModel = data.statusModel;
+        this.galleryUnboxingData(data);
       },
       error => {
         console.error('There was an error!', error);
@@ -86,26 +70,23 @@ export class GalleryComponent implements OnInit {
     filter.executorName = this.executorFilterValue;
 
     this.homeService.getGalleryWithFilters(filter).subscribe((data: GalleryResult) => {
-      if (data.statusModel.statusCode !== 403) {
-        this.galleryModels = data.galleryModels;
-        data.galleryModels.forEach(gm => {
-          gm.tags.forEach(t => {
-            if (this.tags.indexOf(t) === -1) {
-              this.tags.push(t);
-            }
-          });
-          gm.executors.forEach(ex => {
-            if (this.executors.find(e => e.executorName == ex.executorName) === undefined) {
-              this.executors.push(ex);
-            }
-          });
-        });
-      }
-      this.statusModel = data.statusModel;
+      this.galleryUnboxingData(data);
     });
   }
   modelDetails(id: number) {
-    this.homeService.getId(id);
+    this.homeService.setId(id);
     this.router.navigate(['gallery/model/', id]);
   }
+
+  galleryUnboxingData(data: GalleryResult){
+    if (data.statusModel.statusCode !== 403) {
+      this.galleryModels = data.galleryModels;
+      data.galleryModels.forEach(gm => {
+        this.tags = new Set(gm.tags);
+        this.executors = new Set(gm.executors);
+      });
+    }
+    this.statusModel = data.statusModel;
+  }
+
 }

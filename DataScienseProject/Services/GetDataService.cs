@@ -1,13 +1,12 @@
-﻿using DataScienseProject.Interfaces;
+﻿using DataScienseProject.Context;
+using DataScienseProject.Interfaces;
 using DataScienseProject.Models;
-using DataScienseProject.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace DataScienseProject.Services
 {
@@ -265,21 +264,21 @@ namespace DataScienseProject.Services
                     Tags = tagNames,
                     ShortDescription = shortDescriptionDataSelect
                 };
-                //if (filter != null)
-                //{
-                //    //if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
-                //    //(filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
-                //    //(gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
-                //    //{
-                //        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                //            galleryResult.GalleryModels.Add(galleryModel);
-                //    //}
-                //}
-                //else
-                //{
+
+                //it is nesessery, because another filters didn't work
+                if (filter != null)
+                {
+                    if (gds.TagName == filter?.TagName || gds.ExecutorName == filter?.ExecutorName)
+                    {
+                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                            galleryResult.GalleryModels.Add(galleryModel);
+                    }
+                }
+                else
+                {
                     if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
                         galleryResult.GalleryModels.Add(galleryModel);
-                //}
+                }
             });
             galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
 
@@ -288,7 +287,7 @@ namespace DataScienseProject.Services
 
         public bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
         {
-            return currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null? true : false;
+            return currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null ? true : false;
         }
     }
 }

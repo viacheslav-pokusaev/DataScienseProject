@@ -29,7 +29,7 @@ export class HomeService {
     return this.http.post<StatusModel>('Authorize/checkPass', authorizeModel);
   }
 
-  getId(id) {
+  setId(id) {
     this.modelId = id;
   }
 
