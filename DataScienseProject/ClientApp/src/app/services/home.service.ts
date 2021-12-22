@@ -40,8 +40,7 @@ export class HomeService {
 
   getGroupName() {
     var str = this.router.url;
-    var splitted = str.split("/", 3);
-    console.log(splitted[2]);
+    var splitted = str.split("/", 3);    
     this.groupName = splitted[2];
     return this.groupName;
   } 
