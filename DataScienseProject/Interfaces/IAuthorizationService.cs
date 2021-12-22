@@ -8,6 +8,6 @@ namespace DataScienseProject.Interfaces
     {
         bool CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http);
 
-        StatusModel IsAuthorized(HttpContext http);
+        StatusModel IsAuthorized(HttpContext http, string groupName);
     }
 }

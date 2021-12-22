@@ -33,9 +33,9 @@ namespace DataScienseProject.Services
             return false;
         }
 
-        public StatusModel IsAuthorized(HttpContext http)
+        public StatusModel IsAuthorized(HttpContext http, string groupName)
         {
-            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
+            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize" && x.Value == groupName).ToList();
             if (cookies.Count == 0)
             {
                 return new StatusModel() { ErrorMessage = "Insert password", StatusCode = 403 };
