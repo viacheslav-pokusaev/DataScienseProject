@@ -16,10 +16,11 @@ export class GalleryComponent implements OnInit {
 
   public galleryModels: Array<GalleryModel>;
   public statusModel: StatusModel = new StatusModel();
-  public groupName: string = "Group1";
+  public groupName: string;
   constructor( private homeService: HomeService, private router: Router) { }
 
   ngOnInit() {
+    this.groupName = this.homeService.getGroupName();
     this.getGallery();
   }
 

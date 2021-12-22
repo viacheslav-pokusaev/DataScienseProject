@@ -4,16 +4,17 @@ import { AuthorizeModel } from '../models/authorize.model';
 import { StatusModel } from '../models/status.model';
 import { GalleryResult } from '../models/gallery-result.model';
 import { Feedback } from '../models/feedback/feedback.model';
-import { GalleryModel } from '../models/gallery/gallery.model';
 import { MainPageModel } from '../models/main-page.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
   modelId: number;
+  groupName: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   getData() {
@@ -36,4 +37,12 @@ export class HomeService {
     feedback.viewKey = this.modelId;
     return this.http.post<any>('AddFeedback/add', feedback);
   }
+
+  getGroupName() {
+    var str = this.router.url;
+    var splitted = str.split("/", 3);
+    console.log(splitted[2]);
+    this.groupName = splitted[2];
+    return this.groupName;
+  } 
 }

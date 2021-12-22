@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-nav-menu',
@@ -7,7 +8,14 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
-  public groupName: string = "Group1";
+  public groupName: string;
+
+  constructor(private location: Location) {    
+  }
+
+  ngOnInit() {
+    this.groupName = this.getName();
+  }
 
   collapse() {
     this.isExpanded = false;
@@ -15,5 +23,9 @@ export class NavMenuComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  getName() {    
+    return this.location.path();
   }
 }
