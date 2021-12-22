@@ -1,15 +1,8 @@
-﻿using DataScienseProject.Context;
-using DataScienseProject.Interfaces;
+﻿using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Authorize;
 using DataScienseProject.Models.Gallery;
-using DataScienseProject.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DataScienseProject.Controllers
 {
@@ -18,17 +11,15 @@ namespace DataScienseProject.Controllers
     public class AuthorizeController : ControllerBase
     {
         private readonly IAuthorizationService _authorizationService;
-        private readonly DataScienceProjectDbContext _context;
-        public AuthorizeController(IAuthorizationService authorizationService, DataScienceProjectDbContext context)
+        public AuthorizeController(IAuthorizationService authorizationService)
         {
             _authorizationService = authorizationService;
-            _context = context;
         }
         [HttpPost]
         [Route("checkPass")]
         public StatusModel Authorize(AuthorizeModel authorizeModel)
         {
-            if (_authorizationService.CheckPass(authorizeModel, HttpContext))
+            if (_authorizationService.CheckPasswordIsValid(authorizeModel, HttpContext))
             {
                 HttpContext.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
                 return new StatusModel() { ErrorMessage = "", StatusCode = 200 };

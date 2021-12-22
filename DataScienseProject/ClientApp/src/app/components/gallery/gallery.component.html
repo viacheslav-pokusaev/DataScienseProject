@@ -1,13 +1,36 @@
 <div class="row" *ngIf="statusModel.statusCode === 403" style="margin-bottom: 5%;">
-    <div class="col-2"></div>
-    <div class="col-8" style="text-align: center; border: orange; border-style: groove;">
-      <h1 class="head-style">{{statusModel.errorMessage }}</h1>
-      <input class="input-style" id="pass" type="text" placeholder="password"/>
-      <input class="tag-style" type="button" value="Authorize" (click)="login()"/>
+  <div class="col-2"></div>
+  <div class="col-8" style="text-align: center; border: orange; border-style: groove;">
+    <h1 class="head-style">{{statusModel.errorMessage }}</h1>
+    <input class="input-style" id="pass" type="text" placeholder="password" />
+    <input class="tag-style" type="button" value="Authorize" (click)="login()" />
+  </div>
+  <div class="col-2"></div>
+</div>
+<div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
+  <div class="row col-12">
+    <div class="col-1"></div>
+    <div class="col-4">
+      <div class="row">
+        <label class="col-4 text-style">Tags: </label>
+        <select class="col-8 select-style" (change)="filterSelect($event, 'tag')">
+          <option disabled selected value="undefined">Select a technology</option>
+          <option *ngFor="let tag of tags" value={{tag}}>{{tag}}</option>
+        </select>
+      </div>
     </div>
     <div class="col-2"></div>
+    <div class="col-4">
+      <div class="row">
+        <label class="col-4 text-style">Executors: </label>
+        <select class="col-8 select-style" (change)="filterSelect($event, 'executor')">
+          <option disabled selected value="undefined">Select an executor</option>
+          <option *ngFor="let executor of executors" value={{executor.executorName}}>{{executor.executorName}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-1"></div>
   </div>
-<div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
   <div class="col" *ngFor="let model of galleryModels">
     <!-- Img -->
     <div class="container gal-container" style="background-image: url('/img/test1.jpg');">

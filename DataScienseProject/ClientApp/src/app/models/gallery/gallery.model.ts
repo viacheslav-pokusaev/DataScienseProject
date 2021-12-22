@@ -1,5 +1,4 @@
 import { ExecutorModel } from "../executor.model"
-import { TechnologyModel } from "../technology.model";
 
 export class GalleryModel {
   viewKey: number;

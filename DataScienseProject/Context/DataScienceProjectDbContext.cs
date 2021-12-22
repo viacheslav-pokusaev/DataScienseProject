@@ -1,7 +1,5 @@
-﻿using System;
-using DataScienseProject.Entities;
+﻿using DataScienseProject.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 

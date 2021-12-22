@@ -7,6 +7,7 @@
 }
 
 .col {
+  display: grid;
   margin: 5px;
   flex-basis: 30%;
 }
@@ -50,14 +51,14 @@
 .head {
   font-size: 30px;
   line-height: 40px;
-  text-decoration: none;  
-} 
+  text-decoration: none;
+}
 
 .desc {
   font-size: 15px;
   opacity: 0;
   transform: translateY(40px);
-  transition: all 0.7s;  
+  transition: all 0.7s;
 }
 
 .tags {
@@ -66,28 +67,28 @@
   letter-spacing: 1px;
   transform: translateY(40px);
   transition: all 0.7s;
-  margin-bottom: 10px !important;
+  margin-bottom: 15px !important;
 }
 
-.tags span {
-  color: #d8550f;  
-  border-radius: 13px;
-  background-color: #EEEBE8;
-  opacity: 0.7;
-  padding: 5px 5px;
-  text-align: center;
-  cursor: pointer;
-  transition: all .4s ease-in-out;  
-  white-space: nowrap;
-}
+  .tags span {
+    color: #d8550f;
+    border-radius: 13px;
+    background-color: #EEEBE8;
+    opacity: 0.7;
+    padding: 5px 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+    white-space: nowrap;
+  }
 
 .container:hover .overlay {
-  opacity: 1;  
+  opacity: 1;
 }
 
-.container:hover .overlay.head {
-  transform: translateY(0px);
-}
+  .container:hover .overlay.head {
+    transform: translateY(0px);
+  }
 
 .container:hover .desc {
   transform: translateY(0px);
@@ -99,6 +100,10 @@
   transform: translateY(0px);
   transition-delay: 0.6s;
   opacity: 1;
+}
+
+.img {
+  filter: brightness(50%)
 }
 
 .head-style {
@@ -129,12 +134,29 @@
   margin-bottom: 2%;
 }
 
-.input-style{
-    width: 100%;
-    background-color: #f2a523;
-    padding: 2% 2%;
-    border: 3px solid #fff;
-    border-radius: 25px;
-    color: #fff;
-    font-size: 32px;
+.select-style {
+  font-family: 'Codec Pro', sans-serif;
+  padding: 8px 16px;
+  border: 3px solid #d8550f;
+}
+
+  .select-style:focus-visible {
+    box-shadow: none;
+    outline: 0;
   }
+
+.text-style {
+  font-family: 'Codec Pro', sans-serif;
+  color: #d8550f;
+  font-weight: 800;
+}
+
+.input-style {
+  width: 100%;
+  background-color: #f2a523;
+  padding: 2% 2%;
+  border: 3px solid #fff;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 32px;
+}
