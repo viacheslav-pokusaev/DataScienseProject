@@ -1,13 +1,12 @@
-﻿using DataScienseProject.Interfaces;
+﻿using DataScienseProject.Context;
+using DataScienseProject.Interfaces;
 using DataScienseProject.Models;
-using DataScienseProject.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace DataScienseProject.Services
 {
@@ -15,6 +14,8 @@ namespace DataScienseProject.Services
     {
         private readonly DataScienceProjectDbContext _context;
         private readonly IAuthorizationService _authorizationService;
+
+        private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
@@ -157,37 +158,72 @@ namespace DataScienseProject.Services
             }
             return mainPageModel;
         }
-        public GalleryResult GetGalleryPageData(string groupName, HttpContext http)
+        public GalleryResult GetGalleryPageData(string groupName, HttpContext http, FilterModel filter)
         {
-            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
-            if (cookies.Count == 0)
-            {
-                return new GalleryResult() { ExceptionModel = new StatusModel() { ErrorMessage = "Insert password", StatusCode = 403 } };
-            }
+            var isAuthorizedResult = _authorizationService.IsAuthorized(http);
+            if (isAuthorizedResult.StatusCode == 403) return new GalleryResult() { StatusModel = isAuthorizedResult };
 
-            var shortDescriptionElementName = "Introduction";
             var galleryResult = new GalleryResult();
 
             galleryResult.GalleryModels = new List<GalleryModel>();
 
+            #region Group data select start
             var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new
             {
                 ViewKey = gv.ViewKey,
-                g.GroupName,
+                GroupName = g.GroupName,
                 IsDeleted = g.IsDeleted
-            }).Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new
+            })
+            .Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new
             {
                 ViewName = v.ViewName,
                 OrderNumber = v.OrderNumber,
                 ViewKey = v.ViewKey,
                 gv = new { GroupName = gv.GroupName, IsDeleted = gv.IsDeleted }
             })
+            .Join(_context.ViewTags, v => v.ViewKey, vt => vt.ViewKey, (v, vt) => new
+            {
+                ViewName = v.ViewName,
+                OrderNumber = v.OrderNumber,
+                ViewKey = v.ViewKey,
+                gv = v.gv,
+                TagKey = vt.TagKey
+            })
+            .Join(_context.Tags, vt => vt.TagKey, t => t.TagKey, (vt, t) => new
+            {
+                ViewName = vt.ViewName,
+                OrderNumber = vt.OrderNumber,
+                ViewKey = vt.ViewKey,
+                gv = vt.gv,
+                TagName = t.Name
+            })
+            .Join(_context.ViewExecutors, t => t.ViewKey, ve => ve.ViewKey, (t, ve) => new
+            {
+                ViewName = t.ViewName,
+                OrderNumber = t.OrderNumber,
+                ViewKey = t.ViewKey,
+                TagName = t.TagName,
+                gv = t.gv,
+                ExecutorKey = ve.ExecutorKey
+            })
+            .Join(_context.Executors, ve => ve.ExecutorKey, e => e.ExecutorKey, (ve, e) => new
+            {
+                ViewName = ve.ViewName,
+                OrderNumber = ve.OrderNumber,
+                ViewKey = ve.ViewKey,
+                TagName = ve.TagName,
+                gv = ve.gv,
+                ExecutorKey = ve.ExecutorKey,
+                ExecutorName = e.ExecutorName
+            })
             .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new GroupData
             {
                 ViewName = s.ViewName,
                 ViewKey = (int)s.ViewKey,
-                OrderNumber = s.OrderNumber
-            }).OrderBy(ob => ob.OrderNumber).ToList();
+                OrderNumber = s.OrderNumber,
+                TagName = s.TagName,
+                ExecutorName = s.ExecutorName
+            }).OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
 
             groupDataSelect.ForEach(gds =>
             {
@@ -195,14 +231,16 @@ namespace DataScienseProject.Services
                     .Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new ExecutorModel
                     {
                         ExecutorName = s.ExecutorKeyNavigation.ExecutorName,
-                        RoleName =
-                    s.ExecutorRoleKeyNavigation.RoleName
-                    }).ToList();
+                        RoleName = s.ExecutorRoleKeyNavigation.RoleName
+                    }).AsNoTracking().ToList();
+
+                var executorNames = new List<string>();
+                executorDataSelect.ForEach(eds => executorNames.Add(eds.ExecutorName));
 
                 var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new
                 {
                     Name = s.TagKeyNavigation.Name
-                }).ToList();
+                }).AsNoTracking().ToList();
 
                 var tagNames = new List<string>();
                 tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
@@ -217,22 +255,46 @@ namespace DataScienseProject.Services
                     Value = e.Value,
                     ElementName = e.ElementName,
                     ViewKey = ve.ViewKey
-                }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == shortDescriptionElementName)
-                .Select(s => s.Value).ToList();
-
-                galleryResult.GalleryModels.Add(new GalleryModel()
+                }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == SHORT_DESCRIPTION_ELEMENT_NAME)
+                .Select(s => s.Value).AsNoTracking().ToList();
+                #endregion
+                var galleryModel = new GalleryModel()
                 {
                     ViewKey = gds.ViewKey,
                     ViewName = gds.ViewName,
                     OrderNumber = (int)gds.OrderNumber,
-                    Executors = executorDataSelect,
+                    Executors = executorNames,
                     Tags = tagNames,
                     ShortDescription = shortDescriptionDataSelect
-                });
+                };
+
+                //it is nesessery, because another filters didn't work(two scenaries):
+                //1. if we select only one filter paramenter it's show nothing
+                //2. if we select two parameters, and then reselect second, it's filter only last one parameter
+                if (filter != null)
+                {
+                    if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
+                    (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
+                    (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
+                    {
+                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                            galleryResult.GalleryModels.Add(galleryModel);
+                    }
+                }
+                else
+                {
+                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                        galleryResult.GalleryModels.Add(galleryModel);
+                }
             });
-            galleryResult.ExceptionModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
+            galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
 
             return galleryResult;
+        }
+
+        public bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
+        {
+            return currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null ? true : false;
         }
     }
 }

@@ -6,6 +6,7 @@ import { GalleryResult } from '../models/gallery-result.model';
 import { Feedback } from '../models/feedback/feedback.model';
 import { MainPageModel } from '../models/main-page.model';
 import { Router } from '@angular/router';
+import { FilterModel } from '../models/filter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,13 +30,16 @@ export class HomeService {
     return this.http.post<StatusModel>('Authorize/checkPass', authorizeModel);
   }
 
-  getId(id) {    
+  setId(id) {
     this.modelId = id;
   }
 
   addFeedback(feedback: Feedback) {
     feedback.viewKey = this.modelId;
     return this.http.post<any>('AddFeedback/add', feedback);
+  }
+  getGalleryWithFilters(filter: FilterModel){
+    return this.http.post<GalleryResult>('GetData/gallery', filter);
   }
 
   getGroupName() {

@@ -330,7 +330,7 @@ GO
 
 --SP GetViewFullInfo start
 
-DECLARE @ViewKey INT = 2;
+DECLARE @ViewKey INT = 1;
 
 --1
 SELECT 

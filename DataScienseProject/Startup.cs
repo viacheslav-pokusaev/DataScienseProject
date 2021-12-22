@@ -3,13 +3,11 @@ using DataScienseProject.Interfaces;
 using DataScienseProject.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace DataScienseProject
 {
@@ -28,14 +26,15 @@ namespace DataScienseProject
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<DataScienceProjectDbContext>(opt => {
-                if(_webHostEnvironment.IsDevelopment())
+            services.AddDbContext<DataScienceProjectDbContext>(opt =>
+            {
+                if (_webHostEnvironment.IsDevelopment())
                     opt.UseSqlServer(Configuration.GetConnectionString("Dev"));
 
                 else
                     opt.UseSqlServer(Configuration.GetConnectionString("Prod"));
             });
-            services.AddScoped<IGetDataService, GetDataService>();            
+            services.AddScoped<IGetDataService, GetDataService>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
 
             services.AddScoped<IAddFeedbackService, AddFeedbackService>();
