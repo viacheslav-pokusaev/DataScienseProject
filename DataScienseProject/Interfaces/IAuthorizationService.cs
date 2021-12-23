@@ -6,7 +6,7 @@ namespace DataScienseProject.Interfaces
 {
     public interface IAuthorizationService
     {
-        bool CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http);
+        StatusModel CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http);
 
         StatusModel IsAuthorized(HttpContext http, string groupName);
     }
