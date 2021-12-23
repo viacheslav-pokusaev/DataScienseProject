@@ -34,7 +34,7 @@ namespace DataScienseProject.Services
             else if(pass != null && DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) > 0)
             {
                 res.StatusCode = 403;
-                res.ErrorMessage = "Password expired";
+                res.ErrorMessage = "Password expired. For continuing using service, please, contact administrator.";
             }
             else
             {
@@ -49,7 +49,7 @@ namespace DataScienseProject.Services
             var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize" && x.Value == groupName).ToList();
             if (cookies.Count == 0)
             {
-                return new StatusModel() { ErrorMessage = "Insert password", StatusCode = 403 };
+                return new StatusModel() { ErrorMessage = "", StatusCode = 403 };
             }
 
             return new StatusModel() { ErrorMessage = "", StatusCode = 200 };
