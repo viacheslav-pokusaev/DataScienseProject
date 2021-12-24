@@ -1,6 +1,7 @@
 USE master; 
 GO 
 
+
 DROP DATABASE CS_DS_Portfolio
 GO
 ------------------------------------------------------------------------------------------
@@ -18,7 +19,7 @@ CREATE TABLE dbo.ViewTypes (
 	ViewTypeName VARCHAR(MAX)
 );
 
-CREATE TABLE dbo.Views (
+CREATE TABLE dbo.[Views] (
 	ViewKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1),
 	ViewTypeKey INT FOREIGN KEY REFERENCES ViewTypes(ViewTypeKey),
 	ViewName VARCHAR(MAX),
@@ -156,6 +157,8 @@ CREATE TABLE dbo.Feedback (
 	Email VARCHAR(MAX),
 	[Text] VARCHAR(MAX)
 );
+
+CREATE TABLE dbo.ConfigValues(ConfigValuesKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1), [Key] VARCHAR(100), [Value] VARCHAR(100));
 
 ------------------------------------------------------------------------------------------
 --								Database filling
@@ -613,6 +616,13 @@ LEFT JOIN dbo.Elements e ON e.ElementKey = ve.ElementKey
 WHERE
 	e.ElementName = @ElementName AND 
 	v.ViewKey = @VIewKey
+
+
+	select * from Passwords
+
+	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(1, 'test', GETDATE() - 2, GETDATE() - 1, 0);
+	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(1, 'group1', GETDATE(), GETDATE() + 7, 0);
+	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(2, 'group2', GETDATE(), GETDATE() + 7, 0);
 
 
 

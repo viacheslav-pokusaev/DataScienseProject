@@ -11,15 +11,15 @@ namespace DataScienseProject.Services
 
         public AddFeedbackService(DataScienceProjectDbContext context)
         {
-            _context = context;                
+            _context = context;
         }
 
         public FeedbackModel AddFeedback(FeedbackModel feedback)
-        {            
+        {
             _context.Feedbacks.Add(new Feedback() { ViewKey = feedback.ViewKey, Email = feedback.Email, Text = feedback.Text });
-            _context.SaveChanges();           
+            _context.SaveChanges();
 
-            return feedback;            
+            return feedback;
         }
     }
 }
