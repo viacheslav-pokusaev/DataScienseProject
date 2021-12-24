@@ -18,6 +18,10 @@ export class HomeService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
+  getCurrentId(currId: number) {
+    this.modelId = currId;
+  }
+
   getData() {
     return this.http.get<MainPageModel>('GetData/gallery/model/' + this.modelId);
   };

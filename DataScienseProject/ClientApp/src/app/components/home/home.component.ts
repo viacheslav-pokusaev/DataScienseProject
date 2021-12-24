@@ -5,6 +5,7 @@ import { MainPageModel } from '../../models/main-page.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeService } from '../../services/home.service';
 import { ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,11 +17,15 @@ export class HomeComponent {
 
   public mainPageModel: MainPageModel;
   iframeHeight: string;
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
+  
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }
 
   ngOnInit() {
-
+    var check = this.router.url; 
+    var splitted = check.split("/", 4);
+    var currentId = Number(splitted[3]);
+    this.homeService.getCurrentId(currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
     },
