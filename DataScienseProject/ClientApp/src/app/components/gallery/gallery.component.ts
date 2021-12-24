@@ -16,18 +16,19 @@ import { Router } from '@angular/router';
 export class GalleryComponent implements OnInit {
 
   public tags: Set<string> = new Set;
-  public executors: Set<ExecutorModel> = new Set;
+  public executors: Set<string> = new Set;
+  public filter: FilterModel = new FilterModel();
 
   public tagFilterValue: string;
   public executorFilterValue: string;
 
   public galleryModels: Array<GalleryModel>;
   public statusModel: StatusModel = new StatusModel();
-  public groupName: string = "Group1";
-
-  constructor(private homeService: HomeService, private router: Router) { }
+  public groupName: string;
+  constructor( private homeService: HomeService, private router: Router) { }
 
   ngOnInit() {
+    this.groupName = this.homeService.getGroupName();
     this.getGallery();
   }
 
@@ -57,19 +58,15 @@ export class GalleryComponent implements OnInit {
   }
 
   public filterSelect(event: any, filterType: string) {
-    let filter = new FilterModel();
-    filter.groupName = this.groupName;
+    this.filter.groupName = this.groupName;
     if (filterType === "tag") {
-      this.tagFilterValue = event.target.value;
+      this.filter.tagName = event.target.value;
     }
     else if (filterType === "executor") {
-      this.executorFilterValue = event.target.value;
+      this.filter.executorName = event.target.value;
     }
 
-    filter.tagName = this.tagFilterValue;
-    filter.executorName = this.executorFilterValue;
-
-    this.homeService.getGalleryWithFilters(filter).subscribe((data: GalleryResult) => {
+    this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
       this.galleryUnboxingData(data);
     });
   }
@@ -82,8 +79,8 @@ export class GalleryComponent implements OnInit {
     if (data.statusModel.statusCode !== 403) {
       this.galleryModels = data.galleryModels;
       data.galleryModels.forEach(gm => {
-        this.tags = new Set(gm.tags);
-        this.executors = new Set(gm.executors);
+        this.tags = new Set(Array.from(this.tags).concat(Array.from(new Set(gm.tags))));        
+        this.executors = new Set(Array.from(this.executors).concat(Array.from(new Set(gm.executors))));        
       });
     }
     this.statusModel = data.statusModel;

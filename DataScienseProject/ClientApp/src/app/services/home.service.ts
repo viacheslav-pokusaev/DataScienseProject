@@ -4,8 +4,8 @@ import { AuthorizeModel } from '../models/authorize.model';
 import { StatusModel } from '../models/status.model';
 import { GalleryResult } from '../models/gallery-result.model';
 import { Feedback } from '../models/feedback/feedback.model';
-import { GalleryModel } from '../models/gallery/gallery.model';
 import { MainPageModel } from '../models/main-page.model';
+import { Router } from '@angular/router';
 import { FilterModel } from '../models/filter.model';
 
 @Injectable({
@@ -13,8 +13,9 @@ import { FilterModel } from '../models/filter.model';
 })
 export class HomeService {
   modelId: number;
+  groupName: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   getData() {
@@ -40,4 +41,11 @@ export class HomeService {
   getGalleryWithFilters(filter: FilterModel){
     return this.http.post<GalleryResult>('GetData/gallery', filter);
   }
+
+  getGroupName() {
+    var str = this.router.url;
+    var splitted = str.split("/", 3);    
+    this.groupName = splitted[2];
+    return this.groupName;
+  } 
 }

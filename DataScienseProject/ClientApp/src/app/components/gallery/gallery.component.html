@@ -25,7 +25,7 @@
         <label class="col-4 text-style">Executors: </label>
         <select class="col-8 select-style" (change)="filterSelect($event, 'executor')">
           <option disabled selected value="undefined">Select an executor</option>
-          <option *ngFor="let executor of executors" value={{executor.executorName}}>{{executor.executorName}}</option>
+          <option *ngFor="let executor of executors" value={{executor}}>{{executor}}</option>
         </select>
       </div>
     </div>

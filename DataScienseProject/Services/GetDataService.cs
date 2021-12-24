@@ -234,6 +234,9 @@ namespace DataScienseProject.Services
                         RoleName = s.ExecutorRoleKeyNavigation.RoleName
                     }).AsNoTracking().ToList();
 
+                var executorNames = new List<string>();
+                executorDataSelect.ForEach(eds => executorNames.Add(eds.ExecutorName));
+
                 var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new
                 {
                     Name = s.TagKeyNavigation.Name
@@ -260,15 +263,19 @@ namespace DataScienseProject.Services
                     ViewKey = gds.ViewKey,
                     ViewName = gds.ViewName,
                     OrderNumber = (int)gds.OrderNumber,
-                    Executors = executorDataSelect,
+                    Executors = executorNames,
                     Tags = tagNames,
                     ShortDescription = shortDescriptionDataSelect
                 };
 
-                //it is nesessery, because another filters didn't work
+                //it is nesessery, because another filters didn't work(two scenaries):
+                //1. if we select only one filter paramenter it's show nothing
+                //2. if we select two parameters, and then reselect second, it's filter only last one parameter
                 if (filter != null)
                 {
-                    if (gds.TagName == filter?.TagName || gds.ExecutorName == filter?.ExecutorName)
+                    if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
+                    (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
+                    (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
                     {
                         if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
                             galleryResult.GalleryModels.Add(galleryModel);
