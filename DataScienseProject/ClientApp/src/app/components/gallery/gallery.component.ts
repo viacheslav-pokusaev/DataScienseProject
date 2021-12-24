@@ -7,6 +7,7 @@ import { ExecutorModel } from '../../models/executor.model';
 import { AuthorizeModel } from '../../models/authorize.model';
 import { FilterModel } from '../../models/filter.model';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-gallery',
@@ -25,11 +26,12 @@ export class GalleryComponent implements OnInit {
   public galleryModels: Array<GalleryModel>;
   public statusModel: StatusModel = new StatusModel();
   public groupName: string;
-  constructor( private homeService: HomeService, private router: Router) { }
+  constructor(private homeService: HomeService, private router: Router, private location: Location) { }
 
   ngOnInit() {
+    sessionStorage.setItem('groupName', this.location.path());
     this.groupName = this.homeService.getGroupName();
-    this.getGallery();
+    this.getGallery();    
   }
 
   public login() {
