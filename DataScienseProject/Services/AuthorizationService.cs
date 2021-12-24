@@ -1,6 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Authorize;
+using DataScienseProject.Models.EmailSender;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -37,7 +38,8 @@ namespace DataScienseProject.Services
             {
                 res.StatusCode = 403;
                 res.ErrorMessage = "Password expired. For continuing using service, please, contact administrator.";
-                _emailSenderService.SendEmail();
+
+                _emailSenderService.SendEmail(new EmailSendModel() { GroupName = authorizeModel.GroupName, Password = authorizeModel.Password, EnterTime = DateTime.Now });
             }
             else
             {

@@ -1,7 +1,12 @@
-﻿namespace DataScienseProject.Interfaces
+﻿using DataScienseProject.Models;
+using DataScienseProject.Models.EmailSender;
+
+namespace DataScienseProject.Interfaces
 {
     public interface IEmailSenderService
     {
-        public void SendEmail();
+        public void SendEmail(EmailSendModel email);
+
+        public string ConfigureEmail(EmailSendModel email);
     }
 }

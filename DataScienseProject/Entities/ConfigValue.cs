@@ -7,5 +7,6 @@ namespace DataScienseProject.Entities
         public long ConfigValuesKey { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
+        public bool IsEnabled { get; set; }
     }
 }
