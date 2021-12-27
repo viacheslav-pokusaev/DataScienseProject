@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace DataScienseProject.Services
 {
@@ -18,7 +19,7 @@ namespace DataScienseProject.Services
             _context = context;
         }
 
-        public void SendEmail(EmailSendModel email)
+        public async Task SendEmail(EmailSendModel email)
         {
             var recipients = new List<ConfigModel>();
 
@@ -30,18 +31,17 @@ namespace DataScienseProject.Services
 
             message.From = from;
 
-            recipients.ForEach(r => {
+            recipients.ForEach(r =>
+            {
                 if (r.IsEnabled)
                 {
                     message.To.Add(r.Value);
                 }
             });
 
-
-
             message.Subject = "Expiration password inserted";
 
-            message.Body = ConfigureEmail(email);
+            message.Body = await ConfigureEmail(email).ConfigureAwait(false);
             message.IsBodyHtml = true;
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
@@ -51,7 +51,7 @@ namespace DataScienseProject.Services
             smtp.Send(message);
         }
 
-        public string ConfigureEmail(EmailSendModel email)
+        public async Task<string> ConfigureEmail(EmailSendModel email)
         {
             var res = "<div>";
             res += $"<h1>Try to see group: {email.GroupName}</h1>";
@@ -59,7 +59,7 @@ namespace DataScienseProject.Services
             res += $"<h3>With password: {email.Password}</h3>";
             res += "</div>";
 
-            return res;
+            return await Task.Run(() => res);
         }
     }
 }

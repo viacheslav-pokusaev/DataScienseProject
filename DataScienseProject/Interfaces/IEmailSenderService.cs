@@ -1,12 +1,12 @@
-﻿using DataScienseProject.Models;
-using DataScienseProject.Models.EmailSender;
+﻿using DataScienseProject.Models.EmailSender;
+using System.Threading.Tasks;
 
 namespace DataScienseProject.Interfaces
 {
     public interface IEmailSenderService
     {
-        public void SendEmail(EmailSendModel email);
+        public Task SendEmail(EmailSendModel email);
 
-        public string ConfigureEmail(EmailSendModel email);
+        public Task<string> ConfigureEmail(EmailSendModel email);
     }
 }
