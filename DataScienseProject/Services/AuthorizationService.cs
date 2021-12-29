@@ -1,6 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Authorize;
+using DataScienseProject.Models.EmailSender;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,12 +13,15 @@ namespace DataScienseProject.Services
     public class AuthorizationService : IAuthorizationService
     {
         private readonly DataScienceProjectDbContext _context;
-        public AuthorizationService(DataScienceProjectDbContext context)
+        private readonly IEmailSenderService _emailSenderService;
+        public AuthorizationService(DataScienceProjectDbContext context, IEmailSenderService emailSenderService)
         {
             _context = context;
+            _emailSenderService = emailSenderService;
         }
-        public bool CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http)
+        public StatusModel CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http)
         {
+            var res = new StatusModel();
             var pass = _context.Passwords.Join(_context.Groups, p => p.GroupKey, g => g.GroupKey, (p, g) => new
             {
                 Password = p.PasswordValue,
@@ -25,20 +29,32 @@ namespace DataScienseProject.Services
                 ExpirationDate = p.ExpirationDate
             }).Where(x => x.Password == authorizeModel.Password && x.GroupName == authorizeModel.GroupName).FirstOrDefault();
 
-            if (pass != null && DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) <= 0)
+            if (pass == null)
             {
-                http.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
-                return true;
+                res.StatusCode = 403;
+                res.ErrorMessage = "Password incorect";
             }
-            return false;
-        }
+            else if (pass != null && DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) > 0)
+            {
+                res.StatusCode = 403;
+                res.ErrorMessage = "Password expired. For continuing using service, please, contact administrator.";
 
-        public StatusModel IsAuthorized(HttpContext http)
+                _emailSenderService.SendEmail(new EmailSendModel() { GroupName = authorizeModel.GroupName, Password = authorizeModel.Password, EnterTime = DateTime.Now }).ConfigureAwait(false);
+            }
+            else
+            {
+                res.StatusCode = 200;
+                res.ErrorMessage = "";
+                http.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
+            }
+            return res;
+        }
+        public StatusModel IsAuthorized(HttpContext http, string groupName)
         {
-            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize").ToList();
+            var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize" && x.Value == groupName).ToList();
             if (cookies.Count == 0)
             {
-                return new StatusModel() { ErrorMessage = "Insert password", StatusCode = 403 };
+                return new StatusModel() { ErrorMessage = "", StatusCode = 403 };
             }
 
             return new StatusModel() { ErrorMessage = "", StatusCode = 200 };

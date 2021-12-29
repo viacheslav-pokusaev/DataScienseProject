@@ -9,7 +9,7 @@ namespace DataScienseProject.Controllers
     [ApiController]
     public class AddFeedbackController : ControllerBase
     {
-        private readonly IAddFeedbackService _addFeedbackService;        
+        private readonly IAddFeedbackService _addFeedbackService;
         public AddFeedbackController(IAddFeedbackService addFeedbackService)
         {
             _addFeedbackService = addFeedbackService;
@@ -17,7 +17,7 @@ namespace DataScienseProject.Controllers
 
         [HttpPost]
         [Route("add")]
-        public FeedbackModel Add([FromBody]FeedbackModel feedback)
+        public FeedbackModel Add([FromBody] FeedbackModel feedback)
         {
             return _addFeedbackService.AddFeedback(feedback);
         }

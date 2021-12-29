@@ -160,7 +160,7 @@ namespace DataScienseProject.Services
         }
         public GalleryResult GetGalleryPageData(string groupName, HttpContext http, FilterModel filter)
         {
-            var isAuthorizedResult = _authorizationService.IsAuthorized(http);
+            var isAuthorizedResult = _authorizationService.IsAuthorized(http, filter == null ? groupName : filter.GroupName);
             if (isAuthorizedResult.StatusCode == 403) return new GalleryResult() { StatusModel = isAuthorizedResult };
 
             var galleryResult = new GalleryResult();

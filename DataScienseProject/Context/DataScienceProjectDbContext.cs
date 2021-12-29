@@ -16,6 +16,7 @@ namespace DataScienseProject.Context
         {
         }
 
+        public virtual DbSet<ConfigValue> ConfigValues { get; set; }
         public virtual DbSet<Direction> Directions { get; set; }
         public virtual DbSet<Element> Elements { get; set; }
         public virtual DbSet<ElementParameter> ElementParameters { get; set; }
@@ -40,18 +41,32 @@ namespace DataScienseProject.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.;Database=CS_DS_Portfolio;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.\\KALININSERWER;Database=CS_DS_Portfolio;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Cyrillic_General_CI_AS");
+
+            modelBuilder.Entity<ConfigValue>(entity =>
+            {
+                entity.HasKey(e => e.ConfigValuesKey)
+                    .HasName("PK__ConfigVa__48F7A58097C36589");
+
+                entity.Property(e => e.Key)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Value)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<Direction>(entity =>
             {
                 entity.HasKey(e => e.DirectionKey)
-                    .HasName("PK__Directio__D7F5391AB0B39526");
+                    .HasName("PK__Directio__D7F5391AFE6232B7");
 
                 entity.Property(e => e.Link).IsUnicode(false);
 
@@ -61,7 +76,7 @@ namespace DataScienseProject.Context
             modelBuilder.Entity<Element>(entity =>
             {
                 entity.HasKey(e => e.ElementKey)
-                    .HasName("PK__Elements__5616FCCFA166AA5E");
+                    .HasName("PK__Elements__5616FCCF3748CE5D");
 
                 entity.Property(e => e.ElementName).IsUnicode(false);
 
@@ -75,18 +90,18 @@ namespace DataScienseProject.Context
                     .WithMany(p => p.Elements)
                     .HasForeignKey(d => d.ElementTypeKey)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Elements__Elemen__2D27B809");
+                    .HasConstraintName("FK__Elements__Elemen__403A8C7D");
 
                 entity.HasOne(d => d.LinkTypeKeyNavigation)
                     .WithMany(p => p.Elements)
                     .HasForeignKey(d => d.LinkTypeKey)
-                    .HasConstraintName("FK__Elements__LinkTy__2E1BDC42");
+                    .HasConstraintName("FK__Elements__LinkTy__412EB0B6");
             });
 
             modelBuilder.Entity<ElementParameter>(entity =>
             {
                 entity.HasKey(e => e.ElementParameterKey)
-                    .HasName("PK__ElementP__4332616766219A23");
+                    .HasName("PK__ElementP__43326167528C5C3B");
 
                 entity.Property(e => e.Key).IsUnicode(false);
 
@@ -95,13 +110,13 @@ namespace DataScienseProject.Context
                 entity.HasOne(d => d.ElementKeyNavigation)
                     .WithMany(p => p.ElementParameters)
                     .HasForeignKey(d => d.ElementKey)
-                    .HasConstraintName("FK__ElementPa__Eleme__30F848ED");
+                    .HasConstraintName("FK__ElementPa__Eleme__440B1D61");
             });
 
             modelBuilder.Entity<ElementType>(entity =>
             {
                 entity.HasKey(e => e.ElementTypeKey)
-                    .HasName("PK__ElementT__49CB5506F9F892A7");
+                    .HasName("PK__ElementT__49CB550645C37754");
 
                 entity.Property(e => e.ElementTypeName).IsUnicode(false);
             });
@@ -109,7 +124,7 @@ namespace DataScienseProject.Context
             modelBuilder.Entity<Executor>(entity =>
             {
                 entity.HasKey(e => e.ExecutorKey)
-                    .HasName("PK__Executor__D96DE1011359B9EA");
+                    .HasName("PK__Executor__D96DE10144051664");
 
                 entity.Property(e => e.ExecutorName).IsUnicode(false);
 
@@ -119,7 +134,7 @@ namespace DataScienseProject.Context
             modelBuilder.Entity<ExecutorRole>(entity =>
             {
                 entity.HasKey(e => e.ExecutorRoleKey)
-                    .HasName("PK__Executor__3AE9E64787B32801");
+                    .HasName("PK__Executor__3AE9E647250B5DA8");
 
                 entity.Property(e => e.RoleName)
                     .HasMaxLength(100)
@@ -129,7 +144,7 @@ namespace DataScienseProject.Context
             modelBuilder.Entity<Feedback>(entity =>
             {
                 entity.HasKey(e => e.FeedbackKey)
-                    .HasName("PK__Feedback__AAB8A7CBF72EC3B6");
+                    .HasName("PK__Feedback__AAB8A7CB53ED61DA");
 
                 entity.ToTable("Feedback");
 
@@ -140,18 +155,18 @@ namespace DataScienseProject.Context
                 entity.HasOne(d => d.ViewKeyNavigation)
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.ViewKey)
-                    .HasConstraintName("FK__Feedback__ViewKe__59063A47");
+                    .HasConstraintName("FK__Feedback__ViewKe__6C190EBB");
 
                 entity.HasOne(d => d.VisitKeyNavigation)
                     .WithMany(p => p.Feedbacks)
                     .HasForeignKey(d => d.VisitKey)
-                    .HasConstraintName("FK__Feedback__VisitK__5812160E");
+                    .HasConstraintName("FK__Feedback__VisitK__6B24EA82");
             });
 
             modelBuilder.Entity<Group>(entity =>
             {
                 entity.HasKey(e => e.GroupKey)
-                    .HasName("PK__Groups__36BB80D37733DCF5");
+                    .HasName("PK__Groups__36BB80D3410BFF59");
 
                 entity.Property(e => e.GroupName).IsUnicode(false);
             });
@@ -159,23 +174,23 @@ namespace DataScienseProject.Context
             modelBuilder.Entity<GroupView>(entity =>
             {
                 entity.HasKey(e => e.GroupViewKey)
-                    .HasName("PK__GroupVie__32CB5A7FC6274B2D");
+                    .HasName("PK__GroupVie__32CB5A7FF5073D06");
 
                 entity.HasOne(d => d.GroupKeyNavigation)
                     .WithMany(p => p.GroupViews)
                     .HasForeignKey(d => d.GroupKey)
-                    .HasConstraintName("FK__GroupView__Group__4BAC3F29");
+                    .HasConstraintName("FK__GroupView__Group__5EBF139D");
 
                 entity.HasOne(d => d.ViewKeyNavigation)
                     .WithMany(p => p.GroupViews)
                     .HasForeignKey(d => d.ViewKey)
-                    .HasConstraintName("FK__GroupView__ViewK__4AB81AF0");
+                    .HasConstraintName("FK__GroupView__ViewK__5DCAEF64");
             });
 
             modelBuilder.Entity<LinkType>(entity =>
             {
                 entity.HasKey(e => e.LinkTypeKey)
-                    .HasName("PK__LinkType__9FAC22697A418CF4");
+                    .HasName("PK__LinkType__9FAC2269E1B8EFC7");
 
                 entity.Property(e => e.LinkTypeName).IsUnicode(false);
             });
@@ -183,7 +198,7 @@ namespace DataScienseProject.Context
             modelBuilder.Entity<Password>(entity =>
             {
                 entity.HasKey(e => e.PasswordKey)
-                    .HasName("PK__Password__B032701148183C40");
+                    .HasName("PK__Password__B03270116520AC16");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
@@ -196,13 +211,13 @@ namespace DataScienseProject.Context
                 entity.HasOne(d => d.GroupKeyNavigation)
                     .WithMany(p => p.Passwords)
                     .HasForeignKey(d => d.GroupKey)
-                    .HasConstraintName("FK__Passwords__Group__4E88ABD4");
+                    .HasConstraintName("FK__Passwords__Group__619B8048");
             });
 
             modelBuilder.Entity<Tag>(entity =>
             {
                 entity.HasKey(e => e.TagKey)
-                    .HasName("PK__Tags__CA370A7A4594F11B");
+                    .HasName("PK__Tags__CA370A7AAC7B077A");
 
                 entity.Property(e => e.Link).IsUnicode(false);
 
@@ -213,13 +228,13 @@ namespace DataScienseProject.Context
                 entity.HasOne(d => d.DirectionKeyNavigation)
                     .WithMany(p => p.Tags)
                     .HasForeignKey(d => d.DirectionKey)
-                    .HasConstraintName("FK__Tags__DirectionK__398D8EEE");
+                    .HasConstraintName("FK__Tags__DirectionK__4CA06362");
             });
 
             modelBuilder.Entity<View>(entity =>
             {
                 entity.HasKey(e => e.ViewKey)
-                    .HasName("PK__Views__93DADE7120829A87");
+                    .HasName("PK__Views__93DADE71737E8444");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
@@ -236,66 +251,66 @@ namespace DataScienseProject.Context
                 entity.HasOne(d => d.ViewTypeKeyNavigation)
                     .WithMany(p => p.Views)
                     .HasForeignKey(d => d.ViewTypeKey)
-                    .HasConstraintName("FK__Views__ViewTypeK__267ABA7A");
+                    .HasConstraintName("FK__Views__ViewTypeK__398D8EEE");
             });
 
             modelBuilder.Entity<ViewElement>(entity =>
             {
                 entity.HasKey(e => e.ViewElementKey)
-                    .HasName("PK__ViewElem__01D9A6965B5604CB");
+                    .HasName("PK__ViewElem__01D9A6962AA949CA");
 
                 entity.HasOne(d => d.ElementKeyNavigation)
                     .WithMany(p => p.ViewElements)
                     .HasForeignKey(d => d.ElementKey)
-                    .HasConstraintName("FK__ViewEleme__Eleme__34C8D9D1");
+                    .HasConstraintName("FK__ViewEleme__Eleme__47DBAE45");
 
                 entity.HasOne(d => d.ViewKeyNavigation)
                     .WithMany(p => p.ViewElements)
                     .HasForeignKey(d => d.ViewKey)
-                    .HasConstraintName("FK__ViewEleme__ViewK__33D4B598");
+                    .HasConstraintName("FK__ViewEleme__ViewK__46E78A0C");
             });
 
             modelBuilder.Entity<ViewExecutor>(entity =>
             {
                 entity.HasKey(e => e.ViewExecutorKey)
-                    .HasName("PK__ViewExec__C9628F4007FCBAF4");
+                    .HasName("PK__ViewExec__C9628F40D031AB7D");
 
                 entity.HasOne(d => d.ExecutorKeyNavigation)
                     .WithMany(p => p.ViewExecutors)
                     .HasForeignKey(d => d.ExecutorKey)
-                    .HasConstraintName("FK__ViewExecu__Execu__44FF419A");
+                    .HasConstraintName("FK__ViewExecu__Execu__5812160E");
 
                 entity.HasOne(d => d.ExecutorRoleKeyNavigation)
                     .WithMany(p => p.ViewExecutors)
                     .HasForeignKey(d => d.ExecutorRoleKey)
-                    .HasConstraintName("FK__ViewExecu__Execu__45F365D3");
+                    .HasConstraintName("FK__ViewExecu__Execu__59063A47");
 
                 entity.HasOne(d => d.ViewKeyNavigation)
                     .WithMany(p => p.ViewExecutors)
                     .HasForeignKey(d => d.ViewKey)
-                    .HasConstraintName("FK__ViewExecu__ViewK__440B1D61");
+                    .HasConstraintName("FK__ViewExecu__ViewK__571DF1D5");
             });
 
             modelBuilder.Entity<ViewTag>(entity =>
             {
                 entity.HasKey(e => e.ViewTagKey)
-                    .HasName("PK__ViewTags__C5C13BB3F948086F");
+                    .HasName("PK__ViewTags__C5C13BB3748E962A");
 
                 entity.HasOne(d => d.TagKeyNavigation)
                     .WithMany(p => p.ViewTags)
                     .HasForeignKey(d => d.TagKey)
-                    .HasConstraintName("FK__ViewTags__TagKey__3D5E1FD2");
+                    .HasConstraintName("FK__ViewTags__TagKey__5070F446");
 
                 entity.HasOne(d => d.ViewKeyNavigation)
                     .WithMany(p => p.ViewTags)
                     .HasForeignKey(d => d.ViewKey)
-                    .HasConstraintName("FK__ViewTags__ViewKe__3C69FB99");
+                    .HasConstraintName("FK__ViewTags__ViewKe__4F7CD00D");
             });
 
             modelBuilder.Entity<ViewType>(entity =>
             {
                 entity.HasKey(e => e.ViewTypeKey)
-                    .HasName("PK__ViewType__34E668696E59070F");
+                    .HasName("PK__ViewType__34E66869C3064045");
 
                 entity.Property(e => e.ViewTypeName).IsUnicode(false);
             });
@@ -303,7 +318,7 @@ namespace DataScienseProject.Context
             modelBuilder.Entity<VisitLog>(entity =>
             {
                 entity.HasKey(e => e.VisitKey)
-                    .HasName("PK__VisitLog__DC99CD12E81732D6");
+                    .HasName("PK__VisitLog__DC99CD125E7923F7");
 
                 entity.Property(e => e.IpAddress).IsUnicode(false);
 
@@ -314,25 +329,25 @@ namespace DataScienseProject.Context
                 entity.HasOne(d => d.PasswordKeyNavigation)
                     .WithMany(p => p.VisitLogs)
                     .HasForeignKey(d => d.PasswordKey)
-                    .HasConstraintName("FK__VisitLogs__Passw__5165187F");
+                    .HasConstraintName("FK__VisitLogs__Passw__6477ECF3");
             });
 
             modelBuilder.Entity<VisitView>(entity =>
             {
                 entity.HasKey(e => e.VisitViewKey)
-                    .HasName("PK__VisitVie__C5B0538B58188750");
+                    .HasName("PK__VisitVie__C5B0538B585EEEEB");
 
                 entity.Property(e => e.VisitDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.ViewKeyNavigation)
                     .WithMany(p => p.VisitViews)
                     .HasForeignKey(d => d.ViewKey)
-                    .HasConstraintName("FK__VisitView__ViewK__5535A963");
+                    .HasConstraintName("FK__VisitView__ViewK__68487DD7");
 
                 entity.HasOne(d => d.VisitKeyNavigation)
                     .WithMany(p => p.VisitViews)
                     .HasForeignKey(d => d.VisitKey)
-                    .HasConstraintName("FK__VisitView__Visit__5441852A");
+                    .HasConstraintName("FK__VisitView__Visit__6754599E");
             });
 
             OnModelCreatingPartial(modelBuilder);

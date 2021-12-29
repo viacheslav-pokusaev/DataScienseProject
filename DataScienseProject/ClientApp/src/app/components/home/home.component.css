@@ -38,8 +38,10 @@ header nav ul li > a {
 }
 
 .text-style {
-  font-family: 'Codec Pro', sans-serif;
-  color: #4b4b4b;  
+  font-family: 'Codec Pro';
+  color: #4b4b4b;
+  font-size: calc(14.07407px + .30864vw);
+  letter-spacing: 0;
 }
 
 .text-style a {
@@ -47,21 +49,10 @@ header nav ul li > a {
   color: #d8550f;
 }
 
-.text-style a:hover {  
+.text-style a:hover {
   color: #f2a523;
   pointer-events: visible;
 }
-
- /*Hover title */
-
-/*.text-style a[title]:hover:after {
-  content: attr(title);
-  position: absolute;
-  top: -100%;
-  left: 0;
-  border: #666 2px dotted;
-  padding: 5px 20px 5px 5px;
-}*/
 
 .tag-style {
   font-family: Codec Pro;
@@ -95,7 +86,7 @@ header nav ul li > a {
 
 .img-style-ex {
   height: 350px;
-  width: 400px;  
+  width: 400px;
 }
 
 .iframe-style {

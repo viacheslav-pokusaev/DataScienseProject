@@ -42,7 +42,6 @@ export class GalleryComponent implements OnInit {
       }
       else {
         this.statusModel = res;
-        alert(res.errorMessage);
       }
     });
   }
@@ -79,8 +78,8 @@ export class GalleryComponent implements OnInit {
     if (data.statusModel.statusCode !== 403) {
       this.galleryModels = data.galleryModels;
       data.galleryModels.forEach(gm => {
-        this.tags = new Set(Array.from(this.tags).concat(Array.from(new Set(gm.tags))));        
-        this.executors = new Set(Array.from(this.executors).concat(Array.from(new Set(gm.executors))));        
+        this.tags = new Set(Array.from(this.tags).concat(Array.from(new Set(gm.tags))));
+        this.executors = new Set(Array.from(this.executors).concat(Array.from(new Set(gm.executors))));
       });
     }
     this.statusModel = data.statusModel;
