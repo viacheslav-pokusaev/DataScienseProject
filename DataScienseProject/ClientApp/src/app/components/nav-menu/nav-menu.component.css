@@ -4,9 +4,9 @@
   word-break: break-all;
 }*/
 
-html {
+/*html {
   font-size: 14px;
-}
+}*/
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -18,13 +18,22 @@ html {
 }*/
 
 .link-style {
-  text-align: center;
-  font-family: 'Codec Pro', sans-serif;
+  font-family: 'Codec Pro';
   color: #d8550f;
-  text-transform: uppercase;
   font-weight: 800 !important;
+  margin: 0;
+  border: 0;
+  line-height: 1;
+  text-decoration: none;
+  display: inline-block;
+  padding: 18px;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0;
   transition: all .4s ease-in-out;
 }
+
 
 .link-style:hover {
   transition: all .4s ease-in-out;
