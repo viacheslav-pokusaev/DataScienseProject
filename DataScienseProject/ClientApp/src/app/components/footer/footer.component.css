@@ -226,3 +226,10 @@ i {
   font-weight: 600;
   letter-spacing: 2px;
 }
+
+
+.icon-style{
+    width: 32px;
+    height:32px;
+    padding: 0px;
+}
