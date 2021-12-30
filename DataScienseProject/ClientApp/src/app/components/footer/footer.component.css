@@ -50,9 +50,9 @@ h6.contact-sub-text {
   text-transform: none;
 }
 
-.bg-footer .btn:hover {
+/*.bg-footer .btn:hover {
   border: none;
-}
+}*/
 
 .bg-footer .booking {
   margin: 0 auto;
@@ -145,7 +145,20 @@ form .form-group label {
   font-weight: 500;
 }
 
+
 form .btn-default {
+  padding: 18px 45px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 50px;
+}
+
+
+
+
+
+/*form .btn-default {
   padding: 14px 30px;
   letter-spacing: 1px;
 }
@@ -164,6 +177,12 @@ form .btn-default {
 .btn-default {
   border-radius: 50px;
 }
+*/
+
+
+
+
+
 
 footer {
   padding: 70px 0 10px;
