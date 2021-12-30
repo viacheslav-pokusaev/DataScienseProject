@@ -13,9 +13,9 @@ html {
   }
 }
 
-.box-shadow {
+/*.box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
+}*/
 
 .link-style {
   text-align: center;
@@ -31,4 +31,15 @@ html {
   color: #f2a523;
   pointer-events: visible;
   text-decoration: none;
+}
+
+.navbar {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+@media (min-width: 1470px) {
+  .container {
+    max-width: 1440px;
+  }  
 }
