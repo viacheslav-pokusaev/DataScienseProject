@@ -25,8 +25,12 @@ button {
   font-weight: 500;
 }
 
+.contact-details {
+  margin-top: 95px;
+}
+
 .contact-details p { 
-  font-size: 125%;
+  font-size: 125%;  
 }
 
 .contact-details h6.contact-sub-text {
@@ -44,6 +48,8 @@ h6.contact-sub-text {
   background-size: cover;
   background-repeat: no-repeat;
   background: #f2a523;
+  padding-top: 70px;
+  padding-bottom: 10px;
 }
 
 .bg-footer .btn-default, h6 {
@@ -77,9 +83,14 @@ div.d-flex.align-items-end h6 {
   align-items: flex-end;
 }
 
+.form-footer {  
+  margin-top: 95px;
+}
+
 .form-footer .form-group
 {
   margin-bottom: 30px;
+  font-weight: 300;
 }
 
 .form-footer .form-group input {
@@ -127,12 +138,11 @@ div.d-flex.align-items-end h6 {
   opacity: 1;
 }
 
-form {
-  padding: 60px;
-}
 
-form .form-group{
+
+form .form-group {
   margin-bottom: 60px;
+  font-weight: normal;
 }
 
 form .form-group .form-control:focus{
@@ -152,13 +162,19 @@ form .btn-default {
   font-weight: 500;
   text-transform: uppercase;
   border-radius: 50px;
+  padding-left: 80px;
+  padding-right: 80px;
+  opacity: .65;
+  transition: all .4s ease-in-out;
+}
+
+.btn-default:hover {
+  color: #d8550f !important;
+  border: 1px solid #d8550f;
 }
 
 
-
-
-
-/*form .btn-default {
+  /*form .btn-default {
   padding: 14px 30px;
   letter-spacing: 1px;
 }
@@ -184,9 +200,29 @@ form .btn-default {
 
 
 
-footer {
+  footer {
   padding: 70px 0 10px;
   text-align: left;
   font-family: 'Codec Pro', sans-serif;
   margin-top: 30px;
+}
+
+.logo-footer {
+    margin-left: -65px;
+}
+
+@media (min-width: 1470px) {
+  footer .container {
+    max-width: 1440px;
+  }
+}
+
+i {
+  margin-right: 15px;
+}
+
+.head {
+  margin-bottom: -20px;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
