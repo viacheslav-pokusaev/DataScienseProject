@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 export class HomeComponent {
 
   public mainPageModel: MainPageModel;
-  iframeHeight: string;
+  iframeHeight: string = "height: 600px;";
   
   constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }

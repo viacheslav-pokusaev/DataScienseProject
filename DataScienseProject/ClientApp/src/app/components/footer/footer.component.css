@@ -88,10 +88,8 @@ div.d-flex.align-items-end h6 {
   margin-top: 95px;
 }
 
-.form-footer .form-group
-{
-  margin-bottom: 30px;
-  font-weight: 300;
+.form-footer .form-group {
+  margin-bottom: 30px;  
 }
 
 .form-footer .form-group input {
@@ -101,6 +99,7 @@ div.d-flex.align-items-end h6 {
   border: 3px solid #fff;
   border-radius: 25px;
   color: #fff;
+  font-weight: 300;
 }
 
 .form-footer .form-group textarea {
@@ -110,6 +109,7 @@ div.d-flex.align-items-end h6 {
   border: 3px solid #fff;
   border-radius: 25px;
   color: #fff;
+  font-weight: 300;
 }
 
 .form-footer .form-group input {
@@ -139,8 +139,6 @@ div.d-flex.align-items-end h6 {
   opacity: 1;
 }
 
-
-
 form .form-group {
   margin-bottom: 60px;
   font-weight: normal;
@@ -156,7 +154,6 @@ form .form-group label {
   font-weight: 500;
 }
 
-
 form .btn-default {
   padding: 18px 45px;
   letter-spacing: 1px;
@@ -167,14 +164,12 @@ form .btn-default {
   padding-right: 80px;
   opacity: .65;
   transition: all .4s ease-in-out;
-
 }
 
 .btn-default:hover {
   color: #d8550f !important;
   border: 1px solid #d8550f;
 }
-
 
   /*form .btn-default {
   padding: 14px 30px;
@@ -197,12 +192,11 @@ form .btn-default {
 }
 */
 
+.form-group {
+  font-weight: 200;
+}
 
-
-
-
-
-  footer {
+footer {
   padding: 70px 0 10px;
   text-align: left;
   font-family: 'Codec Pro', sans-serif;
@@ -210,7 +204,7 @@ form .btn-default {
 }
 
 .logo-footer {
-    margin-left: -65px;
+  margin-left: -65px;
 }
 
 @media (min-width: 1470px) {
@@ -242,18 +236,21 @@ i {
   padding: 0px;
 }
 
-  .icon-style > i {
-    position: relative;
-    padding: calc(50% - 10px); /*50% - 3/4 of icon height */
-    margin: 0px;
-  }
+.icon-style > i {
+  position: relative;
+  padding: calc(50% - 10px); /*50% - 3/4 of icon height */
+  margin: 0px;
+}
 
-.icon {
-  
+.icon {  
   border-radius: 24%;
   border: none;
   margin: 3px;
   /*display: block; */
   line-height: 1;
+}
 
+.fa-lg {
+  font-size: 1.4em;
+  line-height: 1;  
 }
