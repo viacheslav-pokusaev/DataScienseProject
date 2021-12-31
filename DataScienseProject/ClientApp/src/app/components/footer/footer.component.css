@@ -23,6 +23,7 @@ button {
   background: #f2a523;
   font-size: calc(15px + (16 - 13) * ((100vw - 300px) / (1920 - 300)));
   font-weight: 500;
+  padding: 18px 0;
 }
 
 .contact-details {
@@ -52,7 +53,7 @@ h6.contact-sub-text {
   padding-bottom: 10px;
 }
 
-.bg-footer .btn-default, h6 {
+.bg-footer h6 {
   text-transform: none;
 }
 
@@ -166,6 +167,7 @@ form .btn-default {
   padding-right: 80px;
   opacity: .65;
   transition: all .4s ease-in-out;
+
 }
 
 .btn-default:hover {
@@ -225,11 +227,33 @@ i {
   margin-bottom: -20px;
   font-weight: 600;
   letter-spacing: 2px;
+  text-transform: capitalize;
 }
 
+.follow-toolbox {
+  margin: 10px 0;
+  display: inline-block;
+  margin-right: 10px;
+}
 
-.icon-style{
-    width: 32px;
-    height:32px;
-    padding: 0px;
+.icon-style {
+  width: 32px;
+  height: 32px;
+  padding: 0px;
+}
+
+  .icon-style > i {
+    position: relative;
+    padding: calc(50% - 10px); /*50% - 3/4 of icon height */
+    margin: 0px;
+  }
+
+.icon {
+  
+  border-radius: 24%;
+  border: none;
+  margin: 3px;
+  /*display: block; */
+  line-height: 1;
+
 }
