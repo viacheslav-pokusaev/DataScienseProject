@@ -62,10 +62,21 @@
       <div id="rel2">
         <div class="text-center shadow-1-strong rounded mb-5 text-white">
           <div class="container">
-            <iframe class="iframe-style" [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)"></iframe>
-          </div>
+            <iframe id="iframeSize" class="iframe-style" [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)" onclick="resizeIframe(this)"></iframe>
+
+            <!-- Button -->
+            <span class="text-style">
+              <a [href]="sanitizeIframe(val.layoutStyleModel)" [target]="_blank">Open new tab</a>
+            </span>
+
+              </div>
         </div>
       </div>
+
+      
+
+
+
     </div>
 
   </div>
