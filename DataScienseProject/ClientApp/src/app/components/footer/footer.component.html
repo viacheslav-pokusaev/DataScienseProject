@@ -1,8 +1,9 @@
 <footer class="agency bg-footer" id="footer">
   <div class="container">
     <div class="row">
-      <div class="col-sm-3">
-        <div class="d-flex align-items-end">
+      <!--Logo img-->
+      <div class="col-sm-3 ">
+        <div class="d-flex logo-footer">
           <a href="/">
             <img src="/img/logo-footer.png" alt="Custom Solutions Logo Footer"
                  id="footerImg" loading="lazy">
@@ -10,27 +11,30 @@
         </div>
 
       </div>
+      <!--Contact-->
       <div class="col-sm-4">
-        <h1 class="text-white">Contact us</h1>
+        <h1 class="text-white head">Contact us</h1>
         <div class="contact-details m-t-105">
-          <h6 class="contact-sub-text text-white">
+          <h6 class="contact-sub-text text-white">            
             <i aria-hidden="true"
-               class="fa fa-envelope m-r-15"></i><span>sales</span>@customsolutions.info
+               class="fa fa-envelope fa-sm"></i><span>sales</span>@customsolutions.info
           </h6>
           <h6 class="contact-sub-text text-white">
             <i aria-hidden="true"
-               class="fa fa-envelope m-r-15"></i><span>info</span>@customsolutions.info
+               class="fa fa-envelope fa-sm"></i><span>info</span>@customsolutions.info
           </h6>
-          <h6 class="contact-sub-text text-white lh25">
-            <i aria-hidden="true" class="fa fa-map-marker m-r-20"></i>Naberezhna Peremohy St, 7,
+          <h6 class="contact-sub-text text-white">            
+            <i aria-hidden="true"
+               class="fa fa-map-marker-alt fa-sm"></i>Naberezhna Peremohy St, 7,
             Dnipro,
             Dnipropetrovsk Oblast, 49000<br>
           </h6>
         </div>
       </div>
+      <!--Feedback-->
       <div class="col-sm-5">
-        <h1 class="text-white text-center">Send feedback</h1>
-        <div class="form form-footer m-t-95">
+        <h1 class="text-white text-center head">Send feedback about project</h1>
+        <div class="form form-footer m-t-95 ">
           <form #myForm [formGroup]="firstFormGroup" (ngSubmit)="sendFeedback(myForm)" class="row">
             <div class="col-12">
               <div class="form-group">
@@ -53,7 +57,7 @@
             <div class="col-sm-12 d-flex justify-content-center m-b-25" id="hide-captcha">              
             </div>
             <div class="form-group booking">
-              <button class="btn btn-default primary-btn m-0-auto bg-black p-l-r-80 button-sound"
+              <button class="btn btn-default primary-btn m-0-auto bg-black p-l-r-80 button-sound font-weight-bold"
                       type="submit">
                 Submit
               </button>
@@ -64,9 +68,32 @@
     </div>
   </div>
   <div class="d-flex justify-content-center m-b-10 m-t-10">
-    <div class="addthis_inline_follow_toolbox"></div>
+    <div class="follow-toolbox">
+      <!-- Linkedin -->
+      <a class="btn btn-primary icon-style icon" style="background-color: #0077b5;" href="http://www.linkedin.com/company/custom-it-solutions">
+        <i class="fab fa-linkedin-in fa-lg"></i>
+      </a>
+      <!-- Instagram -->
+      <a class="btn btn-primary icon-style icon" style="background-color: #e13566;" href="http://instagram.com/custom_solutions.info">
+        <i class="fab fa-instagram fa-lg"></i>
+      </a>
+      <!-- Youtube -->
+      <a class="btn btn-primary icon-style icon" style="background-color: #cd201f;" href="http://www.youtube.com/channel/UCMcvdQCXx5kg_gd6j-80RpA?sub_confirmation=1">
+        <i class="fab fa-youtube fa-lg"></i>
+      </a>
+      <!-- Facebook -->
+      <a class="btn btn-primary icon-style icon" style="background-color: #3b5998;" href="http://www.facebook.com/CustomSolutions.info">
+        <i class="fab fa-facebook-f fa-lg"></i>
+      </a>
+      <!-- Twitter -->
+      <a class="btn btn-primary icon-style icon" style="background-color: #1da1f2;" href="http://twitter.com/intent/follow?source=followbutton&variant=1.0&screen_name=CstmSltns">
+        <i class="fab fa-twitter fa-lg"></i>
+      </a>
+    </div>
   </div>
   <div class="text-center">
     <h6 class="text-white copyright"><span>Custom Solutions</span> &copy; 2020</h6>
   </div>
 </footer>
+
+<app-tap-to-top></app-tap-to-top>
