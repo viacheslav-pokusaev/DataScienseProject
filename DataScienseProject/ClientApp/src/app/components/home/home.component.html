@@ -1,4 +1,4 @@
-<div *ngIf="mainPageModel">
+<div *ngIf="mainPageModel" (click)="userClick()">
 
   <!-- View Name -->
   <div *ngFor="let val of mainPageModel.projectTypeModels">

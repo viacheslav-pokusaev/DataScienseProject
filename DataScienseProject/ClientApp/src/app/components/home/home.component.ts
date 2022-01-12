@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { LayoutStyleModel } from '../../models/layout-style.model';
 import { MainPageModel } from '../../models/main-page.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeService } from '../../services/home.service';
 import { ViewEncapsulation } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +15,11 @@ import { ViewEncapsulation } from '@angular/core';
 export class HomeComponent {
 
   public mainPageModel: MainPageModel;
+
+  public clickDate: Date;
+
   iframeHeight: string;
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private homeService: HomeService) {
+  constructor(private sanitizer: DomSanitizer, private homeService: HomeService) {
   }
 
   ngOnInit() {
@@ -43,7 +46,7 @@ export class HomeComponent {
     styles.forEach(style => {
       if (style.key === "src") {
         var styleString = style.value;
-        styleRes += styleString;       
+        styleRes += styleString;
       }
     });
     styles.forEach(style => {
@@ -65,6 +68,10 @@ export class HomeComponent {
     var styleString = "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
     styleRes += styleString;
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
+  }
+
+  userClick(){
+    this.clickDate = new Date();
   }
 
 }
