@@ -7,7 +7,6 @@
 
   <!-- Tehnology tags -->
   <div class="container">
-
     <div class="row ex">
       <!-- Executors -->
       <div class="col align-self-end nopadding">
@@ -19,12 +18,10 @@
           </span>
         </div>
       </div>
-
       <!-- Image -->
       <div class="col align-self-center">
         <img class="img-style img-style-ex img-border" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Anatomy-1751201_1280.png" />
       </div>
-
       <!-- Tehnology tags -->
       <div class="col align-self-start">
         <h3 class="head-style ex-tag-style">Tehnology tags:</h3>
@@ -32,28 +29,23 @@
           <span class="tag-style" [innerHTML]="val.tagName"></span>;
         </span>
       </div>
-
     </div>
   </div>
 
   <!-- Description -->
   <div *ngFor="let val of mainPageModel.layoutDataModels">
-
     <div class="container">
       <!-- Heading -->
       <div *ngIf="val.isShowElementName">
         <h2 class="head-style" [innerHTML]="val.elementName"></h2>
       </div>
-
       <!-- Text -->
       <div class="text-style" [innerHTML]="val.value"></div>
-
       <!-- Image -->
       <div *ngIf="(val.elementTypeName === 'Image')">
         <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
       </div>
     </div>
-
     <!-- Iframe -->
     <div class="ifarme-container" *ngIf="(val.elementTypeName === 'Iframe')" [style]="iframeHeight">
       <div id="rel1">
@@ -62,25 +54,16 @@
       <div id="rel2">
         <div class="text-center shadow-1-strong rounded mb-5 text-white">
           <div class="container">
-            <iframe class="iframe-style" [src]="sanitizeIframe(val.layoutStyleModel)" [style]="sanitizeStyles(val.layoutStyleModel)" id="iframeSize" (mouseover)="iframeSize()"></iframe>
-
+            <iframe class="iframe-style" [src]="iframeSrc" [style]="sanitizeStyles(val.layoutStyleModel)" id="iframeSize" (mouseover)="iframeSize()"></iframe>
             <!-- Button -->
             <span class="text-style">
               <a [href]="sanitizeIframe(val.layoutStyleModel)" [target]="_blank">Open new tab</a>
             </span>
-
               </div>
         </div>
-      </div>
-         
-      
-
-
-
+      </div>          
     </div>
-
   </div>
-
 </div>
 
 <app-footer></app-footer>

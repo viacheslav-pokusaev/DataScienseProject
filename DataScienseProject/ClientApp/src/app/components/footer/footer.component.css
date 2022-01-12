@@ -57,10 +57,6 @@ h6.contact-sub-text {
   text-transform: none;
 }
 
-/*.bg-footer .btn:hover {
-  border: none;
-}*/
-
 .bg-footer .booking {
   margin: 0 auto;
 }
@@ -171,27 +167,6 @@ form .btn-default {
   border: 1px solid #d8550f;
 }
 
-  /*form .btn-default {
-  padding: 14px 30px;
-  letter-spacing: 1px;
-}
-
-.booking .btn-default {
-  font-weight: 500;
-  padding: 18px 45px;
-  text-transform: uppercase;
-}
-
-.form-group input {
-  padding: 18px 20px;
-  border-radius: 35px;
-}
-
-.btn-default {
-  border-radius: 50px;
-}
-*/
-
 .form-group {
   font-weight: 200;
 }
@@ -238,15 +213,14 @@ i {
 
 .icon-style > i {
   position: relative;
-  padding: calc(50% - 10px); /*50% - 3/4 of icon height */
+  padding: calc(50% - 10px); 
   margin: 0px;
 }
 
 .icon {  
   border-radius: 24%;
   border: none;
-  margin: 3px;
-  /*display: block; */
+  margin: 3px;  
   line-height: 1;
 }
 

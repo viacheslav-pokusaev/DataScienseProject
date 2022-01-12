@@ -3,7 +3,6 @@ import { GalleryModel } from '../../models/gallery/gallery.model';
 import { HomeService } from '../../services/home.service';
 import { GalleryResult } from '../../models/gallery-result.model';
 import { StatusModel } from '../../models/status.model';
-import { ExecutorModel } from '../../models/executor.model';
 import { AuthorizeModel } from '../../models/authorize.model';
 import { FilterModel } from '../../models/filter.model';
 import { Router } from '@angular/router';

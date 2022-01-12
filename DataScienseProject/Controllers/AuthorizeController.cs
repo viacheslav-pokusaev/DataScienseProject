@@ -1,7 +1,6 @@
 ﻿using DataScienseProject.Interfaces;
 using DataScienseProject.Models.Authorize;
 using DataScienseProject.Models.Gallery;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataScienseProject.Controllers

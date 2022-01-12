@@ -26,12 +26,12 @@ namespace DataScienseProject.Services
                 ExpirationDate = p.ExpirationDate
             }).Where(x => x.Password == authorizeModel.Password && x.GroupName == authorizeModel.GroupName).FirstOrDefault();
 
-            if(pass == null)
+            if (pass == null)
             {
                 res.StatusCode = 403;
                 res.ErrorMessage = "Password incorect";
             }
-            else if(pass != null && DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) > 0)
+            else if (pass != null && DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) > 0)
             {
                 res.StatusCode = 403;
                 res.ErrorMessage = "Password expired. For continuing using service, please, contact administrator.";
