@@ -26,7 +26,7 @@ export class HomeComponent {
     var check = this.router.url;
     var splitted = check.split("/", 4);
     var currentId = Number(splitted[3]);
-    this.homeService.getCurrentId(currentId);
+    this.homeService.currentId(currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
       data.layoutDataModels.find(val => {
@@ -41,20 +41,15 @@ export class HomeComponent {
   sanitizeStyles(styles: Array<LayoutStyleModel>) {
     var styleRes: string = "";
     styles.forEach(style => {
-      if (style.key !== "src") {      
-        if (this.isHeight) {
-          if (style.key !== "height") {
-            var styleString = style.key + ": " + style.value + ";";
-            styleRes += styleString;
-            styleRes += this.iframeSize();
-          }
+      if (style.key !== "src") {           
+        if (style.key !== "height" && this.isHeight) {
+          styleRes += style.key + ": " + style.value + ";";          
+          styleRes += this.iframeSize();          
         } else {
-          var styleString = style.key + ": " + style.value + ";";
-          styleRes += styleString;
+          styleRes += style.key + ": " + style.value + ";";          
         }
       }
     });
-
     return this.sanitizer.bypassSecurityTrustStyle(styleRes);
   }
 
@@ -62,8 +57,7 @@ export class HomeComponent {
     var styleRes: string = "";
     styles.forEach(style => {
       if (style.key === "src") {
-        var styleString = style.value;
-        styleRes += styleString;        
+        styleRes += style.value;                
       }
     });
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
@@ -77,15 +71,13 @@ export class HomeComponent {
         base64 += style.value;
       }
     });
-    var styleString = "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";
-    styleRes += styleString;
+    styleRes += "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";    
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
   iframeSize() {
     this.isHeight = true;
-    const iframeSize = document.getElementById('iframeSize');
-    var iframeHeight = `height: ${iframeSize.style.height}`;
-    return iframeHeight;
+    const iframeSize = document.getElementById('iframeSize');    
+    return `height: ${iframeSize.style.height}`;
   }
 }

@@ -1,6 +1,7 @@
 USE master; 
 GO 
 
+
 DROP DATABASE CS_DS_Portfolio
 GO
 ------------------------------------------------------------------------------------------
@@ -18,7 +19,7 @@ CREATE TABLE dbo.ViewTypes (
 	ViewTypeName VARCHAR(MAX)
 );
 
-CREATE TABLE dbo.Views (
+CREATE TABLE dbo.[Views] (
 	ViewKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1),
 	ViewTypeKey INT FOREIGN KEY REFERENCES ViewTypes(ViewTypeKey),
 	ViewName VARCHAR(MAX),
@@ -156,6 +157,8 @@ CREATE TABLE dbo.Feedback (
 	Email VARCHAR(MAX),
 	[Text] VARCHAR(MAX)
 );
+
+CREATE TABLE dbo.ConfigValues(ConfigValuesKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1), [Key] VARCHAR(100), [Value] VARCHAR(100), IsEnabled BIT);
 
 ------------------------------------------------------------------------------------------
 --								Database filling
@@ -407,20 +410,6 @@ WHERE
 
 --SP GetViewFullInfo end
 
---Group filing start
-INSERT INTO [dbo].[Groups](GroupName, IsDeleted) VALUES('Group1', 0);
-INSERT INTO [dbo].[Groups](GroupName, IsDeleted) VALUES('Group2', 0);
-GO
-
-SELECT * FROM [dbo].[Groups];
-SELECT * FROM [dbo].[GroupViews];
---Group filing end
-
-
---GroupViews filing start
-INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(1, 1, 0);
-INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(2, 1, 0);
-INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(3, 2, 0);
 
 GO
 
@@ -555,7 +544,33 @@ GO
 
 --Views filling end
 
+--Group filing start
+INSERT INTO [dbo].[Groups](GroupName, IsDeleted) VALUES('Group1', 0);
+INSERT INTO [dbo].[Groups](GroupName, IsDeleted) VALUES('Group2', 0);
+GO
+--Group filing end
+
+
+--GroupViews filing start
+INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(1, 1, 0);
+INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(2, 1, 0);
+INSERT INTO [dbo].[GroupViews](ViewKey, GroupKey, IsDeleted) VALUES(3, 2, 0);
+GO
 --Group select start
+
+--Password filing start
+
+INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(1, 'test', GETDATE() - 2, GETDATE() - 1, 0);
+	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(1, 'group1', GETDATE(), GETDATE() + 7, 0);
+	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(2, 'group2', GETDATE(), GETDATE() + 7, 0);
+	GO
+--Password filing end
+
+--
+	SELECT * FROM ConfigValues;
+
+	INSERT INTO ConfigValues([Key], [Value], IsEnabled) VALUES('AdminEmail', 'kdaniilm@gmail.com', 1);
+
 --1
 DECLARE @GroupName Varchar(50) = 'Group1';
 
@@ -615,5 +630,8 @@ WHERE
 	v.ViewKey = @VIewKey
 
 
+	select * from Passwords
+
+	
 
 --Group select end

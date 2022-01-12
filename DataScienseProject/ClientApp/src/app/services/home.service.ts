@@ -18,7 +18,7 @@ export class HomeService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
-  getCurrentId(currId: number) {
+  currentId(currId: number) {
     this.modelId = currId;
   }
 

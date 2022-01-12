@@ -37,16 +37,16 @@
   </div>
   <div class="col" *ngFor="let model of galleryModels">
     <!-- Img -->
-    <div class="container gal-container" style="background-image: url('/img/test1.jpg');">
-      <div id="layer2" class="items head hide-name name">
+    <div class="container gal-container" style="background-image: url('/img/test1.jpg');" (click)="modelDetails(model.viewKey)">
+      <div class="items head hide-name">
         <!--ViewName-->
-        <h1 [innerHTML]="model.viewName" (click)="modelDetails(model.viewKey)"></h1>
+        <h1 [innerHTML]="model.viewName"></h1>
       </div>
-      <div id="layer1" class="overlay">
+      <div class="overlay">
         <div class="items"></div>
         <div class="items head">
           <!--ViewName-->
-          <h1  [innerHTML]="model.viewName" (click)="modelDetails(model.viewKey)"></h1>
+          <h1 [innerHTML]="model.viewName"></h1>
         </div>
         <div class="items desc">
           <!-- Short Description -->
@@ -57,7 +57,7 @@
         <div class="items">
           <!-- Tehnology tags -->
           <div class="row ">
-            <div class="col-sm tags text-center" *ngFor="let val of model.tags">
+            <div class="col-sm tags" *ngFor="let val of model.tags">
               <span [innerHTML]="val"></span>
             </div>
           </div>

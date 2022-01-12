@@ -88,17 +88,7 @@ div.d-flex.align-items-end h6 {
   margin-bottom: 30px;  
 }
 
-.form-footer .form-group input {
-  width: 100%;
-  background-color: #f2a523;
-  padding: 30px 30px;
-  border: 3px solid #fff;
-  border-radius: 25px;
-  color: #fff;
-  font-weight: 300;
-}
-
-.form-footer .form-group textarea {
+.form-footer .form-group input, .form-footer .form-group textarea{
   width: 100%;
   background-color: #f2a523;
   padding: 30px 30px;
