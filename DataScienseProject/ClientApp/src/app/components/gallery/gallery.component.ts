@@ -8,9 +8,6 @@ import { FilterModel } from '../../models/filter.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatChip, MatChipList, MatChipsModule } from '@angular/material/chips';
-import { untilDestroyed } from '@ngneat/until-destroy';
-import { map } from 'rxjs/operators';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-gallery',
@@ -18,14 +15,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
   styleUrls: ['./gallery.component.css']  
 })
 export class GalleryComponent implements OnInit {
-
-
-  onChange!: (value: string[]) => void;
-  chipList!: MatChipList;
-  value: string[] = [];
-  checkList: string[] = [];
-
-
+  selectedTagList: string[] = [];
 
   public tags: Set<string> = new Set;
   public executors: Set<string> = new Set;
@@ -98,57 +88,21 @@ export class GalleryComponent implements OnInit {
     this.statusModel = data.statusModel;
   }
 
-
-
-
-
-
-
-
-  ngAfterViewInit() {
-    this.selectChips(this.value);
-  }
-
-
   toggleSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
-
     if (chip.selected) {
-      this.checkList.push(chip.value);
-      console.log(this.checkList);
-    } else {
-      console.log(this.checkList[index].toString());
-      this.checkList.splice(index, 1);
-    }
-    
-
+      this.selectedTagList.push(chip.value);
+      console.log(this.selectedTagList);
+    } else {   
+      this.selectedTagList.forEach((element, index) => {
+        if (element == chip.value) this.selectedTagList.splice(index, 1);
+      });      
+      console.log(this.selectedTagList);
+    }   
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  selectChips(value: string[]) {
-    this.chipList.chips.forEach((chip) => chip.deselect());
-
-    const chipsToSelect = this.chipList.chips.filter((c) =>
-      value.includes(c.value)
-    );
-
-    chipsToSelect.forEach((chip) => chip.select());
+  checkButton() {
+    console.log(this.selectedTagList);
   }
-  
 
 }
