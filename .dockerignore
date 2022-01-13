@@ -1,0 +1,4 @@
+DataScienseProject/ClientApp/node_modules
+DataScienseProject/ClientApp/dist/npm-debug.log
+DataScienseProject/Dockerfile
+.dockerignore
