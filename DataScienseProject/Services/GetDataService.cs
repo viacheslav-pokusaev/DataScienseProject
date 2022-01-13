@@ -268,23 +268,23 @@ namespace DataScienseProject.Services
                     ShortDescription = shortDescriptionDataSelect
                 };
 
-                //it is nesessery, because another filters didn't work(two scenaries):
-                //1. if we select only one filter paramenter it's show nothing
-                //2. if we select two parameters, and then reselect second, it's filter only last one parameter
-                if (filter != null)
-                {
-                    if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
-                    (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
-                    (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
+            if (filter != null)
+            {
+                    foreach (var tagName in filter.TagName)
                     {
-                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                            galleryResult.GalleryModels.Add(galleryModel);
+                        if ((filter.ExecutorName == null && gds.TagName == tagName) ||
+                        (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
+                        (gds.TagName == tagName && gds.ExecutorName == filter.ExecutorName))
+                        {
+                            if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                                galleryResult.GalleryModels.Add(galleryModel);
+                        }
                     }
-                }
-                else
-                {
-                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                        galleryResult.GalleryModels.Add(galleryModel);
+            }
+            else
+            {
+                if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                    galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
             galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };

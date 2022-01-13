@@ -59,19 +59,20 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  public filterSelect(event: any, filterType: string) {
-    this.filter.groupName = this.groupName;
-    if (filterType === "tag") {
-      this.filter.tagName = event.target.value;
-    }
-    else if (filterType === "executor") {
-      this.filter.executorName = event.target.value;
-    }
+  //public filterSelect(event: any, filterType: string) {
+  //  this.filter.groupName = this.groupName;
+  //  if (filterType === "tag") {
+  //    this.filter.tagName = event.target.value;
+  //  }
+  //  else if (filterType === "executor") {
+  //    this.filter.executorName = event.target.value;
+  //  }
 
-    this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
-      this.galleryUnboxingData(data);
-    });
-  }
+  //  this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
+  //    this.galleryUnboxingData(data);
+  //  });
+  //}
+
   modelDetails(id: number) {
     this.homeService.setId(id);
     this.router.navigate(['gallery/model/', id]);
@@ -103,6 +104,17 @@ export class GalleryComponent implements OnInit {
 
   checkButton() {
     console.log(this.selectedTagList);
+
+    this.filter.groupName = this.groupName;
+
+    this.filter.tagName = this.selectedTagList;
+
+    this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
+      this.galleryUnboxingData(data);
+    });
+
   }
+
+
 
 }
