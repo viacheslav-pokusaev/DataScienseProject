@@ -17,6 +17,21 @@
     <div class="col-4">
       <div class="row">
         <h3 class="col-4 text-style">Tags: </h3>
+
+
+
+
+        <mat-chip-list selectable multiple>
+          <mat-chip color="primary" #c="matChip" *ngFor="let tag of tags; let i = index" [value]="tag" (click)="toggleSelection(c, i)">
+            <mat-icon *ngIf="c.selected">check</mat-icon>
+            {{tag}}
+          </mat-chip>
+        </mat-chip-list>
+        <br>        
+        <br>
+        <br>
+
+
         <select class="col-8 select-style" (change)="filterSelect($event, 'tag')">
           <option disabled selected value="undefined">Select a technology</option>
           <option *ngFor="let tag of tags" value={{tag}}>{{tag}}</option>
