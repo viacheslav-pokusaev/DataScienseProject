@@ -1,23 +1,8 @@
-header nav ul li > a {
-  color: #d8550f;
-  font-weight: 800 !important;
-  margin: 0;
-  border: 0;
-  line-height: 1;
-  text-decoration: none;
-  display: inline-block;
-  padding: 18px;
-  font-size: 20px;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0;
-}
-
 .head-style {
-  font-family: 'Codec Pro', sans-serif;
+  font-family: "Codec Pro";
+  font-size: 208%;
   color: #d8550f;
   text-transform: capitalize;
-  font-weight: 800;
   margin-top: 30px;
   margin-bottom: 30px;
 }
@@ -38,10 +23,20 @@ header nav ul li > a {
 }
 
 .text-style {
-  font-family: 'Codec Pro';
   color: #4b4b4b;
   font-size: calc(14.07407px + .30864vw);
   letter-spacing: 0;
+  font-family: "Codec Pro";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;  
+}
+
+.tag-text {
+  color: #4b4b4b;
+  opacity: 0.5;
+  margin-bottom: 10px;
+  display: inline-block;
 }
 
 .text-style a {
@@ -56,15 +51,13 @@ header nav ul li > a {
 
 .tag-style {
   font-family: Codec Pro;
-  color: #4b4b4b;
   font-weight: 300 !important;
   border-radius: 40px;
   background-color: #EEEBE8;
-  opacity: 0.5;
   padding: 5px 5px;
   text-align: center;
   cursor: pointer;
-  transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;  
 }
 
 .tag-style:hover {
@@ -93,6 +86,7 @@ header nav ul li > a {
   border: 10px solid;
   border-color: #d8550f;
   width: 100%;
+  resize: vertical;
 }
 
 #rel1 {
@@ -109,6 +103,7 @@ header nav ul li > a {
   position: relative;
   top: 100px;
   margin: 0;
+  height: 100%;
 }
 
 .ifarme-container{

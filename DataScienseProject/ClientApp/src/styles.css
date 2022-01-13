@@ -14,3 +14,31 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+@font-face {
+  font-family: "Codec Pro";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
+  src: local("Codec Pro Bold"),url(/assets/fonts/CodecPro-Bold.woff2) format('woff2')
+}
+
+@font-face {
+  font-family: "Codec Pro";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
+  src: local("Codec Pro Light"),url(/assets/fonts/CodecPro-Light.woff2) format("woff2")
+}
+
+@font-face {
+  font-family: "Codec Pro";
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+000-5FF;
+  src: local("Codec Pro ExtraBold"),url(/assets/fonts/CodecPro-ExtraBold.woff2) format("woff2")
+}
+

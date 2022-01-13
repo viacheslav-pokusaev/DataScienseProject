@@ -12,11 +12,11 @@
 </div>
 
 <div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
-  <div class="row col-12">
+  <div class="row col-12 tag-container">
     <div class="col-1"></div>
     <div class="col-4">
       <div class="row">
-        <label class="col-4 text-style">Tags: </label>
+        <h3 class="col-4 text-style">Tags: </h3>
         <select class="col-8 select-style" (change)="filterSelect($event, 'tag')">
           <option disabled selected value="undefined">Select a technology</option>
           <option *ngFor="let tag of tags" value={{tag}}>{{tag}}</option>
@@ -26,7 +26,7 @@
     <div class="col-2"></div>
     <div class="col-4">
       <div class="row">
-        <label class="col-4 text-style">Executors: </label>
+        <h3 class="col-4 text-style">Executors: </h3>
         <select class="col-8 select-style" (change)="filterSelect($event, 'executor')">
           <option disabled selected value="undefined">Select an executor</option>
           <option *ngFor="let executor of executors" value={{executor}}>{{executor}}</option>
@@ -37,16 +37,16 @@
   </div>
   <div class="col" *ngFor="let model of galleryModels">
     <!-- Img -->
-    <div class="container gal-container" style="background-image: url('/img/test1.jpg');">
+    <div class="container gal-container" style="background-image: url('/img/test1.jpg');" (click)="modelDetails(model.viewKey)">
       <div class="items head hide-name">
         <!--ViewName-->
-        <h1 [innerHTML]="model.viewName" (click)="modelDetails(model.viewKey)"></h1>
+        <h1 [innerHTML]="model.viewName"></h1>
       </div>
       <div class="overlay">
         <div class="items"></div>
         <div class="items head">
           <!--ViewName-->
-          <h1 class="name" [innerHTML]="model.viewName" (click)="modelDetails(model.viewKey)"></h1>
+          <h1 [innerHTML]="model.viewName"></h1>
         </div>
         <div class="items desc">
           <!-- Short Description -->
@@ -56,7 +56,7 @@
         </div>
         <div class="items">
           <!-- Tehnology tags -->
-          <div class="row justify-content-center">
+          <div class="row ">
             <div class="col-sm tags" *ngFor="let val of model.tags">
               <span [innerHTML]="val"></span>
             </div>

@@ -62,6 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\components\tap-to-top\" />
     <Folder Include="ClientApp\src\app\services\" />
     <Folder Include="ClientApp\src\assets\css\" />
   </ItemGroup>
