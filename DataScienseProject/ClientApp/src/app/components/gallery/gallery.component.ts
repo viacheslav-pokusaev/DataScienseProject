@@ -15,7 +15,9 @@ import { MatChip, MatChipList, MatChipsModule } from '@angular/material/chips';
   styleUrls: ['./gallery.component.css']  
 })
 export class GalleryComponent implements OnInit {
-  selectedTagList: string[] = [];
+  selectedTagsList: string[] = [];
+  selectedExecutorsList: string[] = [];
+
 
   public tags: Set<string> = new Set;
   public executors: Set<string> = new Set;
@@ -59,20 +61,6 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  //public filterSelect(event: any, filterType: string) {
-  //  this.filter.groupName = this.groupName;
-  //  if (filterType === "tag") {
-  //    this.filter.tagName = event.target.value;
-  //  }
-  //  else if (filterType === "executor") {
-  //    this.filter.executorName = event.target.value;
-  //  }
-
-  //  this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
-  //    this.galleryUnboxingData(data);
-  //  });
-  //}
-
   modelDetails(id: number) {
     this.homeService.setId(id);
     this.router.navigate(['gallery/model/', id]);
@@ -89,32 +77,43 @@ export class GalleryComponent implements OnInit {
     this.statusModel = data.statusModel;
   }
 
-  toggleSelection(chip: MatChip, index: number) {
+  tagsSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
     if (chip.selected) {
-      this.selectedTagList.push(chip.value);
-      console.log(this.selectedTagList);
+      this.selectedTagsList.push(chip.value);
+      console.log(this.selectedTagsList);
     } else {   
-      this.selectedTagList.forEach((element, index) => {
-        if (element == chip.value) this.selectedTagList.splice(index, 1);
+      this.selectedTagsList.forEach((element, index) => {
+        if (element == chip.value) this.selectedTagsList.splice(index, 1);
       });      
-      console.log(this.selectedTagList);
+      console.log(this.selectedTagsList);
     }   
   }
 
+  executorsSelection(chip: MatChip, index: number) {
+    chip.toggleSelected();
+    if (chip.selected) {
+      this.selectedExecutorsList.push(chip.value);
+      console.log(this.selectedExecutorsList);
+    } else {
+      this.selectedExecutorsList.forEach((element, index) => {
+        if (element == chip.value) this.selectedExecutorsList.splice(index, 1);
+      });
+      console.log(this.selectedExecutorsList);
+    }
+  }
+
   checkButton() {
-    console.log(this.selectedTagList);
+    console.log(this.selectedTagsList);
 
     this.filter.groupName = this.groupName;
-
-    this.filter.tagName = this.selectedTagList;
+    this.filter.tagsName = this.selectedTagsList;
+    this.filter.executorsName = this.selectedExecutorsList;
 
     this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
       this.galleryUnboxingData(data);
     });
 
   }
-
-
 
 }

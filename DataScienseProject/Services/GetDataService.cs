@@ -4,6 +4,7 @@ using DataScienseProject.Models;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace DataScienseProject.Services
     {
         private readonly DataScienceProjectDbContext _context;
         private readonly IAuthorizationService _authorizationService;
+
+        private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
 
         private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
@@ -270,16 +273,30 @@ namespace DataScienseProject.Services
 
             if (filter != null)
             {
-                    foreach (var tagName in filter.TagName)
+                if (filter.TagsName.Count() > 0)
+                {
+                    filter.TagsName.ToList().ForEach(t =>
                     {
-                        if ((filter.ExecutorName == null && gds.TagName == tagName) ||
-                        (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
-                        (gds.TagName == tagName && gds.ExecutorName == filter.ExecutorName))
+                        if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                            galleryModelsBuff.Add(galleryModel);
+                    });
+                }
+                else
+                {
+                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                            galleryModelsBuff.Add(galleryModel);
+                }
+
+                galleryModelsBuff.ToList().ForEach(gmb => {
+                    foreach (var executor in filter.ExecutorsName) {
+                        if (gmb.Executors.Where(e => e == executor).Count() == 0 && galleryModelsBuff.Count > 0)
                         {
-                            if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                                galleryResult.GalleryModels.Add(galleryModel);
+                            galleryModelsBuff.Remove(gmb);
                         }
                     }
+                });
+
+                galleryResult.GalleryModels = galleryModelsBuff;
             }
             else
             {
