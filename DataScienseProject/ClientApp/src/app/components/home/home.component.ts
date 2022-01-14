@@ -33,8 +33,7 @@ export class HomeComponent {
     var splitted = check.split("/", 4);
     var currentId = Number(splitted[3]);
 
-    this.trackingModel.isVisitSuccess = true;
-    this.trackingModel.visitDate = new Date();
+    this.configureTrackingModel();
 
     this.homeService.currentId(currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
@@ -94,15 +93,16 @@ export class HomeComponent {
     this.trackingModel.visitLastClick = new Date();
   }
 
-  ngOnDestroy(){
-
+  configureTrackingModel(){
     this.homeService.getIPAddress().subscribe((res: any) => {
       this.trackingModel.ipAddress = res.ip;
+      this.trackingModel.isVisitSuccess = true;
+      this.trackingModel.visitDate = new Date();
     });
+  }
 
-    this.homeService.sendTrackingData(this.trackingModel).subscribe((res: any)=>{
-
-    });
+  ngOnDestroy(){
+    this.homeService.sendTrackingData(this.trackingModel).subscribe((res: any)=>{});
   }
 
 }
