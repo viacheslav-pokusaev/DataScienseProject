@@ -17,7 +17,7 @@ import { MatChip, MatChipList, MatChipsModule } from '@angular/material/chips';
 export class GalleryComponent implements OnInit {
   selectedTagsList: string[] = [];
   selectedExecutorsList: string[] = [];
-
+  isModelExist: boolean;
 
   public tags: Set<string> = new Set;
   public executors: Set<string> = new Set;
@@ -112,6 +112,11 @@ export class GalleryComponent implements OnInit {
 
     this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
       this.galleryUnboxingData(data);
+      if (data.galleryModels.length !== 0) {
+        this.isModelExist = true;
+      } else {
+        this.isModelExist = false;
+      }
     });
 
   }

@@ -16,37 +16,41 @@
   <div class="row col-12 tag-container">
     <div class="col-1"></div>
     <div class="col-4">
-
+      <h3 class="heading">Tags: </h3>
       <div class="row">
-        <h3 class="col-4 text-style">Tags: </h3>
         <!--Tags-->
-        <mat-chip-list selectable multiple>
-          <mat-chip color="primary" #c="matChip" *ngFor="let tag of tags; let i = index" [value]="tag" (click)="tagsSelection(c, i)">
+        <mat-chip-list class="my-chip" selectable multiple>
+          <mat-chip #c="matChip" *ngFor="let tag of tags; let i = index" [value]="tag" (click)="tagsSelection(c, i)">
             <mat-icon *ngIf="c.selected">check</mat-icon>
             {{tag}}
           </mat-chip>
         </mat-chip-list>
-        <button type="button" class="btn btn-primary" (click)="checkButton()">Check</button>
-
       </div>
-
     </div>
+
     <div class="col-2"></div>
     <div class="col-4">
+      <h3 class="heading">Executors: </h3>
       <div class="row">
-        <h3 class="col-4 text-style">Executors: </h3>
         <!--Executors-->
-        <mat-chip-list selectable multiple>
-          <mat-chip color="primary" #c="matChip" *ngFor="let executor of executors; let i = index" [value]="executor" (click)="executorsSelection(c, i)">
+        <mat-chip-list class="my-chip" selectable multiple>
+          <mat-chip #c="matChip" *ngFor="let executor of executors; let i = index" [value]="executor" (click)="executorsSelection(c, i)">
             <mat-icon *ngIf="c.selected">check</mat-icon>
             {{executor}}
           </mat-chip>
         </mat-chip-list>
-
       </div>
     </div>
     <div class="col-1"></div>
+    <div class="col-md-12 text-center">
+      <button type="button" class="btn btn-select" (click)="checkButton()">Select</button>
+    </div>
   </div>
+
+  <div *ngIf="isModelExist == false">
+    No results found
+  </div>
+
   <div class="col" *ngFor="let model of galleryModels">
     <!-- Img -->
     <div class="container gal-container" style="background-image: url('/img/test1.jpg');" (click)="modelDetails(model.viewKey)">
@@ -77,4 +81,8 @@
       </div>
     </div>
   </div>
+
+
+
+
 </div>

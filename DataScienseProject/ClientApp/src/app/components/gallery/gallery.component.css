@@ -143,7 +143,7 @@
   outline: 0;
 }
 
-.text-style {
+.heading {
   font-family: 'Codec Pro', sans-serif;
   color: #d8550f;
 }
@@ -200,4 +200,22 @@ mat-icon {
   width: 20px;
   font-size: 20px;
   margin-right: 5px;
+}
+
+.btn-select {
+  font-size: calc(14.44444px + .18519vw);
+  background-color: #d8550f;
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  font-weight: 400;
+  text-transform: uppercase;
+  padding: 10px 100px;
+  letter-spacing: 1px;
+  letter-spacing: 1px;
+}
+
+.my-chip .mat-chip-selected {
+  background-color: #f2a523;
+  color: #fff;
 }
