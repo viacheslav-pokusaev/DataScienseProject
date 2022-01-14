@@ -1,5 +1,3 @@
-import { ExecutorModel } from "../executor.model"
-
 export class GalleryModel {
   viewKey: number;
   viewName: string;
