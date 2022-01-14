@@ -4,7 +4,7 @@ namespace DataScienseProject.Models
 {
     public class TrackingModel
     {
-        public bool isVisitSuccess { get; set; }
+        public bool IsVisitSuccess { get; set; }
         public string IpAddress { get; set; }
         public DateTime VisitDate { get; set; }
         public string Password { get; set; }

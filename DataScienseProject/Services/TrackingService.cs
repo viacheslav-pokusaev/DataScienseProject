@@ -13,7 +13,7 @@ namespace DataScienseProject.Services
             _encriptionService = encriptionService;
         }
 
-        public void GetLogs(TrackingModel tracking)
+        public void GetTrackingData(TrackingModel tracking)
         {
             
         }

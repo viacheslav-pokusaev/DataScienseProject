@@ -13,14 +13,16 @@ namespace DataScienseProject.Controllers
     [ApiController]
     public class TrackingController : ControllerBase
     {
-        private readonly ITrackingService _logsService;
+        private readonly ITrackingService _trackingService;
         public TrackingController(ITrackingService logsService)
         {
-            _logsService = logsService;
+            _trackingService = logsService;
         }
-        public void GetLogs(TrackingModel tracking)
+        [HttpPost]
+        [Route("tracking-data")]
+        public void GetTrackingData(TrackingModel tracking)
         {
-            _logsService.GetLogs(tracking);
+            _trackingService.GetTrackingData(tracking);
         }
-    }
+    } 
 }
