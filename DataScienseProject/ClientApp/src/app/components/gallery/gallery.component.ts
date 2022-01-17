@@ -7,13 +7,17 @@ import { AuthorizeModel } from '../../models/authorize.model';
 import { FilterModel } from '../../models/filter.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { MatChip, MatChipList, MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css']
+  styleUrls: ['./gallery.component.css']  
 })
 export class GalleryComponent implements OnInit {
+  selectedTagsList: string[] = [];
+  selectedExecutorsList: string[] = [];
+  isModelExist: boolean;
 
   public tags: Set<string> = new Set;
   public executors: Set<string> = new Set;
@@ -57,19 +61,6 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  public filterSelect(event: any, filterType: string) {
-    this.filter.groupName = this.groupName;
-    if (filterType === "tag") {
-      this.filter.tagName = event.target.value;
-    }
-    else if (filterType === "executor") {
-      this.filter.executorName = event.target.value;
-    }
-
-    this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
-      this.galleryUnboxingData(data);
-    });
-  }
   modelDetails(id: number) {
     this.homeService.setId(id);
     this.router.navigate(['gallery/model/', id]);
@@ -84,6 +75,44 @@ export class GalleryComponent implements OnInit {
       });
     }
     this.statusModel = data.statusModel;
+  }
+
+  tagsSelection(chip: MatChip, index: number) {
+    chip.toggleSelected();
+    if (chip.selected) {
+      this.selectedTagsList.push(chip.value);      
+    } else {   
+      this.selectedTagsList.forEach((element, index) => {
+        if (element == chip.value) this.selectedTagsList.splice(index, 1);
+      });            
+    }   
+  }
+
+  executorsSelection(chip: MatChip, index: number) {
+    chip.toggleSelected();
+    if (chip.selected) {
+      this.selectedExecutorsList.push(chip.value);      
+    } else {
+      this.selectedExecutorsList.forEach((element, index) => {
+        if (element == chip.value) this.selectedExecutorsList.splice(index, 1);
+      });      
+    }
+  }
+
+  checkButton() {  
+    this.filter.groupName = this.groupName;
+    this.filter.tagsName = this.selectedTagsList;
+    this.filter.executorsName = this.selectedExecutorsList;
+
+    this.homeService.getGalleryWithFilters(this.filter).subscribe((data: GalleryResult) => {
+      this.galleryUnboxingData(data);
+      if (data.galleryModels.length !== 0) {
+        this.isModelExist = true;
+      } else {
+        this.isModelExist = false;
+      }
+    });
+
   }
 
 }

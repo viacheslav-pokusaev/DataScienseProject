@@ -4,6 +4,7 @@ using DataScienseProject.Models;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace DataScienseProject.Services
     {
         private readonly DataScienceProjectDbContext _context;
         private readonly IAuthorizationService _authorizationService;
+
+        private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
 
         private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
@@ -268,23 +271,37 @@ namespace DataScienseProject.Services
                     ShortDescription = shortDescriptionDataSelect
                 };
 
-                //it is nesessery, because another filters didn't work(two scenaries):
-                //1. if we select only one filter paramenter it's show nothing
-                //2. if we select two parameters, and then reselect second, it's filter only last one parameter
-                if (filter != null)
+            if (filter != null)
+            {
+                if (filter.TagsName.Count() > 0)
                 {
-                    if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
-                    (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
-                    (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
+                    filter.TagsName.ToList().ForEach(t =>
                     {
-                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                            galleryResult.GalleryModels.Add(galleryModel);
-                    }
+                        if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                            galleryModelsBuff.Add(galleryModel);
+                    });
                 }
                 else
                 {
-                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                        galleryResult.GalleryModels.Add(galleryModel);
+                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                            galleryModelsBuff.Add(galleryModel);
+                }
+
+                galleryModelsBuff.ToList().ForEach(gmb => {
+                    foreach (var executor in filter.ExecutorsName) {
+                        if (gmb.Executors.Where(e => e == executor).Count() == 0 && galleryModelsBuff.Count > 0)
+                        {
+                            galleryModelsBuff.Remove(gmb);
+                        }
+                    }
+                });
+
+                galleryResult.GalleryModels = galleryModelsBuff;
+            }
+            else
+            {
+                if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                    galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
             galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };

@@ -10,6 +10,10 @@ import { GalleryComponent } from './components/gallery/gallery.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './components/footer/footer.component';
 import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -26,10 +30,13 @@ import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component'
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    MatChipsModule,    
+    MatIconModule,
     RouterModule.forRoot([
       { path: 'gallery/:groupName', component: GalleryComponent, pathMatch: 'full' },
       { path: 'gallery/model/:id', component: HomeComponent, pathMatch: 'full' }
-    ])
+    ]),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
