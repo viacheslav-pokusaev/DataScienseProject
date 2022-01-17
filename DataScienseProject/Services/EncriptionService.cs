@@ -1,43 +1,40 @@
 ﻿using DataScienseProject.Interfaces;
 using System;
+using System.Text;
 
 namespace DataScienseProject.Services
 {
     public class EncriptionService : IEncriptionService
     {
+        private static readonly string SALT1 = "Data";
+        private static readonly string SALT2 = "Science";
         public EncriptionService() { }
 
         public string EncriptPassword(string pass)
         {
-            if (!string.IsNullOrEmpty(pass))
-            {
-                var encriptedPass = string.Empty;
-                var index = pass.ToCharArray().Length;
+            var encriptArr = ASCIIEncoding.ASCII.GetBytes(SALT1 + pass + SALT2);
+            var res = Convert.ToBase64String(encriptArr);
 
-                foreach (var charElem in pass.ToCharArray())
-                {
-                    encriptedPass += (char)(Convert.ToInt32(charElem) + index);
-                    index--;
-                }
-
-                return encriptedPass;
-            }
-            return null;
+            return res;
         }
 
         public string DescriptPassword(string pass)
         {
-            var decriptedPass = string.Empty;
-
-            var index = pass.ToCharArray().Length;
-
-            foreach (var charElem in pass.ToCharArray())
+            var decryptedPass = string.Empty;
+            try
             {
-                decriptedPass += (char)(Convert.ToInt32(charElem) - index);
-                index--;
-            }
+                var descriptArr = Convert.FromBase64String(pass);
+                var decryptedSalt = ASCIIEncoding.ASCII.GetString(descriptArr);
 
-            return decriptedPass;
+                for(var i = SALT1.Length; i < decryptedSalt.Length - SALT2.Length; i++)
+                {
+                    decryptedPass += decryptedSalt[i];
+                }
+            }
+            catch
+            {
+            }
+            return decryptedPass;
         }
     }
 }
