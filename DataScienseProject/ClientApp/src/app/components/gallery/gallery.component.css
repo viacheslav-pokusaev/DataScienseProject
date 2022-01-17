@@ -213,6 +213,7 @@ mat-icon {
   padding: 10px 100px;
   letter-spacing: 1px;
   letter-spacing: 1px;
+  margin: 40px;
 }
 
 .my-chip .mat-chip-selected {

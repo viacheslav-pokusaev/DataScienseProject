@@ -80,32 +80,26 @@ export class GalleryComponent implements OnInit {
   tagsSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
     if (chip.selected) {
-      this.selectedTagsList.push(chip.value);
-      console.log(this.selectedTagsList);
+      this.selectedTagsList.push(chip.value);      
     } else {   
       this.selectedTagsList.forEach((element, index) => {
         if (element == chip.value) this.selectedTagsList.splice(index, 1);
-      });      
-      console.log(this.selectedTagsList);
+      });            
     }   
   }
 
   executorsSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
     if (chip.selected) {
-      this.selectedExecutorsList.push(chip.value);
-      console.log(this.selectedExecutorsList);
+      this.selectedExecutorsList.push(chip.value);      
     } else {
       this.selectedExecutorsList.forEach((element, index) => {
         if (element == chip.value) this.selectedExecutorsList.splice(index, 1);
-      });
-      console.log(this.selectedExecutorsList);
+      });      
     }
   }
 
-  checkButton() {
-    console.log(this.selectedTagsList);
-
+  checkButton() {  
     this.filter.groupName = this.groupName;
     this.filter.tagsName = this.selectedTagsList;
     this.filter.executorsName = this.selectedExecutorsList;

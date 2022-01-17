@@ -11,7 +11,6 @@
   <div class="col-4"></div>
 </div>
 
-
 <div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
   <div class="row col-12 tag-container">
     <div class="col-1"></div>
@@ -45,10 +44,10 @@
     <div class="col-md-12 text-center">
       <button type="button" class="btn btn-select" (click)="checkButton()">Select</button>
     </div>
-  </div>
-
-  <div *ngIf="isModelExist == false">
-    No results found
+    <!-- No results found -->
+    <div class="col-md-12 text-center" *ngIf="isModelExist == false">
+      <div class="h1 head-style text-center">No results found</div>
+    </div>
   </div>
 
   <div class="col" *ngFor="let model of galleryModels">
@@ -81,8 +80,4 @@
       </div>
     </div>
   </div>
-
-
-
-
 </div>
