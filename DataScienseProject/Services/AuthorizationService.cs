@@ -30,7 +30,7 @@ namespace DataScienseProject.Services
                 Password = p.PasswordValue,
                 GroupName = g.GroupName,
                 ExpirationDate = p.ExpirationDate
-            }).Where(x => x.Password == authorizeModel.Password && x.GroupName == authorizeModel.GroupName).FirstOrDefault();
+            }).Where(x => x.Password == authorizeModel.Password && x.GroupName == authorizeModel.GroupName).ToList().LastOrDefault();
 
             if (pass == null)
             {

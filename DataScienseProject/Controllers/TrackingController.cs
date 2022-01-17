@@ -22,7 +22,7 @@ namespace DataScienseProject.Controllers
         [Route("tracking-data")]
         public void GetTrackingData(TrackingModel tracking)
         {
-            _trackingService.GetTrackingData(tracking);
+            _trackingService.GetTrackingData(tracking, HttpContext);
         }
     } 
 }

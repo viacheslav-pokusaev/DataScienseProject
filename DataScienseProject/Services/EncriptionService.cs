@@ -12,20 +12,23 @@ namespace DataScienseProject.Services
 
         public string EncriptPassword(string pass)
         {
-            var encriptedPass = string.Empty;
-
-            var index = pass.ToCharArray().Length;
-
-            foreach (var charElem in pass.ToCharArray())
+            if (!string.IsNullOrEmpty(pass))
             {
-                encriptedPass += (Convert.ToInt32(charElem) + index);
-                index--;
-            }
+                var encriptedPass = string.Empty;
+                var index = pass.ToCharArray().Length;
 
-            return encriptedPass;
+                foreach (var charElem in pass.ToCharArray())
+                {
+                    encriptedPass += (char)(Convert.ToInt32(charElem) + index);
+                    index--;
+                }
+
+                return encriptedPass;
+            }
+            return null;
         }
 
-        public string DescriptionPassword(string pass)
+        public string DescriptPassword(string pass)
         {
             var decriptedPass = string.Empty;
 
@@ -33,7 +36,7 @@ namespace DataScienseProject.Services
 
             foreach (var charElem in pass.ToCharArray())
             {
-                decriptedPass += (Convert.ToInt32(charElem) - index);
+                decriptedPass += (char)(Convert.ToInt32(charElem) - index);
                 index--;
             }
 

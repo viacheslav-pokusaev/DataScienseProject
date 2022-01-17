@@ -1,6 +1,8 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace DataScienseProject.Services
 {
@@ -13,9 +15,9 @@ namespace DataScienseProject.Services
             _encriptionService = encriptionService;
         }
 
-        public void GetTrackingData(TrackingModel tracking)
+        public void GetTrackingData(TrackingModel tracking, HttpContext http)
         {
-            
+            tracking.Password = _encriptionService.DescriptPassword(http.Request.Cookies.FirstOrDefault(x => x.Key == "Password").Value);
         }
     }
 }
