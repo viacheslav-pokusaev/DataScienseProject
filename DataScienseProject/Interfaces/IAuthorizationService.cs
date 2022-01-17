@@ -9,5 +9,6 @@ namespace DataScienseProject.Interfaces
         StatusModel CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http);
 
         StatusModel IsAuthorized(HttpContext http, string groupName);
+        void UpdateCookie(HttpContext http);
     }
 }
