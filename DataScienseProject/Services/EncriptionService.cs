@@ -1,14 +1,11 @@
 ﻿using DataScienseProject.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DataScienseProject.Services
 {
     public class EncriptionService : IEncriptionService
     {
-        public EncriptionService(){ }
+        public EncriptionService() { }
 
         public string EncriptPassword(string pass)
         {

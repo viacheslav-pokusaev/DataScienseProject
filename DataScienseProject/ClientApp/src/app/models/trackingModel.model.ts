@@ -1,4 +1,5 @@
 export class TrackingModel{
+  public viewKey: number;
   public isVisitSuccess: boolean;
   public ipAddress: string;
   public visitDate: Date;

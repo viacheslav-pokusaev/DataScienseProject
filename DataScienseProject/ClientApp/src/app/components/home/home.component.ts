@@ -21,6 +21,8 @@ export class HomeComponent {
 
   public trackingModel: TrackingModel = new TrackingModel();
 
+  private currentId: number;
+
   iframeHeight: string;
   isHeight: boolean = false;
   public iframeSrc: SafeResourceUrl;
@@ -31,11 +33,11 @@ export class HomeComponent {
   ngOnInit() {
     var check = this.router.url;
     var splitted = check.split("/", 4);
-    var currentId = Number(splitted[3]);
+    this.currentId = Number(splitted[3]);
 
     this.configureTrackingModel();
 
-    this.homeService.currentId(currentId);
+    this.homeService.currentId(this.currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
       data.layoutDataModels.find(val => {
@@ -95,6 +97,7 @@ export class HomeComponent {
 
   configureTrackingModel(){
     this.homeService.getIPAddress().subscribe((res: any) => {
+      this.trackingModel.viewKey = this.currentId;
       this.trackingModel.ipAddress = res.ip;
       this.trackingModel.isVisitSuccess = true;
       this.trackingModel.visitDate = new Date();

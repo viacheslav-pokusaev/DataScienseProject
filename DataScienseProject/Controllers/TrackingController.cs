@@ -1,11 +1,6 @@
 ﻿using DataScienseProject.Interfaces;
 using DataScienseProject.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DataScienseProject.Controllers
 {
@@ -22,7 +17,7 @@ namespace DataScienseProject.Controllers
         [Route("tracking-data")]
         public void GetTrackingData(TrackingModel tracking)
         {
-            _trackingService.GetTrackingData(tracking, HttpContext);
+            _trackingService.SaveTrackingData(tracking, HttpContext);
         }
-    } 
+    }
 }

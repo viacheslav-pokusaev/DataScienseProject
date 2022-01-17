@@ -6,6 +6,6 @@ namespace DataScienseProject.Interfaces
 {
     public interface ITrackingService
     {
-        void GetTrackingData(TrackingModel tracking, HttpContext http);
+        void SaveTrackingData(TrackingModel tracking, HttpContext http);
     }
 }
