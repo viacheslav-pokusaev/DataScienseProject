@@ -277,13 +277,13 @@ namespace DataScienseProject.Services
                 {
                     filter.TagsName.ToList().ForEach(t =>
                     {
-                        if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                        if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels))
                             galleryModelsBuff.Add(galleryModel);
                     });
                 }
                 else
                 {
-                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
                             galleryModelsBuff.Add(galleryModel);
                 }
 
@@ -300,7 +300,7 @@ namespace DataScienseProject.Services
             }
             else
             {
-                if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
+                if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
                     galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
