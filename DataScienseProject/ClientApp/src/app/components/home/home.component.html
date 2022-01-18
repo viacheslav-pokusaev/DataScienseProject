@@ -43,7 +43,7 @@
       <div class="text-style" [innerHTML]="val.value"></div>
       <!-- Image -->
       <div *ngIf="(val.elementTypeName === 'Image')">
-        <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
+        <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel, val.path)"></div>
       </div>
     </div>
     <!-- Iframe -->
@@ -61,7 +61,7 @@
             </span>
               </div>
         </div>
-      </div>          
+      </div>
     </div>
   </div>
 </div>

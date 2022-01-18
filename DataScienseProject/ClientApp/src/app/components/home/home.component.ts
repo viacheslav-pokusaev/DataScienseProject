@@ -63,15 +63,9 @@ export class HomeComponent {
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
-  sanitizeImage(styles: Array<LayoutStyleModel>) {
+  sanitizeImage(styles: Array<LayoutStyleModel>, value: string) {
     var styleRes: string = "";
-    var base64: string = "";
-    styles.forEach(style => {
-      if (style.key == "src") {
-        base64 += style.value;
-      }
-    });
-    styleRes += "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";    
+    styleRes += "<img src='" + value + "' style='" + this.sanitizeStyles(styles) + "'/>";
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
