@@ -14,13 +14,13 @@ namespace DataScienseProject.Services
     {
         private readonly DataScienceProjectDbContext _context;
         private readonly IEmailSenderService _emailSenderService;
-        private readonly IEncriptionService _encriptionService;
+        private readonly IEncryptionService _encryptionService;
 
-        public AuthorizationService(DataScienceProjectDbContext context, IEmailSenderService emailSenderService, IEncriptionService encriptionService)
+        public AuthorizationService(DataScienceProjectDbContext context, IEmailSenderService emailSenderService, IEncryptionService encryptionService)
         {
             _context = context;
             _emailSenderService = emailSenderService;
-            _encriptionService = encriptionService;
+            _encryptionService = encryptionService;
         }
         public StatusModel CheckPasswordIsValid(AuthorizeModel authorizeModel, HttpContext http)
         {
@@ -52,7 +52,7 @@ namespace DataScienseProject.Services
                 {
                     Expires = DateTimeOffset.Now.AddMinutes(15)
                 });
-                http.Response.Cookies.Append("Password", _encriptionService.EncriptPassword(pass.Password), new CookieOptions()
+                http.Response.Cookies.Append("Password", _encryptionService.EncryptPassword(pass.Password), new CookieOptions()
                 {
                     Expires = DateTimeOffset.Now.AddMinutes(15)
                 });

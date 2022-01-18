@@ -43,7 +43,7 @@ namespace DataScienseProject
 
             services.AddScoped<IAddFeedbackService, AddFeedbackService>();
 
-            services.AddScoped<IEncriptionService, EncriptionService>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
 
             services.AddScoped<ITrackingService, TrackingService>();
 
