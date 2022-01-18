@@ -31,9 +31,7 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    let check = this.router.url;
-    var splitted = check.split("/", 4);
-    this.currentId = Number(splitted[3]);
+    this.currentId = Number(this.router.url.split("/", 4)[3]);
 
     this.configureTrackingModel();
 
