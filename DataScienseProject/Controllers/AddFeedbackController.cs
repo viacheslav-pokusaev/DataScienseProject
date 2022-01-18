@@ -10,15 +10,18 @@ namespace DataScienseProject.Controllers
     public class AddFeedbackController : ControllerBase
     {
         private readonly IAddFeedbackService _addFeedbackService;
-        public AddFeedbackController(IAddFeedbackService addFeedbackService)
+        private readonly IAuthorizationService _authorizationService;
+        public AddFeedbackController(IAddFeedbackService addFeedbackService, IAuthorizationService authorizationService)
         {
             _addFeedbackService = addFeedbackService;
+            _authorizationService = authorizationService;
         }
 
         [HttpPost]
         [Route("add")]
         public FeedbackModel Add([FromBody] FeedbackModel feedback)
         {
+            _authorizationService.UpdateCookie(HttpContext);
             return _addFeedbackService.AddFeedback(feedback);
         }
 

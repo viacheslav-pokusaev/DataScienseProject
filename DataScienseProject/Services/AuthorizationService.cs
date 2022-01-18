@@ -48,8 +48,14 @@ namespace DataScienseProject.Services
             {
                 res.StatusCode = 200;
                 res.ErrorMessage = "";
-                http.Response.Cookies.Append("Authorize", authorizeModel.GroupName);
-                http.Response.Cookies.Append("Password", _encriptionService.EncriptPassword(pass.Password));
+                http.Response.Cookies.Append("Authorize", authorizeModel.GroupName, new CookieOptions()
+                {
+                    Expires = DateTimeOffset.Now.AddMinutes(15)
+                });
+                http.Response.Cookies.Append("Password", _encriptionService.EncriptPassword(pass.Password), new CookieOptions()
+                {
+                    Expires = DateTimeOffset.Now.AddMinutes(15)
+                });
             }
             return res;
         }
@@ -62,6 +68,17 @@ namespace DataScienseProject.Services
             }
 
             return new StatusModel() { ErrorMessage = "", StatusCode = 200 };
+        }
+
+        public void UpdateCookie(HttpContext http)
+        {
+            foreach (var cookie in http.Request.Cookies.ToList())
+            {
+                http.Response.Cookies.Append(cookie.Key, cookie.Value, new CookieOptions()
+                {
+                    Expires = DateTimeOffset.Now.AddMinutes(15)
+                });
+            }
         }
     }
 }
