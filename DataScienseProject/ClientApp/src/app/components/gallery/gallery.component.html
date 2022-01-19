@@ -63,7 +63,7 @@
           <!--ViewName-->
           <h1 [innerHTML]="model.viewName"></h1>
         </div>
-        <div class="items desc">
+        <div class="items desc" *ngIf="model.shortDescription">
           <!-- Short Description -->
           <div *ngFor="let val of model.shortDescription">
             <span [innerHTML]="val"></span>

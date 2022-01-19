@@ -264,7 +264,7 @@ namespace DataScienseProject.Services
                     e = e,
                     ElementTypeName = et.ElementTypeName
                 }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME)
-                .Select(s => s.e.Value).AsNoTracking().First();
+                .Select(s => s.e.Value).AsNoTracking().FirstOrDefault();
 
                 shortDescriptionDataSelect.Add(shortDescriptionData);
                 #endregion
