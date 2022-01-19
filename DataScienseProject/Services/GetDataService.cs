@@ -19,6 +19,7 @@ namespace DataScienseProject.Services
         private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
 
         private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
+        private const string IMAGE_ELEMENT_NAME = "Header Image";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
@@ -260,6 +261,25 @@ namespace DataScienseProject.Services
                     ViewKey = ve.ViewKey
                 }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == SHORT_DESCRIPTION_ELEMENT_NAME)
                 .Select(s => s.Value).AsNoTracking().ToList();
+
+                var imageData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
+                {
+                    IsDeleted = ve.IsDeleted,
+                    ElementKey = ve.ElementKey,
+                    ViewKey = v.ViewKey
+                }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new
+                {
+                    Value = e.Value,
+                    ElementName = e.ElementName,
+                    ViewKey = ve.ViewKey,
+                    ElementTypeKey = e.ElementTypeKey,
+                    Path = e.Path
+                }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
+                {
+                    e = e,
+                    ElementTypeName = et.ElementTypeName
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == IMAGE_ELEMENT_NAME)
+               .Select(s => s.e.Path).AsNoTracking().FirstOrDefault();
                 #endregion
                 var galleryModel = new GalleryModel()
                 {
@@ -268,7 +288,8 @@ namespace DataScienseProject.Services
                     OrderNumber = (int)gds.OrderNumber,
                     Executors = executorNames,
                     Tags = tagNames,
-                    ShortDescription = shortDescriptionDataSelect
+                    ShortDescription = shortDescriptionDataSelect,
+                    Image = imageData
                 };
 
             if (filter != null)
