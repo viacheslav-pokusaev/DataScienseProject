@@ -247,6 +247,7 @@ namespace DataScienseProject.Services
 
                 var tagNames = new List<string>();
                 tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
+
                 var shortDescriptionDataSelect = new List<string>();
                 var shortDescriptionData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
                 {
