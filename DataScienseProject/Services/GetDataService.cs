@@ -18,7 +18,7 @@ namespace DataScienseProject.Services
 
         private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
 
-        private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
+        private const string SHORT_DESCRIPTION_ELEMENT_TYPE_NAME = "Html paragraph";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
@@ -247,8 +247,8 @@ namespace DataScienseProject.Services
 
                 var tagNames = new List<string>();
                 tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
-
-                var shortDescriptionDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
+                var shortDescriptionDataSelect = new List<string>();
+                var shortDescriptionData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
                 {
                     IsDeleted = ve.IsDeleted,
                     ElementKey = ve.ElementKey,
@@ -257,9 +257,16 @@ namespace DataScienseProject.Services
                 {
                     Value = e.Value,
                     ElementName = e.ElementName,
-                    ViewKey = ve.ViewKey
-                }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == SHORT_DESCRIPTION_ELEMENT_NAME)
-                .Select(s => s.Value).AsNoTracking().ToList();
+                    ViewKey = ve.ViewKey,
+                    ElementTypeKey = e.ElementTypeKey
+                }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
+                {
+                    e = e,
+                    ElementTypeName = et.ElementTypeName
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME)
+                .Select(s => s.e.Value).AsNoTracking().First();
+
+                shortDescriptionDataSelect.Add(shortDescriptionData);
                 #endregion
                 var galleryModel = new GalleryModel()
                 {
@@ -271,37 +278,37 @@ namespace DataScienseProject.Services
                     ShortDescription = shortDescriptionDataSelect
                 };
 
-            if (filter != null)
-            {
-                if (filter.TagsName.Count() > 0)
+                if (filter != null)
                 {
-                    filter.TagsName.ToList().ForEach(t =>
+                    if (filter.TagsName.Count() > 0)
                     {
-                        if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                        filter.TagsName.ToList().ForEach(t =>
+                        {
+                            if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                                galleryModelsBuff.Add(galleryModel);
+                        });
+                    }
+                    else
+                    {
+                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
                             galleryModelsBuff.Add(galleryModel);
+                    }
+
+                    galleryModelsBuff.ToList().ForEach(gmb => {
+                        foreach (var executor in filter.ExecutorsName) {
+                            if (gmb.Executors.Where(e => e == executor).Count() == 0 && galleryModelsBuff.Count > 0)
+                            {
+                                galleryModelsBuff.Remove(gmb);
+                            }
+                        }
                     });
+
+                    galleryResult.GalleryModels = galleryModelsBuff;
                 }
                 else
                 {
                     if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
-                            galleryModelsBuff.Add(galleryModel);
-                }
-
-                galleryModelsBuff.ToList().ForEach(gmb => {
-                    foreach (var executor in filter.ExecutorsName) {
-                        if (gmb.Executors.Where(e => e == executor).Count() == 0 && galleryModelsBuff.Count > 0)
-                        {
-                            galleryModelsBuff.Remove(gmb);
-                        }
-                    }
-                });
-
-                galleryResult.GalleryModels = galleryModelsBuff;
-            }
-            else
-            {
-                if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
-                    galleryResult.GalleryModels.Add(galleryModel);
+                        galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
             galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
