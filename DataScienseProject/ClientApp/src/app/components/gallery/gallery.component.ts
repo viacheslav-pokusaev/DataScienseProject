@@ -63,7 +63,7 @@ export class GalleryComponent implements OnInit {
 
   modelDetails(id: number) {
     this.homeService.setId(id);
-    this.router.navigate(['gallery/model/', id]);
+    this.router.navigate(['model/', id]);
   }
 
   galleryUnboxingData(data: GalleryResult){

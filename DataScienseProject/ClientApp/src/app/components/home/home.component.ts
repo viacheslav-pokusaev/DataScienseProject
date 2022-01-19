@@ -24,8 +24,8 @@ export class HomeComponent {
 
   ngOnInit() {
     var check = this.router.url;
-    var splitted = check.split("/", 4);
-    var currentId = Number(splitted[3]);
+    var splitted = check.split("/", 3);
+    var currentId = Number(splitted[2]);
     this.homeService.currentId(currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
