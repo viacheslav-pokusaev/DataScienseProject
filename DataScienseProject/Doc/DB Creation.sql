@@ -148,4 +148,9 @@ CREATE TABLE dbo.Feedback (
 	[Text] VARCHAR(MAX)
 );
 
-CREATE TABLE dbo.ConfigValues(ConfigValuesKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1), [Key] VARCHAR(100), [Value] VARCHAR(100), IsEnabled BIT);
+CREATE TABLE dbo.ConfigValues(
+	ConfigValuesKey BIGINT NOT NULL PRIMARY KEY IDENTITY (1,1), 
+	[Key] VARCHAR(100), 
+	[Value] VARCHAR(100), 
+	IsEnabled BIT
+);
