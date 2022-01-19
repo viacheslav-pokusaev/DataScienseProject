@@ -565,6 +565,7 @@ GO
 INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(1, 'test', GETDATE() - 2, GETDATE() - 1, 0);
 	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(1, 'group1', GETDATE(), GETDATE() + 7, 0);
 	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(2, 'group2', GETDATE(), GETDATE() + 7, 0);
+	INSERT INTO [dbo].Passwords(GroupKey, PasswordValue, CreatedDate, ExpirationDate, IsDeleted) Values(1, 'group1.2', GETDATE(), GETDATE() + 30, 0);
 	GO
 --Password filing end
 

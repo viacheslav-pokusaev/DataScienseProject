@@ -7,6 +7,7 @@ import { Feedback } from '../models/feedback/feedback.model';
 import { MainPageModel } from '../models/main-page.model';
 import { Router } from '@angular/router';
 import { FilterModel } from '../models/filter.model';
+import { TrackingModel } from '../models/trackingModel.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,8 +49,16 @@ export class HomeService {
 
   getGroupName() {
     var str = this.router.url;
-    var splitted = str.split("/", 3);    
+    var splitted = str.split("/", 3);
     this.groupName = splitted[2];
     return this.groupName;
-  } 
+  }
+
+  sendTrackingData(trackingModel: TrackingModel){
+    return this.http.post('Tracking/tracking-data', trackingModel);
+  }
+
+  getIPAddress(){
+    return this.http.get("http://api.ipify.org/?format=json");
+  }
 }
