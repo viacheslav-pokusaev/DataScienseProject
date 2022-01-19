@@ -42,6 +42,3 @@ code {
   src: local("Codec Pro ExtraBold"),url(/assets/fonts/CodecPro-ExtraBold.woff2) format("woff2")
 }
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

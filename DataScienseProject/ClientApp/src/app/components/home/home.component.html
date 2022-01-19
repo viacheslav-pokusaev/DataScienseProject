@@ -1,4 +1,4 @@
-<div *ngIf="mainPageModel">
+<div *ngIf="mainPageModel" (click)="userClick()">
 
   <!-- View Name -->
   <div *ngFor="let val of mainPageModel.projectTypeModels">
@@ -57,11 +57,11 @@
             <iframe class="iframe-style" [src]="iframeSrc" [style]="sanitizeStyles(val.layoutStyleModel)" id="iframeSize" (mouseover)="iframeSize()"></iframe>
             <!-- Button -->
             <span class="text-style">
-              <a [href]="sanitizeIframe(val.layoutStyleModel)" [target]="_blank">Open new tab</a>
+              <a [href]="sanitizeIframe(val.layoutStyleModel)" target="_blank">Open new tab</a>
             </span>
               </div>
         </div>
-      </div>          
+      </div>
     </div>
   </div>
 </div>
