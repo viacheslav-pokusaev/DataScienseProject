@@ -18,15 +18,14 @@ export class HomeComponent {
   iframeHeight: string;
   isHeight: boolean = false;
   public iframeSrc: SafeResourceUrl;
+  private currentId: number;
 
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }
 
   ngOnInit() {
-    var check = this.router.url;
-    var splitted = check.split("/", 3);
-    var currentId = Number(splitted[2]);
-    this.homeService.currentId(currentId);
+    this.currentId = Number(this.router.url.split("/", 3)[2]);
+    this.homeService.currentId(this.currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
       data.layoutDataModels.find(val => {
