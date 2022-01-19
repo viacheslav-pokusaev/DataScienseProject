@@ -18,7 +18,7 @@ namespace DataScienseProject.Services
 
         private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
 
-        private const string SHORT_DESCRIPTION_ELEMENT_TYPE_NAME = "Html paragraph";
+        private const string SHORT_DESCRIPTION_ELEMENT_TYPE_NAME = "Header Description";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;

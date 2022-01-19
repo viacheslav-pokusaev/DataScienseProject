@@ -257,7 +257,8 @@ VALUES
 	('Sentence'),
 	('Html paragraph'),
 	('Iframe'),
-	('Image');
+	('Image'),
+	('Header Description');
 	
 --------------------------------------------------------------------------------------------
 --						View's adding
@@ -273,6 +274,7 @@ DECLARE @ViewTypeName VARCHAR(MAX) = 'Study task';
 
 
 -- Don't change
+DECLARE @ElementTypeKey_HeaderDescription INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Header Description');
 DECLARE @ElementTypeKey_HtmlParagraph INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Html paragraph');
 DECLARE @ElementTypeKey_Iframe INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Iframe');
 DECLARE @ElementTypeKey_Image INT = (SELECT ElementTypeKey FROM dbo.ElementTypes WHERE ElementTypeName = 'Image');
@@ -288,6 +290,7 @@ DECLARE @ViewKey INT = (SELECT ViewKey FROM [Views] WHERE ViewName = @ViewName);
 
 INSERT INTO Elements (ElementTypeKey, LinkTypeKey, ElementName, Path, Text, Value, IsShowElementName, IsDeleted)
 VALUES
+	(@ElementTypeKey_HeaderDescription, NULL, 'Header', NULL, NULL, 'Header test', 1, 0),
 	(@ElementTypeKey_Image, @LinkType_DockerShiny, 'Img1', 'D:\OneDrive\OneDrive - PiK Case, SIA\wrk\cstm_sltns\proj_galery\Proj_example\svme-logo.png', 'SVM Fisher''s Irises linear models', NULL, 0, 0),
 	(@ElementTypeKey_HtmlParagraph, NULL, 'Introduction', NULL, NULL, 'SVM is one of the most popular methods for model building. Instead of reading scientific books, just look at how it really works. You need only just click 2 buttons: Show example -> Create Model<br>The example uses data from the very famous dataset - <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Fisher''s Irises</a>. The goal - identify the type of iris by the size of the leaf. Check it,  is it possible?!', 0, 0 ),
 	(@ElementTypeKey_HtmlParagraph, NULL, 'How does SVM work?', NULL, NULL, 'There are a lot of articles with detailed math explanations like <a href="https://scikit-learn.org/stable/modules/svm.html">this </a> or <a href = "https://monkeylearn.com/blog/introduction-to-support-vector-machines-svm/">that</a>. We want to say only a general idea - the SVM method tries to find the answer to two questions:<br> 1. Could two or more groups of points be split correctly using some geometric figure? The simplest case is using line.<br> 2. Which figure (line) is the best one?<br> How to determine "the best line"? SVM thinks that the best line should be as far from both groups of points as possible.<br>In plot #2 you can see 5 lines that SVM found after the first iteration. Legend contains distance from each line to the points. Obviously that now the best one line has 0.145 (virtual unites) to the nearest point. Now time to improve our model.', 1, 0 ),
@@ -296,7 +299,7 @@ VALUES
 	(@ElementTypeKey_HtmlParagraph, NULL, 'Mixed groups', NULL, NULL, 'Let''s back to our Shiny application, to the Step#3 and change Sentosa to the Virginica in the first drop-down list. Now we can recreate and improve model using familiar buttons.', 1, 0);
 
 INSERT INTO ElementParameters (ElementKey, [Key], Value, IsDeleted)
-VALUES 
+VALUES
 	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img1'), 'height', '90%', 0),
 	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img1'), 'width', '90%', 0),
 	((SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Embed1'), 'src', 'http://212.3.101.119:3820', 0),
@@ -306,6 +309,7 @@ VALUES
 
 INSERT INTO ViewElements (ViewKey, ElementKey, OrderNumber, IsDeleted)
 VALUES 
+	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Header'), 0, 0),
 	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Img1'), 1, 0),
 	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'Introduction'), 2, 0),
 	(@ViewKey, (SELECT ElementKey FROM dbo.Elements WHERE ElementName = 'How does SVM work?'), 3, 0),
