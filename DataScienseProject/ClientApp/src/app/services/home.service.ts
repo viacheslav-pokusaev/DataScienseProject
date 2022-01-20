@@ -7,6 +7,7 @@ import { Feedback } from '../models/feedback/feedback.model';
 import { MainPageModel } from '../models/main-page.model';
 import { Router } from '@angular/router';
 import { FilterModel } from '../models/filter.model';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class HomeService {
   modelId: number;
   groupName: string;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private location: Location) {
   }
 
   currentId(currId: number) {
@@ -36,7 +37,8 @@ export class HomeService {
 
   setId(id) {
     this.modelId = id;
-  }
+    sessionStorage.setItem('viewId', this.modelId.toString());
+  } 
 
   addFeedback(feedback: Feedback) {
     feedback.viewKey = this.modelId;
@@ -46,8 +48,8 @@ export class HomeService {
     return this.http.post<GalleryResult>('GetData/gallery', filter);
   }
 
-  getGroupName() {
-    this.groupName = this.router.url.split("/", 2)[1];
-    return this.groupName;
-  } 
+  //getGroupName() {
+  //  this.groupName = this.router.url.split("/", 2)[1];
+  //  return this.groupName;
+  //} 
 }

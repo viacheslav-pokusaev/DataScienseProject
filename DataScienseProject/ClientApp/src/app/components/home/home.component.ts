@@ -23,8 +23,8 @@ export class HomeComponent {
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }
 
-  ngOnInit() {
-    this.currentId = Number(this.router.url.split("/", 3)[2]);
+  ngOnInit() {    
+    this.currentId = +sessionStorage.getItem('viewId');
     this.homeService.currentId(this.currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
