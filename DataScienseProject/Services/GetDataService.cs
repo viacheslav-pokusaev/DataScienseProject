@@ -4,6 +4,7 @@ using DataScienseProject.Models;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,7 +16,10 @@ namespace DataScienseProject.Services
         private readonly DataScienceProjectDbContext _context;
         private readonly IAuthorizationService _authorizationService;
 
-        private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
+        private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
+
+        private const string SHORT_DESCRIPTION_ELEMENT_TYPE_NAME = "Header Description";
+        private const string IMAGE_ELEMENT_NAME = "Header Image";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
@@ -245,7 +249,8 @@ namespace DataScienseProject.Services
                 var tagNames = new List<string>();
                 tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
 
-                var shortDescriptionDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
+                var shortDescriptionDataSelect = new List<string>();
+                var shortDescriptionData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
                 {
                     IsDeleted = ve.IsDeleted,
                     ElementKey = ve.ElementKey,
@@ -254,9 +259,35 @@ namespace DataScienseProject.Services
                 {
                     Value = e.Value,
                     ElementName = e.ElementName,
-                    ViewKey = ve.ViewKey
-                }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == SHORT_DESCRIPTION_ELEMENT_NAME)
-                .Select(s => s.Value).AsNoTracking().ToList();
+                    ViewKey = ve.ViewKey,
+                    ElementTypeKey = e.ElementTypeKey
+                }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
+                {
+                    e = e,
+                    ElementTypeName = et.ElementTypeName
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME)
+                .Select(s => s.e.Value).AsNoTracking().FirstOrDefault();
+
+                shortDescriptionDataSelect.Add(shortDescriptionData);
+
+                var imageData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
+                {
+                    IsDeleted = ve.IsDeleted,
+                    ElementKey = ve.ElementKey,
+                    ViewKey = v.ViewKey
+                }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new
+                {
+                    Value = e.Value,
+                    ElementName = e.ElementName,
+                    ViewKey = ve.ViewKey,
+                    ElementTypeKey = e.ElementTypeKey,
+                    Path = e.Path
+                }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
+                {
+                    e = e,
+                    ElementTypeName = et.ElementTypeName
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == IMAGE_ELEMENT_NAME)
+               .Select(s => s.e.Path).AsNoTracking().FirstOrDefault();
                 #endregion
                 var galleryModel = new GalleryModel()
                 {
@@ -265,26 +296,41 @@ namespace DataScienseProject.Services
                     OrderNumber = (int)gds.OrderNumber,
                     Executors = executorNames,
                     Tags = tagNames,
-                    ShortDescription = shortDescriptionDataSelect
+                    ShortDescription = shortDescriptionDataSelect,
+                    Image = imageData
                 };
 
-                //it is nesessery, because another filters didn't work(two scenaries):
-                //1. if we select only one filter paramenter it's show nothing
-                //2. if we select two parameters, and then reselect second, it's filter only last one parameter
-                if (filter != null)
+            if (filter != null)
+            {
+                if (filter.TagsName.Count() > 0)
                 {
-                    if ((filter.ExecutorName == null && gds.TagName == filter.TagName) ||
-                    (filter.TagName == null && gds.ExecutorName == filter.ExecutorName) ||
-                    (gds.TagName == filter.TagName && gds.ExecutorName == filter.ExecutorName))
+                    filter.TagsName.ToList().ForEach(t =>
                     {
-                        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                            galleryResult.GalleryModels.Add(galleryModel);
-                    }
+                        if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                            galleryModelsBuff.Add(galleryModel);
+                    });
                 }
                 else
                 {
-                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels) == true)
-                        galleryResult.GalleryModels.Add(galleryModel);
+                    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                            galleryModelsBuff.Add(galleryModel);
+                }
+
+                galleryModelsBuff.ToList().ForEach(gmb => {
+                    foreach (var executor in filter.ExecutorsName) {
+                        if (gmb.Executors.Where(e => e == executor).Count() == 0 && galleryModelsBuff.Count > 0)
+                        {
+                            galleryModelsBuff.Remove(gmb);
+                        }
+                    }
+                });
+
+                galleryResult.GalleryModels = galleryModelsBuff;
+            }
+            else
+            {
+                if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                    galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
             galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
