@@ -93,7 +93,9 @@ VALUES
 	('Sentence'),
 	('Html paragraph'),
 	('Iframe'),
-	('Image');
+	('Image'),
+	('Header Description'),
+	('Header Image');
 GO
 -------------------------------------------------------------
 		--Basic filing end

@@ -257,7 +257,9 @@ VALUES
 	('Sentence'),
 	('Html paragraph'),
 	('Iframe'),
-	('Image');
+	('Image'),
+	('Header Description'),
+	('Header Image');
 	
 --------------------------------------------------------------------------------------------
 --						View's adding
