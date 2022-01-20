@@ -1,8 +1,8 @@
-h1 {
+footer h1 {
   font-size: calc(20px + (30 - 20) * ((100vw - 300px) / (1920 - 300)));
 }
 
-button {
+footer button {
   font-size: calc( 16px + (25 - 16) * ((100vw - 300px) / (1920 - 300)) ) !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;

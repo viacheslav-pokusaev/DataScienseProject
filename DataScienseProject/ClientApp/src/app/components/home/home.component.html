@@ -1,4 +1,4 @@
-<div *ngIf="mainPageModel">
+<div *ngIf="mainPageModel" (click)="userClick()">
 
   <!-- View Name -->
   <div *ngFor="let val of mainPageModel.projectTypeModels">
@@ -24,7 +24,7 @@
       </div>
       <!-- Tehnology tags -->
       <div class="col align-self-start">
-        <h3 class="head-style ex-tag-style">Tehnology tags:</h3>
+        <h3 class="head-style ex-tag-style">Technology tags:</h3>
         <span class="tag-text" *ngFor="let val of mainPageModel.tehnologyModels">
           <span class="tag-style" [innerHTML]="val.tagName"></span>;
         </span>
@@ -43,7 +43,7 @@
       <div class="text-style" [innerHTML]="val.value"></div>
       <!-- Image -->
       <div *ngIf="(val.elementTypeName === 'Image')">
-        <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel)"></div>
+        <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel, val.path)"></div>
       </div>
     </div>
     <!-- Iframe -->
@@ -57,11 +57,11 @@
             <iframe class="iframe-style" [src]="iframeSrc" [style]="sanitizeStyles(val.layoutStyleModel)" id="iframeSize" (mouseover)="iframeSize()"></iframe>
             <!-- Button -->
             <span class="text-style">
-              <a [href]="sanitizeIframe(val.layoutStyleModel)" [target]="_blank">Open new tab</a>
+              <a [href]="sanitizeIframe(val.layoutStyleModel)" target="_blank">Open new tab</a>
             </span>
               </div>
         </div>
-      </div>          
+      </div>
     </div>
   </div>
 </div>
