@@ -18,7 +18,7 @@ namespace DataScienseProject.Services
 
         private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
 
-        private const string SHORT_DESCRIPTION_ELEMENT_NAME = "Introduction";
+        private const string SHORT_DESCRIPTION_ELEMENT_TYPE_NAME = "Header Description";
         private const string IMAGE_ELEMENT_NAME = "Header Image";
         public GetDataService(DataScienceProjectDbContext context, IAuthorizationService authorizationService)
         {
@@ -249,7 +249,8 @@ namespace DataScienseProject.Services
                 var tagNames = new List<string>();
                 tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
 
-                var shortDescriptionDataSelect = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
+                var shortDescriptionDataSelect = new List<string>();
+                var shortDescriptionData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
                 {
                     IsDeleted = ve.IsDeleted,
                     ElementKey = ve.ElementKey,
@@ -258,9 +259,16 @@ namespace DataScienseProject.Services
                 {
                     Value = e.Value,
                     ElementName = e.ElementName,
-                    ViewKey = ve.ViewKey
-                }).Where(x => x.ViewKey == gds.ViewKey && x.ElementName == SHORT_DESCRIPTION_ELEMENT_NAME)
-                .Select(s => s.Value).AsNoTracking().ToList();
+                    ViewKey = ve.ViewKey,
+                    ElementTypeKey = e.ElementTypeKey
+                }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
+                {
+                    e = e,
+                    ElementTypeName = et.ElementTypeName
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME)
+                .Select(s => s.e.Value).AsNoTracking().FirstOrDefault();
+
+                shortDescriptionDataSelect.Add(shortDescriptionData);
 
                 var imageData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
                 {

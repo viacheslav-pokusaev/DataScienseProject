@@ -21,6 +21,7 @@ namespace DataScienseProject.Services
         {
             tracking.Password = _encryptionService.DescryptPassword(http.Request.Cookies.FirstOrDefault(x => x.Key == "Password").Value);
 
+            if(tracking.VisitLastClick == System.Convert.ToDateTime("01.01.0001")) tracking.VisitLastClick = tracking.VisitDate;
             var passwordKey = _context.Passwords.ToList().LastOrDefault(p => p.PasswordValue == tracking.Password).PasswordKey;
             var visitLog = new VisitLog()
             {
