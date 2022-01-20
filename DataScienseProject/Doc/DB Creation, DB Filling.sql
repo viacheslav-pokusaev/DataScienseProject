@@ -256,10 +256,10 @@ INSERT INTO ElementTypes (ElementTypeName)
 VALUES
 	('Sentence'),
 	('Html paragraph'),
-	('Header Description'), 
 	('Iframe'),
 	('Image'),
-	('Header Image');
+	('Header Image'),
+	('Header Description');
 	
 --------------------------------------------------------------------------------------------
 --						View's adding
