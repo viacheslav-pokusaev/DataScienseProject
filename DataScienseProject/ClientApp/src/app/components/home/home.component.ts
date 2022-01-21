@@ -5,6 +5,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HomeService } from '../../services/home.service';
 import { ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { TrackingModel } from 'src/app/models/trackingModel.model';
 
 @Component({
   selector: 'app-home',
@@ -15,16 +16,23 @@ import { Router } from '@angular/router';
 export class HomeComponent {
 
   public mainPageModel: MainPageModel;
+
+  public clickDate: Date;
+
+  public trackingModel: TrackingModel = new TrackingModel();
+
+  private currentId: number;
+
   iframeHeight: string;
   isHeight: boolean = false;
-  public iframeSrc: SafeResourceUrl;
-  private currentId: number;
+  public iframeSrc: SafeResourceUrl;  
 
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.currentId = +sessionStorage.getItem('viewId');
+    this.configureTrackingModel();
     this.homeService.currentId(this.currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
@@ -40,12 +48,12 @@ export class HomeComponent {
   sanitizeStyles(styles: Array<LayoutStyleModel>) {
     var styleRes: string = "";
     styles.forEach(style => {
-      if (style.key !== "src") {           
+      if (style.key !== "src") {
         if (style.key !== "height" && this.isHeight) {
-          styleRes += style.key + ": " + style.value + ";";          
-          styleRes += this.iframeSize();          
+          styleRes += style.key + ": " + style.value + ";";
+          styleRes += this.iframeSize();
         } else {
-          styleRes += style.key + ": " + style.value + ";";          
+          styleRes += style.key + ": " + style.value + ";";
         }
       }
     });
@@ -56,27 +64,37 @@ export class HomeComponent {
     var styleRes: string = "";
     styles.forEach(style => {
       if (style.key === "src") {
-        styleRes += style.value;                
+        styleRes += style.value;
       }
     });
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
-  sanitizeImage(styles: Array<LayoutStyleModel>) {
-    var styleRes: string = "";
-    var base64: string = "";
-    styles.forEach(style => {
-      if (style.key == "src") {
-        base64 += style.value;
-      }
-    });
-    styleRes += "<img src='" + base64 + "' style='" + this.sanitizeStyles(styles) + "'/>";    
+  sanitizeImage(styles: Array<LayoutStyleModel>, value: string) {    
+    var styleRes = "<img src='" + value + "' style='" + this.sanitizeStyles(styles) + "'/>";
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
   iframeSize() {
     this.isHeight = true;
-    const iframeSize = document.getElementById('iframeSize');    
+    const iframeSize = document.getElementById('iframeSize');
     return `height: ${iframeSize.style.height}`;
   }
+  userClick(){
+    this.trackingModel.visitLastClick = new Date();
+  }
+
+  configureTrackingModel(){
+    this.homeService.getIPAddress().subscribe((res: any) => {
+      this.trackingModel.viewKey = this.currentId;
+      this.trackingModel.ipAddress = res.ip;
+      this.trackingModel.isVisitSuccess = true;
+      this.trackingModel.visitDate = new Date();
+    });
+  }
+
+  ngOnDestroy(){
+    this.homeService.sendTrackingData(this.trackingModel).subscribe((res: any)=>{});
+  }
+
 }

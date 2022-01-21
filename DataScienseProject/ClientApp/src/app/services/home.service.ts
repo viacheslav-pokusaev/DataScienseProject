@@ -7,6 +7,7 @@ import { Feedback } from '../models/feedback/feedback.model';
 import { MainPageModel } from '../models/main-page.model';
 import { Router } from '@angular/router';
 import { FilterModel } from '../models/filter.model';
+import { TrackingModel } from '../models/trackingModel.model';
 import { Location } from '@angular/common';
 
 @Injectable({
@@ -46,5 +47,13 @@ export class HomeService {
   }
   getGalleryWithFilters(filter: FilterModel){
     return this.http.post<GalleryResult>('GetData/gallery', filter);
-  }  
+  }
+  
+  sendTrackingData(trackingModel: TrackingModel){
+    return this.http.post('Tracking/tracking-data', trackingModel);
+  }
+
+  getIPAddress(){
+    return this.http.get("http://api.ipify.org/?format=json");
+  }
 }
