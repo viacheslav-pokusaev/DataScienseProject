@@ -20,9 +20,9 @@
       </div>
       <!-- Image -->
       <div class="col align-self-center" *ngFor="let val of mainPageModel.layoutDataModels">
-        <ng-template *ngIf="(val.elementTypeName === 'Header Image')">
+        <div *ngIf="(val.elementTypeName === 'Header Image')">
           <div class="img-style" [innerHtml]="headerImage"></div>
-        </ng-template>
+        </div>
       </div>
       <!-- Tehnology tags -->
       <div class="col align-self-start">
@@ -37,14 +37,14 @@
   <!-- Description -->
   <div *ngFor="let val of mainPageModel.layoutDataModels">
     <div class="container">
-      <ng-template *ngIf="val.elementTypeName != 'Header Description'">
+      <div *ngIf="val.elementTypeName !== 'Header Description'">
         <!-- Heading -->
         <div *ngIf="val.isShowElementName">
           <h2 class="head-style" [innerHTML]="val.elementName"></h2>
         </div>
         <!-- Text -->
         <div class="text-style" [innerHTML]="val.value"></div>
-      </ng-template>
+      </div>
       <!-- Image -->
       <div *ngIf="(val.elementTypeName === 'Image')">
           <div class="img-style" [innerHtml]="images.values().next().value"></div>
