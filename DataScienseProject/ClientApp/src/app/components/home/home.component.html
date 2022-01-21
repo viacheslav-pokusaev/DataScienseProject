@@ -39,11 +39,11 @@
     <div class="container">
       <div *ngIf="val.elementTypeName !== 'Header Description'">
         <!-- Heading -->
-        <div *ngIf="val.isShowElementName">
-          <h2 class="head-style" [innerHTML]="val.elementName"></h2>
+      <div *ngIf="val.isShowElementName">
+        <h2 class="head-style" [innerHTML]="val.elementName"></h2>
         </div>
         <!-- Text -->
-        <div class="text-style" [innerHTML]="val.value"></div>
+      <div class="text-style" [innerHTML]="val.value"></div>
       </div>
       <!-- Image -->
       <div *ngIf="(val.elementTypeName === 'Image')">
