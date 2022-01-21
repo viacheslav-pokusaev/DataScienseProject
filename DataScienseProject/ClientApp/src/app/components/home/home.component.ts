@@ -25,7 +25,7 @@ export class HomeComponent {
 
   iframeHeight: string;
   isHeight: boolean = false;
-  public iframeSrc: SafeResourceUrl;  
+  public iframeSrc: SafeResourceUrl;
 
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }

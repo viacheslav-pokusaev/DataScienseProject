@@ -61,8 +61,8 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  modelDetails(id: number, viewName: string) {    
-    this.homeService.setId(id);    
+  modelDetails(id: number, viewName: string) {
+    this.homeService.setId(id);
     this.router.navigate([this.groupName, viewName.replace(/\s/g, '-').toLowerCase()]);
   }
 
