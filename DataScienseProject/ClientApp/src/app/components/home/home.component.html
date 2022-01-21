@@ -47,7 +47,7 @@
       </div>
       <!-- Image -->
       <div *ngIf="(val.elementTypeName === 'Image')">
-          <div class="img-style" [innerHtml]="images.values().next().value"></div>
+          <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel, val.path)"></div>
       </div>
     </div>
     <!-- Iframe -->

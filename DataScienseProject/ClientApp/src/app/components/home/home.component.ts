@@ -30,8 +30,6 @@ export class HomeComponent {
 
   public headerImage: SafeHtml;
 
-  public images: Array<SafeHtml> = new Array<SafeHtml>();
-
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }
 
@@ -54,9 +52,6 @@ export class HomeComponent {
     switch(val.elementTypeName){
       case "Iframe":
         this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);
-      break;
-      case "Image":
-        this.images.push(this.sanitizeImage(val.layoutStyleModel, val.path, "Image"));
       break;
       case "Header Image":
         this.headerImage = this.sanitizeImage(val.layoutStyleModel, val.path, "Header Image");
