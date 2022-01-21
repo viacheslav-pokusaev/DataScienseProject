@@ -46,10 +46,5 @@ export class HomeService {
   }
   getGalleryWithFilters(filter: FilterModel){
     return this.http.post<GalleryResult>('GetData/gallery', filter);
-  }
-
-  //getGroupName() {
-  //  this.groupName = this.router.url.split("/", 2)[1];
-  //  return this.groupName;
-  //} 
+  }  
 }

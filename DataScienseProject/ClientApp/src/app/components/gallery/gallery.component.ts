@@ -61,11 +61,8 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  modelDetails(id: number, viewName: string) {
-    /*console.log(viewName);*/
-    this.homeService.setId(id);
-    //var check = id + '/' + viewName.replace(/\s/g, '-').toLowerCase();
-    //console.log(check);
+  modelDetails(id: number, viewName: string) {    
+    this.homeService.setId(id);    
     this.router.navigate([this.groupName, viewName.replace(/\s/g, '-').toLowerCase()]);
   }
 
@@ -102,7 +99,7 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  checkButton() {  
+  selectTags() {
     this.filter.groupName = this.groupName;
     this.filter.tagsName = this.selectedTagsList;
     this.filter.executorsName = this.selectedExecutorsList;
@@ -115,7 +112,6 @@ export class GalleryComponent implements OnInit {
         this.isModelExist = false;
       }
     });
-
   }
 
 }
