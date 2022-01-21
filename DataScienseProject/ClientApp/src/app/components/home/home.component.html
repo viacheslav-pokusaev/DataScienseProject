@@ -10,8 +10,8 @@
     <div class="row ex">
       <!-- Executors -->
       <div class="col align-self-end nopadding">
+        <h3 class="head-style ex-tag-style pl-3">Executors:</h3>
         <div class="col" *ngFor="let val of mainPageModel.executorModels">
-          <h3 class="head-style ex-tag-style">Executors:</h3>
           <span class="text-style">
             <a [innerHTML]="val.executorName" [href]="val.executorProfileLink" [title]="val.roleName">
             </a>;
@@ -24,7 +24,7 @@
       </div>
       <!-- Tehnology tags -->
       <div class="col align-self-start">
-        <h3 class="head-style ex-tag-style">Technology tags:</h3>
+        <h3 class="head-style ex-tag-style nopadding">Technology tags:</h3>
         <span class="tag-text" *ngFor="let val of mainPageModel.tehnologyModels">
           <span class="tag-style" [innerHTML]="val.tagName"></span>;
         </span>
