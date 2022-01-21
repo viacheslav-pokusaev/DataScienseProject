@@ -181,7 +181,7 @@ GO
 		--Group filing start
 -------------------------------------------------------------
 
-DECLARE @GroupName VARCHAR(50) = 'Group1';
+DECLARE @GroupName VARCHAR(50) = 'all';
 
 INSERT INTO [dbo].[Groups](GroupName, IsDeleted) VALUES(@GroupName, 0);
 
