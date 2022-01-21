@@ -29,7 +29,7 @@
   font-family: "Codec Pro";
   font-weight: 300;
   font-style: normal;
-  font-display: swap; 
+  font-display: swap;  
 }
 
 .tag-text {
@@ -57,7 +57,7 @@
   padding: 5px 5px;
   text-align: center;
   cursor: pointer;
-  transition: all .4s ease-in-out; 
+  transition: all .4s ease-in-out;  
 }
 
 .tag-style:hover {
