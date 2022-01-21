@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { LayoutStyleModel } from '../../models/layout-style.model';
 import { MainPageModel } from '../../models/main-page.model';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
 import { HomeService } from '../../services/home.service';
 import { ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { TrackingModel } from 'src/app/models/trackingModel.model';
+import { LayoutDataModel } from 'src/app/models/layout-data.model';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,10 @@ export class HomeComponent {
   isHeight: boolean = false;
   public iframeSrc: SafeResourceUrl;
 
+  public headerImage: SafeHtml;
+
+  public images: Array<SafeHtml> = new Array<SafeHtml>();
+
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }
 
@@ -39,12 +44,24 @@ export class HomeComponent {
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
       data.layoutDataModels.find(val => {
-        if (val.elementTypeName == "Iframe") {
-          this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);
-        }
+        this.configureData(val);
      });
     },
       error => { console.error('There was an error!', error); });
+  }
+
+  configureData(val: LayoutDataModel){
+    switch(val.elementTypeName){
+      case "Iframe":
+        this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);
+      break;
+      case "Image":
+        this.images.push(this.sanitizeImage(val.layoutStyleModel, val.path, "Image"));
+      break;
+      case "Header Image":
+        this.headerImage = this.sanitizeImage(val.layoutStyleModel, val.path, "Header Image");
+      break;
+    }
   }
 
   sanitizeStyles(styles: Array<LayoutStyleModel>) {
@@ -72,9 +89,10 @@ export class HomeComponent {
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
-  sanitizeImage(styles: Array<LayoutStyleModel>, value: string) {
-    var styleRes: string = "";
-    styleRes += "<img src='" + value + "' style='" + this.sanitizeStyles(styles) + "'/>";
+  sanitizeImage(styles: Array<LayoutStyleModel>, value: string, type: string) {
+    var styleRes: string = "<img ";
+    if(type === "Header Image") styleRes += "class='img-style img-style-ex img-border'";
+    styleRes += " src='" + value + "' style='" + this.sanitizeStyles(styles) + "'/>";
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
