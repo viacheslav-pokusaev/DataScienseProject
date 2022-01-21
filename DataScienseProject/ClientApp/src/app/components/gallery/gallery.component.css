@@ -4,16 +4,19 @@
 
 .indentation {
   margin: 0 100px 0 100px;
+  border: solid #e0e0e0;
 }
 
 .col {
   display: grid;
-  margin: 5px;
+  /*margin: 5px;*/
   flex-basis: 30%;
 }
 
-.tag-container{
-    margin: 20px;
+.tag-container {
+  margin: 0 0 30px 0;
+  border: solid #e0e0e0;
+  padding: 40px 10px;
 }
 
 .gal-container {
@@ -213,7 +216,6 @@ mat-icon {
   padding: 10px 100px;
   letter-spacing: 1px;
   letter-spacing: 1px;
-  margin: 40px;
 }
 
 .my-chip .mat-chip-selected {

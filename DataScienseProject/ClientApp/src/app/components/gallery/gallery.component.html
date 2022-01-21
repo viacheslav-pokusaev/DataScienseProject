@@ -12,8 +12,7 @@
 </div>
 
 <div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
-  <div class="row col-12 tag-container">
-    <div class="col-1"></div>
+  <div class="row col-12 tag-container">    
     <div class="col-4">
       <h3 class="heading">Tags: </h3>
       <div class="row">
@@ -25,9 +24,7 @@
           </mat-chip>
         </mat-chip-list>
       </div>
-    </div>
-
-    <div class="col-2"></div>
+    </div>    
     <div class="col-4">
       <h3 class="heading">Executors: </h3>
       <div class="row">
@@ -39,10 +36,9 @@
           </mat-chip>
         </mat-chip-list>
       </div>
-    </div>
-    <div class="col-1"></div>
-    <div class="col-md-12 text-center">
-      <button type="button" class="btn btn-select" (click)="checkButton()">Select</button>
+    </div>    
+    <div class="col-4 text-center">
+      <button type="button" class="btn btn-select" (click)="checkButton()">Apply filters</button>
     </div>
     <!-- No results found -->
     <div class="col-md-12 text-center" *ngIf="isModelExist == false">
