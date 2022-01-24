@@ -1,28 +1,28 @@
 <div *ngIf="mainPageModel" (click)="userClick()">
 
   <!-- View Name -->
-  <div *ngFor="let val of mainPageModel.projectTypeModels">
+  <ng-container *ngFor="let val of mainPageModel.projectTypeModels">
     <h1 class="text-center text-uppercase head-style line-style" [innerHTML]="val.viewName"></h1>
-  </div>
+  </ng-container>
 
   <!-- Tehnology tags -->
   <div class="container">
     <div class="row ex">
       <!-- Executors -->
       <div class="col align-self-end nopadding">
-        <div class="col" *ngFor="let val of mainPageModel.executorModels">
+        <ng-container class="col" *ngFor="let val of mainPageModel.executorModels">
           <h3 class="head-style ex-tag-style">Executors:</h3>
           <span class="text-style">
             <a [innerHTML]="val.executorName" [href]="val.executorProfileLink" [title]="val.roleName">
             </a>;
           </span>
-        </div>
+        </ng-container>
       </div>
       <!-- Image -->
       <div class="col align-self-center" *ngFor="let val of mainPageModel.layoutDataModels">
-        <div *ngIf="(val.elementTypeName === 'Header Image')">
+        <ng-container *ngIf="(val.elementTypeName === 'Header Image')">
           <div class="img-style" [innerHtml]="headerImage"></div>
-        </div>
+        </ng-container>
       </div>
       <!-- Tehnology tags -->
       <div class="col align-self-start">
@@ -35,20 +35,20 @@
   </div>
 
   <!-- Description -->
-  <div *ngFor="let val of mainPageModel.layoutDataModels">
+  <ng-container *ngFor="let val of mainPageModel.layoutDataModels">
     <div class="container">
-      <div *ngIf="val.elementTypeName !== 'Header Description'">
+      <ng-container *ngIf="val.elementTypeName !== 'Header Description'">
      <!-- Heading -->
      <div *ngIf="val.isShowElementName">
        <h2 class="head-style" [innerHTML]="val.elementName"></h2>
      </div>
         <!-- Text -->
         <div class="text-style" [innerHTML]="val.value"></div>
-      </div>
+      </ng-container>
       <!-- Image -->
-      <div *ngIf="(val.elementTypeName === 'Image')">
+      <ng-container *ngIf="(val.elementTypeName === 'Image')">
         <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel, val.path)"></div>
-      </div>
+      </ng-container>
     </div>
     <!-- Iframe -->
     <div class="ifarme-container" *ngIf="(val.elementTypeName === 'Iframe')" [style]="iframeHeight">
@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>
 
 <app-footer></app-footer>
