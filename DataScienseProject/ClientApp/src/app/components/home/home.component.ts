@@ -34,10 +34,8 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    this.currentId = Number(this.router.url.split("/", 4)[3]);
-
+    this.currentId = +sessionStorage.getItem('viewId');
     this.configureTrackingModel();
-
     this.homeService.currentId(this.currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
