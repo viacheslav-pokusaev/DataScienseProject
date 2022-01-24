@@ -317,12 +317,10 @@ namespace DataScienseProject.Services
                 }
 
                 galleryModelsBuff.ToList().ForEach(gmb => {
-                    foreach (var executor in filter.ExecutorsName) {
-                        if (gmb.Executors.Where(e => e == executor).Count() == 0 && galleryModelsBuff.Count > 0)
+                        if(isFilterContainsCheck(gmb.Executors, filter.ExecutorsName) == false && galleryModelsBuff.Count > 0)
                         {
                             galleryModelsBuff.Remove(gmb);
                         }
-                    }
                 });
 
                 galleryResult.GalleryModels = galleryModelsBuff;
@@ -341,6 +339,17 @@ namespace DataScienseProject.Services
         public bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
         {
             return currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null ? true : false;
+        }
+        public bool isFilterContainsCheck(List<string> checkElements, string[] findElements)
+        {
+            var res = false;
+            
+            foreach(var findElement in findElements)
+            {
+                if (checkElements.Contains(findElement)) res = true;
+            }
+
+            return res;
         }
     }
 }
