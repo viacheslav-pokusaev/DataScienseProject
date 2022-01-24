@@ -343,13 +343,7 @@ namespace DataScienseProject.Services
         }
         public bool isFilterContainsCheck(List<string> checkElements, string[] findElements)
         {
-            
-            foreach(var findElement in findElements)
-            {
-                if (checkElements.Contains(findElement)) return true;
-            }
-
-            return false;
+            return checkElements.Where(ce => findElements.Contains(ce)).Count() > 0 ? true : false;
         }
     }
 }
