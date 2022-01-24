@@ -33,8 +33,8 @@ import { MatIconModule } from '@angular/material';
     MatChipsModule,    
     MatIconModule,
     RouterModule.forRoot([
-      { path: 'gallery/:groupName', component: GalleryComponent, pathMatch: 'full' },
-      { path: 'gallery/model/:id', component: HomeComponent, pathMatch: 'full' }
+      { path: ':groupName', component: GalleryComponent, pathMatch: 'full' },
+      { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full' }
     ]),
     BrowserAnimationsModule
   ],

@@ -31,10 +31,8 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    this.currentId = Number(this.router.url.split("/", 4)[3]);
-
+    this.currentId = +sessionStorage.getItem('viewId');
     this.configureTrackingModel();
-
     this.homeService.currentId(this.currentId);
     this.homeService.getData().subscribe((data: MainPageModel) => {
       this.mainPageModel = data;
@@ -72,9 +70,8 @@ export class HomeComponent {
     return this.sanitizer.bypassSecurityTrustResourceUrl(styleRes);
   }
 
-  sanitizeImage(styles: Array<LayoutStyleModel>, value: string) {
-    var styleRes: string = "";
-    styleRes += "<img src='" + value + "' style='" + this.sanitizeStyles(styles) + "'/>";
+  sanitizeImage(styles: Array<LayoutStyleModel>, value: string) {    
+    var styleRes = "<img src='" + value + "' style='" + this.sanitizeStyles(styles) + "'/>";
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
