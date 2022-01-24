@@ -38,10 +38,10 @@
   <div *ngFor="let val of mainPageModel.layoutDataModels">
     <div class="container">
       <div *ngIf="val.elementTypeName !== 'Header Description'">
-        <!-- Heading -->
-        <div *ngIf="val.isShowElementName">
-          <h2 class="head-style" [innerHTML]="val.elementName"></h2>
-        </div>
+      <!-- Heading -->
+      <div *ngIf="val.isShowElementName">
+        <h2 class="head-style" [innerHTML]="val.elementName"></h2>
+      </div>
         <!-- Text -->
         <div class="text-style" [innerHTML]="val.value"></div>
       </div>
