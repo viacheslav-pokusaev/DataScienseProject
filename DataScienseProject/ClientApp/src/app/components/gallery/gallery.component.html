@@ -36,7 +36,7 @@
           </mat-chip>
         </mat-chip-list>
       </div>
-    </div>    
+    </div>
     <div class="col-4 text-center btn-container">
       <button type="button" class="btn btn-select" (click)="checkButton()">Apply filters</button>
     </div>
@@ -48,7 +48,7 @@
 
   <div class="col" *ngFor="let model of galleryModels">
     <!-- Img -->
-    <div class="container gal-container" [ngStyle]="{ 'background-image': 'url(' + model.image + ')'}" (click)="modelDetails(model.viewKey)">
+    <div class="container gal-container" [ngStyle]="{ 'background-image': 'url(' + model.image + ')'}" (click)="modelDetails(model.viewKey, model.viewName)">
       <div class="items head hide-name">
         <!--ViewName-->
         <h1 [innerHTML]="model.viewName"></h1>
@@ -68,7 +68,7 @@
         <div class="items">
           <!-- Tehnology tags -->
           <div class="row ">
-            <div class="col-sm tags" *ngFor="let val of model.tags">
+            <div class="ms-auto p-1 tags" *ngFor="let val of model.tags">
               <span [innerHTML]="val"></span>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { MainPageModel } from '../models/main-page.model';
 import { Router } from '@angular/router';
 import { FilterModel } from '../models/filter.model';
 import { TrackingModel } from '../models/trackingModel.model';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class HomeService {
   modelId: number;
   groupName: string;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private location: Location) {
   }
 
   currentId(currId: number) {
@@ -37,7 +38,8 @@ export class HomeService {
 
   setId(id) {
     this.modelId = id;
-  }
+    sessionStorage.setItem('viewId', this.modelId.toString());
+  } 
 
   addFeedback(feedback: Feedback) {
     feedback.viewKey = this.modelId;
@@ -46,14 +48,7 @@ export class HomeService {
   getGalleryWithFilters(filter: FilterModel){
     return this.http.post<GalleryResult>('GetData/gallery', filter);
   }
-
-  getGroupName() {
-    var str = this.router.url;
-    var splitted = str.split("/", 3);
-    this.groupName = splitted[2];
-    return this.groupName;
-  }
-
+  
   sendTrackingData(trackingModel: TrackingModel){
     return this.http.post('Tracking/tracking-data', trackingModel);
   }
