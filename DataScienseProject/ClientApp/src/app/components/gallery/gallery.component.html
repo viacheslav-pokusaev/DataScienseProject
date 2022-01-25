@@ -12,8 +12,7 @@
 </div>
 
 <div class="row indentation" *ngIf="statusModel.statusCode === 200 && galleryModels">
-  <div class="row col-12 tag-container">
-    <div class="col-1"></div>
+  <div class="row col-12 tag-container">    
     <div class="col-4">
       <h3 class="heading">Tags: </h3>
       <div class="row">
@@ -25,9 +24,7 @@
           </mat-chip>
         </mat-chip-list>
       </div>
-    </div>
-
-    <div class="col-2"></div>
+    </div>    
     <div class="col-4">
       <h3 class="heading">Executors: </h3>
       <div class="row">
@@ -40,9 +37,8 @@
         </mat-chip-list>
       </div>
     </div>
-    <div class="col-1"></div>
-    <div class="col-md-12 text-center">
-      <button type="button" class="btn btn-select" (click)="checkButton()">Select</button>
+    <div class="col-4 text-center btn-container">
+      <button type="button" class="btn btn-select" (click)="selectTags()">Apply filters</button>
     </div>
     <!-- No results found -->
     <div class="col-md-12 text-center" *ngIf="isModelExist == false">
@@ -52,7 +48,7 @@
 
   <div class="col" *ngFor="let model of galleryModels">
     <!-- Img -->
-    <div class="container gal-container" [ngStyle]="{ 'background-image': 'url(' + model.image + ')'}" (click)="modelDetails(model.viewKey)">
+    <div class="container gal-container" [ngStyle]="{ 'background-image': 'url(' + model.image + ')'}" (click)="modelDetails(model.viewKey, model.viewName)">
       <div class="items head hide-name">
         <!--ViewName-->
         <h1 [innerHTML]="model.viewName"></h1>
@@ -72,7 +68,7 @@
         <div class="items">
           <!-- Tehnology tags -->
           <div class="row ">
-            <div class="col-sm tags" *ngFor="let val of model.tags">
+            <div class="ms-auto p-1 tags" *ngFor="let val of model.tags">
               <span [innerHTML]="val"></span>
             </div>
           </div>

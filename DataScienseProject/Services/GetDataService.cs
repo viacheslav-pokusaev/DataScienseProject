@@ -300,7 +300,7 @@ namespace DataScienseProject.Services
                     Image = imageData
                 };
 
-            if (filter != null)
+            if (filter != null && (filter?.TagsName.Length > 0 || filter?.ExecutorsName.Length > 0))
             {
                 if (filter.TagsName.Count() > 0)
                 {
@@ -316,15 +316,14 @@ namespace DataScienseProject.Services
                             galleryModelsBuff.Add(galleryModel);
                 }
 
+                if(filter.ExecutorsName.Count() > 0) { 
                 galleryModelsBuff.ToList().ForEach(gmb => {
-                    foreach (var executor in filter.ExecutorsName) {
-                        if (gmb.Executors.Where(e => e == executor).Count() == 0 && galleryModelsBuff.Count > 0)
+                        if(!isFilterContainsCheck(gmb.Executors, filter.ExecutorsName) && galleryModelsBuff.Count > 0)
                         {
                             galleryModelsBuff.Remove(gmb);
                         }
-                    }
                 });
-
+                }
                 galleryResult.GalleryModels = galleryModelsBuff;
             }
             else
@@ -341,6 +340,10 @@ namespace DataScienseProject.Services
         public bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
         {
             return currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null ? true : false;
+        }
+        public bool isFilterContainsCheck(List<string> checkElements, string[] findElements)
+        {
+            return checkElements.Where(ce => findElements.Contains(ce)).Count() > 0 ? true : false;
         }
     }
 }

@@ -32,8 +32,8 @@ export class GalleryComponent implements OnInit {
   constructor(private homeService: HomeService, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    sessionStorage.setItem('groupName', this.location.path());
-    this.groupName = this.homeService.getGroupName();
+    sessionStorage.setItem('groupName', this.location.path().split("/", 2)[1]);    
+    this.groupName = sessionStorage.getItem('groupName');
     this.getGallery();    
   }
 
@@ -61,9 +61,9 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  modelDetails(id: number) {
+  modelDetails(id: number, viewName: string) {
     this.homeService.setId(id);
-    this.router.navigate(['gallery/model/', id]);
+    this.router.navigate([this.groupName, viewName.replace(/\s/g, '-').toLowerCase()]);
   }
 
   galleryUnboxingData(data: GalleryResult){
@@ -99,7 +99,7 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  checkButton() {  
+  selectTags() {
     this.filter.groupName = this.groupName;
     this.filter.tagsName = this.selectedTagsList;
     this.filter.executorsName = this.selectedExecutorsList;
@@ -112,7 +112,6 @@ export class GalleryComponent implements OnInit {
         this.isModelExist = false;
       }
     });
-
   }
 
 }
