@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row ex">
       <!-- Executors -->
-      <div class="col align-self-end nopadding">
+      <div class="col-3 align-self-end nopadding">
         <h3 class="head-style ex-tag-style pl-3">Executors:</h3>
         <div class="col" *ngFor="let val of mainPageModel.executorModels">
           <span class="text-style">
@@ -19,13 +19,15 @@
         </div>
       </div>
       <!-- Image -->
-      <div class="col align-self-center" *ngFor="let val of mainPageModel.layoutDataModels">
+      <div class="col-6 align-self-center">
+      <ng-container *ngFor="let val of mainPageModel.layoutDataModels">
         <ng-container *ngIf="(val.elementTypeName === 'Header Image')">
           <div class="img-style" [innerHtml]="headerImage"></div>
         </ng-container>
+      </ng-container>
       </div>
       <!-- Tehnology tags -->
-      <div class="col align-self-start">
+      <div class="col-3 align-self-start">
         <h3 class="head-style ex-tag-style nopadding">Technology tags:</h3>
         <span class="tag-text" *ngFor="let val of mainPageModel.tehnologyModels">
           <span class="tag-style" [innerHTML]="val.tagName"></span>;
