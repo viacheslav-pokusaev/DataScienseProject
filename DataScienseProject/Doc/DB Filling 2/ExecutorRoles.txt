@@ -1,0 +1,5 @@
+1	Development
+2	Mentoring
+3	Requirament preparations
+4	Testing
+5	Support

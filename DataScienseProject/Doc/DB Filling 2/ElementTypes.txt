@@ -1,0 +1,6 @@
+1	Sentence
+2	Html paragraph
+3	Iframe
+4	Image
+5	Header Description
+6	Header Image

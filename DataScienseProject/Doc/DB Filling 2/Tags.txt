@@ -1,0 +1,35 @@
+1	1	R	
+2	2	R Shany	
+3	4	Tidyverse	
+4	5	Ggplot	
+5	5	Plotly	
+6	1	Python	
+7	4	Pandas	
+8	1	Numpy	
+9	3	Scikit-learn	
+10	3	Tensoflow	
+11	3	Keras	
+12	2	PowerBi	
+13	1	API integration	
+14	4	DAX	
+15	4	PowerQuery	
+16	4	Excel	
+17	5	Map	
+18	2	Tableau Desktop	
+19	4	Tableau Prep Builder	
+20	4	MSSQL	
+21	4	Data Cleaning	
+22	1	Stored Procedure	
+23	1	.net console	
+24	1	DOS batch	
+25	4	Google Sheet	
+26	4	Google Drive	
+27	3	Technical analysis	
+28	3	Classification	
+29	3	Regression	
+30	3	XG-boost	
+31	3	KNN	
+32	3	SVM	
+33	3	Neural Network	
+34	3	Decision tree	
+35	6	Docker	

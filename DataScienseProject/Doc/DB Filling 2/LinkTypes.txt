@@ -1,0 +1,5 @@
+1	Docker (Shiny)
+2	Docker (RMarkdown)
+3	Docker (Plotly)
+4	Tableau Public
+5	PowerBi Online

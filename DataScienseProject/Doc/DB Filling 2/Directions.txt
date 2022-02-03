@@ -1,0 +1,6 @@
+1	Programming	
+2	Dashboarding	
+3	Machine Learning	https://en.wikipedia.org/wiki/Machine_learning
+4	Data processing	https://en.wikipedia.org/wiki/Data_processing
+5	Data visualisation	https://en.wikipedia.org/wiki/Data_visualization
+6	Deployment	
