@@ -46,30 +46,32 @@
     </div>
   </div>
 
-  <div class="col" *ngFor="let model of galleryModels">
-    <!-- Img -->
-    <div class="container gal-container" [ngStyle]="{ 'background-image': 'url(' + model.image + ')'}" (click)="modelDetails(model.viewKey, model.viewName)">
-      <div class="items head hide-name">
-        <!--ViewName-->
-        <h1 [innerHTML]="model.viewName"></h1>
-      </div>
-      <div class="overlay">
-        <div class="items"></div>
-        <div class="items head">
+  <div class="row gal-grid">
+    <div class="col" *ngFor="let model of galleryModels">
+      <!-- Img -->
+      <div class="container gal-container" [ngStyle]="{ 'background-image': 'url(' + model.image + ')'}" (click)="modelDetails(model.viewKey, model.viewName)">
+        <div class="items head hide-name text-capitalize">
           <!--ViewName-->
           <h1 [innerHTML]="model.viewName"></h1>
         </div>
-        <div class="items desc" *ngIf="model.shortDescription">
-          <!-- Short Description -->
-          <div *ngFor="let val of model.shortDescription">
-            <span [innerHTML]="val"></span>
+        <div class="overlay">
+          <div class="items"></div>
+          <div class="items head text-capitalize">
+            <!--ViewName-->
+            <h1 [innerHTML]="model.viewName"></h1>
           </div>
-        </div>
-        <div class="items">
-          <!-- Tehnology tags -->
-          <div class="row ">
-            <div class="ms-auto p-1 tags" *ngFor="let val of model.tags">
+          <div class="items desc" *ngIf="model.shortDescription">
+            <!-- Short Description -->
+            <div *ngFor="let val of model.shortDescription">
               <span [innerHTML]="val"></span>
+            </div>
+          </div>
+          <div class="items">
+            <!-- Tehnology tags -->
+            <div class="row ">
+              <div class="ms-auto p-1 tags" *ngFor="let val of model.tags">
+                <span [innerHTML]="val"></span>
+              </div>
             </div>
           </div>
         </div>
