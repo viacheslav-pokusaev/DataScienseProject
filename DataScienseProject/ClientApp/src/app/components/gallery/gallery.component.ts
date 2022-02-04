@@ -7,7 +7,8 @@ import { AuthorizeModel } from '../../models/authorize.model';
 import { FilterModel } from '../../models/filter.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { MatChip, MatChipList, MatChipsModule } from '@angular/material/chips';
+import { MatChip } from '@angular/material/chips';
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-gallery',
@@ -29,7 +30,9 @@ export class GalleryComponent implements OnInit {
   public galleryModels: Array<GalleryModel>;
   public statusModel: StatusModel = new StatusModel();
   public groupName: string;
-  constructor(private homeService: HomeService, private router: Router, private location: Location) { }
+  constructor(private homeService: HomeService, private router: Router, private location: Location, private titleService: Title) {
+    this.titleService.setTitle("Custom Solutions | Gallery");
+  }
 
   ngOnInit() {
     sessionStorage.setItem('groupName', this.location.path().split("/", 2)[1]);    
@@ -63,6 +66,7 @@ export class GalleryComponent implements OnInit {
 
   modelDetails(id: number, viewName: string) {
     this.homeService.setId(id);
+    this.titleService.setTitle("Custom Solutions | Gallery | " + viewName);
     this.router.navigate([this.groupName, viewName.replace(/\s/g, '-').toLowerCase()]);
   }
 
