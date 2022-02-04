@@ -7,7 +7,7 @@
 
   <!-- Tehnology tags -->
   <div class="container">
-    <div class="row ex">
+    <div class="row ex mb-4">
       <!-- Executors -->
       <div class="col-3 align-self-end nopadding">
         <h3 class="head-style ex-tag-style pl-3">Executors:</h3>
@@ -38,15 +38,13 @@
 
   <!-- Description -->
   <ng-container *ngFor="let val of mainPageModel.layoutDataModels">
-    <div class="container">
-      <ng-container *ngIf="val.elementTypeName !== 'Header Description'">
+    <div class="container">      
      <!-- Heading -->
      <div *ngIf="val.isShowElementName">
        <h2 class="head-style" [innerHTML]="val.elementName"></h2>
      </div>
         <!-- Text -->
-        <div class="text-style" [innerHTML]="val.value"></div>
-      </ng-container>
+        <div class="text-style mb-4" [innerHTML]="val.value"></div>      
       <!-- Image -->
       <ng-container *ngIf="(val.elementTypeName === 'Image')">
         <div class="img-style" [innerHtml]="sanitizeImage(val.layoutStyleModel, val.path)"></div>
