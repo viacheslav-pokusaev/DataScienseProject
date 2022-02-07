@@ -1,2 +1,4 @@
 ng add @angular/material
 (Indigo/Pink, Set up HammerJs yes)
+
+npm install ngx-cookie-service@12.0.0

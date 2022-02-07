@@ -13,6 +13,8 @@ import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material';
+import { AuthGuard } from '../services/auth.guard';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -34,11 +36,11 @@ import { MatIconModule } from '@angular/material';
     MatIconModule,
     RouterModule.forRoot([
       { path: ':groupName', component: GalleryComponent, pathMatch: 'full' },
-      { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full' }
+      { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] }
     ]),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
