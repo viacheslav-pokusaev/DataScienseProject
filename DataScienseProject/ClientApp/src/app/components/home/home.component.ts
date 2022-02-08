@@ -30,6 +30,8 @@ export class HomeComponent {
 
   public headerImage: SafeHtml;
 
+  isVisibleIframe: boolean;
+
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
   }
 
@@ -46,10 +48,17 @@ export class HomeComponent {
       error => { console.error('There was an error!', error); });
   }
 
+  urlExists(url: string) {
+    return fetch(url, { mode: "no-cors" })
+      .then(res => this.isVisibleIframe = true)
+      .catch(err => this.isVisibleIframe = false)
+  }
+
   configureData(val: LayoutDataModel){
     switch(val.elementTypeName){
       case "Iframe":
-        this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);
+        this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);        
+        this.urlExists(val.layoutStyleModel.find(element => element.key == "src").value);
       break;
       case "Header Image":
         this.headerImage = this.sanitizeImage(val.layoutStyleModel, val.path, "Header Image");

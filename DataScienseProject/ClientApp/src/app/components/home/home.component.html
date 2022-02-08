@@ -53,22 +53,24 @@
       </ng-container>
     </div>
     <!-- Iframe -->
-    <div class="ifarme-container" *ngIf="(val.elementTypeName === 'Iframe')" [style]="iframeHeight">
-      <div id="rel1">
-        <h2 class="text-white text-center head-style">Example:</h2>
-      </div>
-      <div id="rel2">
-        <div class="text-center shadow-1-strong rounded mb-5 text-white">
-          <div class="container">
-            <iframe class="iframe-style" [src]="iframeSrc" [style]="sanitizeStyles(val.layoutStyleModel)" id="iframeSize" (mouseover)="iframeSize()"></iframe>
-            <!-- Button -->
-            <span class="text-style">
-              <a [href]="sanitizeIframe(val.layoutStyleModel)">Open new tab</a>
-            </span>
-              </div>
+    <ng-container *ngIf="isVisibleIframe">
+      <div class="ifarme-container" *ngIf="(val.elementTypeName === 'Iframe')" [style]="iframeHeight">
+        <div id="rel1">
+          <h2 class="text-white text-center head-style">Example:</h2>
+        </div>
+        <div id="rel2">
+          <div class="text-center shadow-1-strong rounded mb-5 text-white">
+            <div class="container">
+              <iframe class="iframe-style" [src]="iframeSrc" [style]="sanitizeStyles(val.layoutStyleModel)" id="iframeSize" (mouseover)="iframeSize()"></iframe>
+              <!-- Button -->
+              <span class="text-style">
+                <a [href]="sanitizeIframe(val.layoutStyleModel)">Open new tab</a>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </ng-container>
 </div>
 
