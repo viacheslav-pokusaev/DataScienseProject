@@ -7,6 +7,9 @@ import { ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { TrackingModel } from 'src/app/models/trackingModel.model';
 import { LayoutDataModel } from 'src/app/models/layout-data.model';
+import { Location } from '@angular/common';
+import { GalleryResult } from '../../models/gallery-result.model';
+import { GalleryModel } from '../../models/gallery/gallery.model';
 
 @Component({
   selector: 'app-home',
@@ -29,21 +32,33 @@ export class HomeComponent {
   public iframeSrc: SafeResourceUrl;
 
   public headerImage: SafeHtml;
+  public currView: GalleryModel;
 
-  constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router) {
+  constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router, private location: Location) {
   }
 
-  ngOnInit() {
-    this.currentId = +sessionStorage.getItem('viewId');
-    this.configureTrackingModel();
-    this.homeService.currentId(this.currentId);
-    this.homeService.getData().subscribe((data: MainPageModel) => {
-      this.mainPageModel = data;
-      data.layoutDataModels.find(val => {
-        this.configureData(val);
-     });
-    },
-      error => { console.error('There was an error!', error); });
+  ngOnInit() {    
+    this.homeService.getGallery(sessionStorage.getItem('groupName')).subscribe(
+      (data: GalleryResult) => {
+        this.currView = data.galleryModels.find(element => element.viewName.replace(/\s/g, '-').toLowerCase() === this.location.path().split("/", 3)[2]) || null;        
+        if (this.currView) {
+          this.currentId = this.currView.viewKey;
+          this.configureTrackingModel();
+          this.homeService.currentId(this.currentId);
+          this.homeService.getData().subscribe((data: MainPageModel) => {
+            this.mainPageModel = data;
+            data.layoutDataModels.find(val => {
+              this.configureData(val);
+            });
+          },
+            error => { console.error('There was an error!', error); });
+        } else {
+          this.router.navigate([sessionStorage.getItem('groupName')]);
+        }
+      },
+      error => {
+        console.error('There was an error!', error);
+      });    
   }
 
   configureData(val: LayoutDataModel){
