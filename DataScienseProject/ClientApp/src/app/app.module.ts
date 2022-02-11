@@ -13,6 +13,7 @@ import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material';
+import { MainPageComponent } from './components/main-page/main-page.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MatIconModule } from '@angular/material';
     HomeComponent,
     GalleryComponent,
     FooterComponent,
-    TapToTopComponent
+    TapToTopComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,7 +36,8 @@ import { MatIconModule } from '@angular/material';
     MatIconModule,
     RouterModule.forRoot([
       { path: ':groupName', component: GalleryComponent, pathMatch: 'full' },
-      { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full' }
+      { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: MainPageComponent, pathMatch: 'full' }
     ]),
     BrowserAnimationsModule
   ],
