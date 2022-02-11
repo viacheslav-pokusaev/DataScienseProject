@@ -12,8 +12,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material';
+import { MatDialogModule, MatIconModule } from '@angular/material';
 import { MainPageComponent } from './components/main-page/main-page.component';
+import { MainPageDialogComponent } from './components/main-page/main-page-dialog/main-page-dialog.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { MainPageComponent } from './components/main-page/main-page.component';
     GalleryComponent,
     FooterComponent,
     TapToTopComponent,
-    MainPageComponent
+    MainPageComponent,
+    MainPageDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,6 +36,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
     ReactiveFormsModule,
     MatChipsModule,    
     MatIconModule,
+    MatDialogModule,
     RouterModule.forRoot([
       { path: ':groupName', component: GalleryComponent, pathMatch: 'full' },
       { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full' },
@@ -41,6 +44,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
     ]),
     BrowserAnimationsModule
   ],
+  entryComponents: [MainPageDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
