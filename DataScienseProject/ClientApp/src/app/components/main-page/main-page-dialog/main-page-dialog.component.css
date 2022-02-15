@@ -1,0 +1,19 @@
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+mat-icon {
+  height: 20px;
+  width: 20px;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.my-chip .mat-chip-selected {
+  background-color: #f2a523;
+  color: #fff;
+}

@@ -27,43 +27,22 @@
   margin-bottom: 43px;
 }
 
-
-
 .agency.header {
   right: 13% !important;
 }
 
-  .agency.header .header-text {
-    margin-top: 105px;
-  }
+.agency.header .header-text {
+  margin-top: 105px;
+}
 
-  .agency.header .girl-boy {
-    right: 2%;
-  }
+.agency.header .girl-boy {
+  right: 2%;
+}
 
-  .agency.header  a.btn {
-    padding-left: 45px !important;
-    padding-right: 45px !important;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.agency.header  a.btn {
+  padding-left: 45px !important;
+  padding-right: 45px !important;
+}
 
 .bg {
   background-size: cover;
@@ -103,10 +82,6 @@
   margin-top: 160px;
 }
 
-
-
-
-
 .tag-style {
   font-family: Codec Pro;
   color: #fff;
@@ -125,8 +100,8 @@
   width: 40%;  
 }
 
-  .tag-style:hover {
-    transition: all .4s ease-in-out;
-    color: #fff !important;
-    background-position: 100% 0px;
-  }
+.tag-style:hover {
+  transition: all .4s ease-in-out;
+  color: #fff !important;
+  background-position: 100% 0px;
+}

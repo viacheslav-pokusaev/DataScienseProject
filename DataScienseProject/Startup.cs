@@ -47,6 +47,8 @@ namespace DataScienseProject
 
             services.AddScoped<ITrackingService, TrackingService>();
 
+            services.AddScoped<IMainPageService, MainPageService>();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
