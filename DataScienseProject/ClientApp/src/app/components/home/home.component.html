@@ -40,9 +40,9 @@
   <ng-container *ngFor="let val of mainPageModel.layoutDataModels">
     <div class="container">      
      <!-- Heading -->
-     <div *ngIf="val.isShowElementName">
+     <ng-container *ngIf="val.isShowElementName">
        <h2 class="head-style" [innerHTML]="val.elementName"></h2>
-     </div>
+     </ng-container>
         <!-- Text -->
         <div class="text-style mb-4" [innerHTML]="val.value"></div>      
       <!-- Image -->
