@@ -22,9 +22,9 @@ namespace DataScienseProject.Controllers
 
         [HttpPost]
         [Route("add")]
-        public void Add([FromBody] List<TagModel> tags)
+        public bool Add([FromBody] DataToSendModel dataToSendModel)
         {
-            _mainPageService.AddNewGroup(tags);
+            return _mainPageService.AddNewGroup(dataToSendModel);
         }
 
         [HttpGet]

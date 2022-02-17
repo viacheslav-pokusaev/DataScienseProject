@@ -41,7 +41,6 @@ export class FooterComponent implements OnInit {
 
     this.homeService.addFeedback(this.feedback).subscribe(
       (response) => {
-        console.log('Fine!');
       },
       error => {
         console.error('There was an error!', error);

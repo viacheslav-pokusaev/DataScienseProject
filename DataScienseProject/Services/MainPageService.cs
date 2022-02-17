@@ -1,6 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Entities;
 using DataScienseProject.Interfaces;
+using DataScienseProject.Models.EmailSender;
 using DataScienseProject.Models.MainPage;
 using DataScienseProject.Utility;
 using System;
@@ -13,17 +14,19 @@ namespace DataScienseProject.Services
     public class MainPageService : IMainPageService
     {
         private readonly DataScienceProjectDbContext _context;
+        private readonly IEmailSenderService _emailSenderService;
         private const int EXPIRATION_TIME = 3;
         private const int PASSWORD_LENGTH = 10;
 
-        public MainPageService(DataScienceProjectDbContext context)
+        public MainPageService(DataScienceProjectDbContext context, IEmailSenderService emailSenderService)
         {
             _context = context;
+            _emailSenderService = emailSenderService;
         }
-        public void AddNewGroup(List<TagModel> tags)
+        public bool AddNewGroup(DataToSendModel dataToSendModel)
         {
             List<List<TagsData>> tagsData = new List<List<TagsData>>();
-            foreach (var tagKey in tags)
+            foreach (var tagKey in dataToSendModel.TagsList)
             {
                 var dataSelect = _context.ViewTags
                .Join(_context.Views, vt => vt.ViewKey, v => v.ViewKey, (vt, v) => new
@@ -100,6 +103,10 @@ namespace DataScienseProject.Services
             }
             _context.SaveChanges();
 
+            _emailSenderService.SendEmailToUser(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
+            _emailSenderService.SendEmailToAdmins(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
+
+            return true;
         }
 
         public List<TagModel> GetAllTags()

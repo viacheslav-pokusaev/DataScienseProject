@@ -5,8 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MainPageService } from '../../../services/main-page.service';
 import { TagModel } from '../../../models/main-page/tag.model';
 import { MatChip } from '@angular/material';
-
-
+import { DataToSendModel } from '../../../models/main-page/data-to-send';
 
 @Component({
   selector: 'app-main-page-dialog',
@@ -20,6 +19,8 @@ export class MainPageDialogComponent implements OnInit {
   allTags: Array<TagModel>;
   tag: TagModel;
   selectedTagsList: TagModel[] = [];
+  isTagsSelected: boolean = false;
+  isInputFill: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<MainPageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData, private _formBuilder: FormBuilder, private mainPageService: MainPageService) { }
@@ -31,10 +32,19 @@ export class MainPageDialogComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
     });
+    this.getTags();
+  }
+
+  ngDoCheck() {
+    if (this.firstFormGroup.valid) {
+      this.isInputFill = true;
+    } else {
+      this.isInputFill = false;
+    }
   }
 
   getTags() {
-    this.mainPageService.getTags().subscribe((data) => {      
+    this.mainPageService.getTags().subscribe((data) => {
       this.allTags = data;
     },
       error => { console.error('There was an error!', error); });
@@ -43,22 +53,28 @@ export class MainPageDialogComponent implements OnInit {
   tagsSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
     if (chip.selected) {
-      this.selectedTagsList.push(chip.value);
+      this.selectedTagsList.push(chip.value);      
     } else {
       this.selectedTagsList.forEach((element, index) => {
         if (element == chip.value) this.selectedTagsList.splice(index, 1);
       });
     }
+    this.selectedTagsList.length > 0 ? this.isTagsSelected = true : this.isTagsSelected = false;
   }
 
   sendTags() {
-    this.mainPageService.sendTags(this.selectedTagsList).subscribe(() => {
-      console.log("Work");
-    },
-      error => { console.error('There was an error!', error); });
+    if (this.isTagsSelected) {
+      var dataToSendModel: DataToSendModel = new DataToSendModel();
+      dataToSendModel.email = this.firstFormGroup.controls['emailCtrl'].value;
+      dataToSendModel.tagsList = this.selectedTagsList;
+      this.mainPageService.sendTags(dataToSendModel).subscribe(() => {        
+      },
+        error => { console.error('There was an error!', error); });
+    }
+    
   }
 
-  onNoClick(): void {
+  close(): void {
     this.dialogRef.close();
   }
 

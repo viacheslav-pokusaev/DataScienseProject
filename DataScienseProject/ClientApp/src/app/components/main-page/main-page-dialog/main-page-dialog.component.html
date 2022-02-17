@@ -1,62 +1,79 @@
-<mat-horizontal-stepper [linear]="true">
-
-  <!--Fill out your email-->
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out your email</ng-template>
-      <mat-form-field class="customize-input">
-        <mat-label>
-          Email <span class="text-danger">*</span>
-        </mat-label>
-        <input matInput
-               formControlName="emailCtrl"
-               type="email"
-               placeholder="Ex. cs@example.com"
-               autocomplete="off">
-        <mat-icon class="font-primary"
-                  matSuffix>
-          alternate_email
-        </mat-icon>
-        <mat-error *ngIf="firstFormGroup.controls['emailCtrl'].errors">
-          Please enter a <strong>
-            valid
-            email
-          </strong>
-          address
-        </mat-error>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext (click)="getTags()">Next</button>
-      </div>
-    </form>
-  </mat-step>
-
-  <!--Select interested technologies-->
-  <mat-step [stepControl]="secondFormGroup" label="Select interested technologies">
-    <!--Tags-->
-    <mat-chip-list class="my-chip" selectable multiple>
-      <mat-chip #c="matChip" *ngFor="let tag of allTags; let i = index" [value]="tag" (click)="tagsSelection(c, i)">
-        <mat-icon *ngIf="c.selected">check</mat-icon>
-        {{tag.tagName}}
-      </mat-chip>
-    </mat-chip-list>
-    <button mat-button matStepperNext (click)="sendTags()">Send request</button>
-  </mat-step>
-
-  <!--Send request-->
-  <mat-step label="Select interested technologies">
-
-  </mat-step>
-
-  <!--Check email-->
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>Done</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <button aria-label="Close" (click)="close()"
+              class="close" data-dismiss="modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </mat-step>
+  </div>
 
+  <mat-horizontal-stepper [linear]="true" class="row">
 
-</mat-horizontal-stepper>
+    <!--Fill out your email-->
+    <mat-step [stepControl]="firstFormGroup" editable="false">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Fill out your email</ng-template>
+        <div class="row align-items-center">
+          <div class="col-8">
+            <mat-form-field class="customize-input">
+              <mat-label>
+                Email <span class="text-danger">*</span>
+              </mat-label>
+              <input matInput
+                     formControlName="emailCtrl"
+                     type="email"
+                     placeholder="Ex. cs@example.com"
+                     autocomplete="off">
+              <mat-icon class="font-primary"
+                        matSuffix>
+                alternate_email
+              </mat-icon>
+              <mat-error *ngIf="firstFormGroup.controls['emailCtrl'].errors">
+                Please enter a <strong>
+                  valid
+                  email
+                </strong>
+                address
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-4 text-center">
+            <button class="btn-style btn-container" matStepperNext [disabled]="!isInputFill">Next</button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+
+    <!--Select interested technologies-->
+    <mat-step [stepControl]="secondFormGroup" label="Select interested technologies">
+      <div class="row align-items-center">
+        <div class="col-9">
+          <!--Tags-->
+          <mat-chip-list class="my-chip" selectable multiple>
+            <mat-chip #c="matChip" *ngFor="let tag of allTags; let i = index" [value]="tag" (click)="tagsSelection(c, i)">
+              <mat-icon *ngIf="c.selected">check</mat-icon>
+              {{tag.tagName}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <div class="col-3 text-center">
+          <button class="btn-style btn-container" mat-button matStepperNext (click)="sendTags()" [disabled]="!isTagsSelected">Send request</button>
+        </div>
+      </div>
+    </mat-step>
+
+    <!--Send request-->
+    <mat-step label="Send request">
+
+    </mat-step>
+
+    <!--Check email-->
+    <mat-step>
+      <ng-template matStepLabel>Check email</ng-template>
+      <p>Done</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>

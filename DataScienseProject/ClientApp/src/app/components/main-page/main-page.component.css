@@ -82,7 +82,7 @@
   margin-top: 160px;
 }
 
-.tag-style {
+.btn-style {
   font-family: Codec Pro;
   color: #fff;
   font-weight: 500 !important;
@@ -96,11 +96,10 @@
   text-align: center;
   cursor: pointer;
   text-transform: uppercase;
-  padding: 14px 60px;
-  width: 40%;  
+  padding: 14px 60px; 
 }
 
-.tag-style:hover {
+.btn-style:hover {
   transition: all .4s ease-in-out;
   color: #fff !important;
   background-position: 100% 0px;
