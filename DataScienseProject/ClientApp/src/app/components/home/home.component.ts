@@ -33,7 +33,6 @@ export class HomeComponent {
 
   public headerImage: SafeHtml;
   public currView: GalleryModel;
-  isVisibleIframe: boolean;
 
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router, private location: Location) {
 
@@ -65,15 +64,17 @@ export class HomeComponent {
 
   urlExists(url: string) {
     return fetch(url, { mode: "no-cors" })
-      .then(res => this.isVisibleIframe = true)
-      .catch(err => this.isVisibleIframe = false)
+      .then(res => true)
+      .catch(err => false)
   }
 
   configureData(val: LayoutDataModel){
     switch(val.elementTypeName){
       case "Iframe":
-        this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);        
-        this.urlExists(val.layoutStyleModel.find(element => element.key == "src").value);
+        this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);
+        this.urlExists(val.layoutStyleModel.find(element => element.key == "src").value).then(result => {
+          result ? result : document.getElementById("iframeContainer").style.display = 'none';
+        });
       break;
       case "Header Image":
         this.headerImage = this.sanitizeImage(val.layoutStyleModel, val.path, "Header Image");

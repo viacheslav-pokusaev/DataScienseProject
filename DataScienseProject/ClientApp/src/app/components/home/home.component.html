@@ -51,8 +51,7 @@
       </ng-container>
     </div>
     <!-- Iframe -->
-    <ng-container *ngIf="isVisibleIframe">
-      <div class="ifarme-container" *ngIf="(val.elementTypeName === 'Iframe')" [style]="iframeHeight">
+      <div id="iframeContainer"class="ifarme-container" *ngIf="(val.elementTypeName === 'Iframe')" [style]="iframeHeight">
         <div id="rel1">
           <h2 class="text-white text-center head-style">Example:</h2>
         </div>
@@ -68,7 +67,6 @@
           </div>
         </div>
       </div>
-    </ng-container>
   </ng-container>
 </div>
 
