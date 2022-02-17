@@ -35,6 +35,7 @@ export class HomeComponent {
   public currView: GalleryModel;
 
   constructor(private sanitizer: DomSanitizer, private homeService: HomeService, private router: Router, private location: Location) {
+
   }
 
   ngOnInit() {    
@@ -61,10 +62,19 @@ export class HomeComponent {
       });    
   }
 
+  urlExists(url: string) {
+    return fetch(url, { mode: "no-cors" })
+      .then(res => true)
+      .catch(err => false)
+  }
+
   configureData(val: LayoutDataModel){
     switch(val.elementTypeName){
       case "Iframe":
         this.iframeSrc = this.sanitizeIframe(val.layoutStyleModel);
+        this.urlExists(val.layoutStyleModel.find(element => element.key == "src").value).then(result => {
+          result ? result : document.getElementById("iframeContainer").style.display = 'none';
+        });
       break;
       case "Header Image":
         this.headerImage = this.sanitizeImage(val.layoutStyleModel, val.path, "Header Image");
