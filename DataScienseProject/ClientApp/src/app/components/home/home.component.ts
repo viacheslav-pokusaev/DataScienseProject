@@ -40,7 +40,7 @@ export class HomeComponent {
   ngOnInit() {    
     this.homeService.getGallery(sessionStorage.getItem('groupName')).subscribe(
       (data: GalleryResult) => {
-        this.currView = data.galleryModels.find(element => element.viewName.replace(/\s/g, '-').toLowerCase() === this.location.path().split("/", 3)[2]) || null;        
+        this.currView = this.currentView(data);
         if (this.currView) {
           this.currentId = this.currView.viewKey;
           this.configureTrackingModel();
@@ -113,6 +113,11 @@ export class HomeComponent {
     this.trackingModel.visitLastClick = new Date();
   }
 
+  currentView(data: GalleryResult) {
+    var currView = data.galleryModels.find(element => element.viewName.replace(/\s/g, '-').toLowerCase() === this.location.path().split("/", 3)[2]);
+    return currView ? currView : null;
+  }
+
   configureTrackingModel(){
     this.homeService.getIPAddress().subscribe((res: any) => {
       this.trackingModel.viewKey = this.currentId;
@@ -124,6 +129,6 @@ export class HomeComponent {
 
   ngOnDestroy(){
     this.homeService.sendTrackingData(this.trackingModel).subscribe((res: any)=>{});
-  }
+  }  
 
 }
