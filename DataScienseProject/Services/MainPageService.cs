@@ -111,13 +111,26 @@ namespace DataScienseProject.Services
 
         public List<TagModel> GetAllTags()
         {
-            var tagsSelect = _context.Tags.Select(t => new TagModel()
-            {
-                TagKey = t.TagKey,
-                TagName = t.Name
-            }).ToList();
+            var res = new List<TagModel>();
 
-            return tagsSelect;
+            var tagsSelect = _context.Tags.Join(_context.ViewTags, t => t.TagKey, vt => vt.TagKey, (t, vt) => new {
+                TagKey = t.TagKey,
+                TagName = t.Name,
+                DirectionKey = t.DirectionKey
+            }).Join(_context.Directions, t => t.DirectionKey, d => d.DirectionKey, (t, d) => new TagModel{
+                TagKey = t.TagKey,
+                TagName = t.TagName,
+                Direction = d.Name
+            }).OrderBy(t => t.TagKey).ToList();
+
+            foreach(var tag in tagsSelect)
+            {
+                if (res.Find(ts => ts.TagKey == tag.TagKey) == null)
+                {
+                    res.Add(tag);
+                }
+            }
+            return res;
         }       
     } 
 

@@ -9,5 +9,6 @@ namespace DataScienseProject.Models.MainPage
     {
         public int TagKey { get; set; }
         public string TagName { get; set; }
+        public string Direction { get; set; }
     }
 }
