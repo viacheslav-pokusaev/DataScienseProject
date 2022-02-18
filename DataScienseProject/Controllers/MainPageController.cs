@@ -29,7 +29,7 @@ namespace DataScienseProject.Controllers
 
         [HttpGet]
         [Route("tags")]
-        public List<TagModel> GetAllTags()
+        public List<TagResModel> GetAllTags()
         {
             return _mainPageService.GetAllTags();
         }

@@ -8,7 +8,7 @@ namespace DataScienseProject.Interfaces
 {
     public interface IMainPageService
     {
-        List<TagModel> GetAllTags();
+        List<TagResModel> GetAllTags();
         bool AddNewGroup(DataToSendModel dataToSendModel);
     }
 }

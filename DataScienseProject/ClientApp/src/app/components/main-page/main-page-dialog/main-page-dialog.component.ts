@@ -4,8 +4,9 @@ import { DialogData } from '../main-page.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MainPageService } from '../../../services/main-page.service';
 import { TagModel } from '../../../models/main-page/tag.model';
-import { MatChip } from '@angular/material';
+import { MatChip, MatStepper } from '@angular/material';
 import { DataToSendModel } from '../../../models/main-page/data-to-send';
+import { TagResModel } from 'src/app/models/main-page/tagRes.model';
 
 @Component({
   selector: 'app-main-page-dialog',
@@ -16,7 +17,7 @@ export class MainPageDialogComponent implements OnInit {
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  allTags: Array<TagModel>;
+  allTags: Array<TagResModel>;
   tag: TagModel;
   selectedTagsList: TagModel[] = [];
   isTagsSelected: boolean = false;
@@ -53,7 +54,7 @@ export class MainPageDialogComponent implements OnInit {
   tagsSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
     if (chip.selected) {
-      this.selectedTagsList.push(chip.value);      
+      this.selectedTagsList.push(chip.value);
     } else {
       this.selectedTagsList.forEach((element, index) => {
         if (element == chip.value) this.selectedTagsList.splice(index, 1);
@@ -67,11 +68,11 @@ export class MainPageDialogComponent implements OnInit {
       var dataToSendModel: DataToSendModel = new DataToSendModel();
       dataToSendModel.email = this.firstFormGroup.controls['emailCtrl'].value;
       dataToSendModel.tagsList = this.selectedTagsList;
-      this.mainPageService.sendTags(dataToSendModel).subscribe(() => {        
+      this.mainPageService.sendTags(dataToSendModel).subscribe(() => {
       },
         error => { console.error('There was an error!', error); });
     }
-    
+
   }
 
   close(): void {

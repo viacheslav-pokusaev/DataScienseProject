@@ -41,7 +41,7 @@ mat-icon {
   background-position: 100% 0px;
 }
 
-.btn-container {  
+.btn-container {
   justify-content: center;
   align-items: center;
 }
@@ -87,4 +87,10 @@ button[disabled] {
 
 .close:hover {
   color: #d8550f !important;
+}
+
+.direction{
+  color: #d8550f;
+  font-weight: bold;
+  font-family: Codec Pro;
 }

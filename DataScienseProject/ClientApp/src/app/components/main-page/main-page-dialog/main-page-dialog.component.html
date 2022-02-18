@@ -45,16 +45,22 @@
     </mat-step>
 
     <!--Select interested technologies-->
-    <mat-step [stepControl]="secondFormGroup" label="Select interested technologies">
+    <mat-step label="Select interested technologies">
+      <!-- <mat-step [stepControl]="secondFormGroup" label="Select interested technologies"> -->
       <div class="row align-items-center">
         <div class="col-9">
           <!--Tags-->
+          <ng-container *ngFor="let tagRes of allTags">
+            <p class="direction">{{tagRes.direction}}</p>
+          <div>
           <mat-chip-list class="my-chip" selectable multiple>
-            <mat-chip #c="matChip" *ngFor="let tag of allTags; let i = index" [value]="tag" (click)="tagsSelection(c, i)">
+            <mat-chip #c="matChip" *ngFor="let tag of tagRes.tagModels; let i = index" [value]="tag" (click)="tagsSelection(c, i)">
               <mat-icon *ngIf="c.selected">check</mat-icon>
               {{tag.tagName}}
             </mat-chip>
           </mat-chip-list>
+        </div>
+        </ng-container>
         </div>
         <div class="col-3 text-center">
           <button class="btn-style btn-container" mat-button matStepperNext (click)="sendTags()" [disabled]="!isTagsSelected">Send request</button>
@@ -63,17 +69,11 @@
     </mat-step>
 
     <!--Send request-->
-    <mat-step label="Send request">
-
-    </mat-step>
-
-    <!--Check email-->
     <mat-step>
-      <ng-template matStepLabel>Check email</ng-template>
-      <p>Done</p>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+        <button class="btn-style btn-container" mat-button matStepperPrevious>Back</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

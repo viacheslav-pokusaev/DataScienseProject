@@ -103,21 +103,23 @@ namespace DataScienseProject.Services
             }
             _context.SaveChanges();
 
-            _emailSenderService.SendEmailToUser(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
-            _emailSenderService.SendEmailToAdmins(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
+            if (dataToSendModel.TagsList.Count < 5)
+                _emailSenderService.SendEmailToUser(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
+            else
+                _emailSenderService.SendEmailToAdmins(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
 
             return true;
         }
 
-        public List<TagModel> GetAllTags()
+        public List<TagResModel> GetAllTags()
         {
-            var res = new List<TagModel>();
+            var res = new List<TagResModel>();
 
             var tagsSelect = _context.Tags.Join(_context.ViewTags, t => t.TagKey, vt => vt.TagKey, (t, vt) => new {
                 TagKey = t.TagKey,
                 TagName = t.Name,
                 DirectionKey = t.DirectionKey
-            }).Join(_context.Directions, t => t.DirectionKey, d => d.DirectionKey, (t, d) => new TagModel{
+            }).Join(_context.Directions, t => t.DirectionKey, d => d.DirectionKey, (t, d) => new {
                 TagKey = t.TagKey,
                 TagName = t.TagName,
                 Direction = d.Name
@@ -125,13 +127,29 @@ namespace DataScienseProject.Services
 
             foreach(var tag in tagsSelect)
             {
-                if (res.Find(ts => ts.TagKey == tag.TagKey) == null)
+                var currentDirrection = tag.Direction;
+                if (res.Find(ts => ts.Direction == currentDirrection) == null)
                 {
-                    res.Add(tag);
+                    var resTags = tagsSelect.Where(t => t.Direction == currentDirrection)
+                        .Select(s => new TagModel() { TagKey = s.TagKey, TagName = s.TagName }).ToList();
+                    res.Add(new TagResModel() { Direction = currentDirrection, TagModels = GetUnique(resTags) });
                 }
             }
             return res;
-        }       
-    } 
+        }
+        private List<TagModel> GetUnique(List<TagModel> tagModels)
+        {
+            var res = new List<TagModel>();
 
+            tagModels.ForEach(tm =>
+            {
+                if(res.Find(f => f.TagKey == tm.TagKey) == null)
+                {
+                    res.Add(tm);
+                }
+            });
+
+            return res;
+        }
+    } 
 }
