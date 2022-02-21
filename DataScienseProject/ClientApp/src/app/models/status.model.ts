@@ -1,4 +1,4 @@
 export class StatusModel{
-  public errorMessage: string;
+  public message: string;
   public statusCode: number;
 }

@@ -7,6 +7,7 @@ import { TagModel } from '../../../models/main-page/tag.model';
 import { MatChip, MatStepper } from '@angular/material';
 import { DataToSendModel } from '../../../models/main-page/data-to-send';
 import { TagResModel } from 'src/app/models/main-page/tagRes.model';
+import { StatusModel } from 'src/app/models/status.model';
 
 @Component({
   selector: 'app-main-page-dialog',
@@ -22,6 +23,7 @@ export class MainPageDialogComponent implements OnInit {
   selectedTagsList: TagModel[] = [];
   isTagsSelected: boolean = false;
   isInputFill: boolean = false;
+  message: string;
 
   constructor(public dialogRef: MatDialogRef<MainPageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData, private _formBuilder: FormBuilder, private mainPageService: MainPageService) { }
@@ -68,7 +70,8 @@ export class MainPageDialogComponent implements OnInit {
       var dataToSendModel: DataToSendModel = new DataToSendModel();
       dataToSendModel.email = this.firstFormGroup.controls['emailCtrl'].value;
       dataToSendModel.tagsList = this.selectedTagsList;
-      this.mainPageService.sendTags(dataToSendModel).subscribe(() => {
+      this.mainPageService.sendTags(dataToSendModel).subscribe((statusModel: StatusModel) => {
+        this.message = statusModel.message;
       },
         error => { console.error('There was an error!', error); });
     }

@@ -2,6 +2,7 @@
 using DataScienseProject.Entities;
 using DataScienseProject.Interfaces;
 using DataScienseProject.Models.EmailSender;
+using DataScienseProject.Models.Gallery;
 using DataScienseProject.Models.MainPage;
 using DataScienseProject.Utility;
 using System;
@@ -23,8 +24,10 @@ namespace DataScienseProject.Services
             _context = context;
             _emailSenderService = emailSenderService;
         }
-        public bool AddNewGroup(DataToSendModel dataToSendModel)
+        public StatusModel AddNewGroup(DataToSendModel dataToSendModel)
         {
+            if(dataToSendModel.TagsList.Count == 0 || dataToSendModel.TagsList == null) return null;
+
             List<List<TagsData>> tagsData = new List<List<TagsData>>();
             foreach (var tagKey in dataToSendModel.TagsList)
             {
@@ -56,21 +59,22 @@ namespace DataScienseProject.Services
                }
             }
 
-            var groupKey = _context.Groups.Select(x => x.GroupKey).Max() + 1;
+            var groupList = _context.Groups.Select(s => s.GroupName).Where(gn => gn.Contains("_")).ToList();
+            var groupNumber = groupList.LastOrDefault() == null ? Convert.ToInt32("1"): Convert.ToInt32(groupList.LastOrDefault().Split("_").Last()) + 1;
 
             var group = new Group
             {                
-                GroupName = "group_" + groupKey.ToString(),
+                GroupName = "group_" + groupNumber.ToString(),
                 IsDeleted = false
             };
             _context.Groups.Add(group);
             _context.SaveChanges();
 
-
+            var groupKey = _context.Groups.Where(x => x.GroupKey == group.GroupKey).FirstOrDefault().GroupKey;
             RandomNumberGenerator generator = new RandomNumberGenerator();
             var pass = new Password
             {
-                GroupKey = _context.Groups.Where(x => x.GroupKey == groupKey).FirstOrDefault().GroupKey,
+                GroupKey = groupKey,
                 PasswordValue = generator.RandomPassword(PASSWORD_LENGTH),
                 CreatedDate = DateTime.Now.Date,
                 ExpirationDate = DateTime.Now.Date.AddDays(EXPIRATION_TIME),
@@ -97,18 +101,19 @@ namespace DataScienseProject.Services
 
             List<GroupView> filteredGroupViews = groupViews.GroupBy(x => x.ViewKey).Select(x => x.First()).ToList();
 
-            foreach (var groupView in filteredGroupViews)
-            {
-                _context.GroupViews.Add(groupView);
-            }
+            _context.GroupViews.AddRange(filteredGroupViews);
             _context.SaveChanges();
 
-            if (dataToSendModel.TagsList.Count < 5)
+            StatusModel statusModel = new StatusModel();
+            if (dataToSendModel.TagsList.Count < 5){
                 _emailSenderService.SendEmailToUser(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
-            else
+                statusModel.Message = "We sent a link and password to your group to your email.";
+            }
+            else{
                 _emailSenderService.SendEmailToAdmins(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
-
-            return true;
+                statusModel.Message = "Thank you for your request, our administrator will contact you as soon as possible.";
+            }
+            return statusModel;
         }
 
         public List<TagResModel> GetAllTags()

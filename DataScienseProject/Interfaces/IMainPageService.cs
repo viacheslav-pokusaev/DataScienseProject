@@ -1,4 +1,5 @@
-﻿using DataScienseProject.Models.MainPage;
+﻿using DataScienseProject.Models.Gallery;
+using DataScienseProject.Models.MainPage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace DataScienseProject.Interfaces
     public interface IMainPageService
     {
         List<TagResModel> GetAllTags();
-        bool AddNewGroup(DataToSendModel dataToSendModel);
+        StatusModel AddNewGroup(DataToSendModel dataToSendModel);
     }
 }

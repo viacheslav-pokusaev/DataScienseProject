@@ -1,4 +1,5 @@
 ﻿using DataScienseProject.Interfaces;
+using DataScienseProject.Models.Gallery;
 using DataScienseProject.Models.MainPage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace DataScienseProject.Controllers
 
         [HttpPost]
         [Route("add")]
-        public bool Add([FromBody] DataToSendModel dataToSendModel)
+        public StatusModel Add([FromBody] DataToSendModel dataToSendModel)
         {
             return _mainPageService.AddNewGroup(dataToSendModel);
         }
