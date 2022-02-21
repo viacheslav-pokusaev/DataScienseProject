@@ -59,7 +59,7 @@ namespace DataScienseProject.Services
                 ViewKey = ve.ViewKey,
                 ElementName = e.ElementName,
                 ElementKey = e.ElementKey,
-                EIsDeleted = e.IsDeleted
+                ElementIsDeleted = e.IsDeleted
             })
                 .Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
                 {
@@ -67,7 +67,7 @@ namespace DataScienseProject.Services
                     ElementName = e.ElementName,
                     ViewKey = e.ViewKey,
                     ElementKey = e.ElementKey,
-                    EIsDeleted = e.EIsDeleted
+                    ElementIsDeleted = e.ElementIsDeleted
                 })
                 .Join(_context.ElementParameters, e => e.ElementKey, ep => ep.ElementKey, (e, ep) => new
                 {
@@ -80,7 +80,7 @@ namespace DataScienseProject.Services
                         ElementName = e.ElementName,
                         ViewKey = e.ViewKey,
                         ElementKey = e.ElementKey,
-                        IsDeleted = e.EIsDeleted
+                        IsDeleted = e.ElementIsDeleted
                     }
                 }).Where(x => x.EpIsDeleted == false && x.e.ViewKey == id && x.e.IsDeleted == false)
                     .Select(s => new LayoutStyleModel() { ElementName = s.e.ElementName, ElementTypeName = s.ElementTypeName, Key = s.Key, Value = s.Value }).ToList();
@@ -113,11 +113,11 @@ namespace DataScienseProject.Services
                     IsShowElementName = e.IsShowElementName,
                     OrderNumber = e.ve.OrderNumber,
                     ElementKey = e.ve.ElementKey,
-                    VeIsDeleted = e.ve.IsDeleted,
-                    EIsDeleted = e.IsDeleted,
+                    ViewElementIsDeleted = e.ve.IsDeleted,
+                    ElementIsDeleted = e.IsDeleted,
                     ViewKey = e.ve.ViewKey
                 })
-                .Where(x => x.VeIsDeleted == false && x.EIsDeleted == false && x.ViewKey == id).Select(s => new LayoutDataModel()
+                .Where(x => x.ViewElementIsDeleted == false && x.ElementIsDeleted == false && x.ViewKey == id).Select(s => new LayoutDataModel()
                 {
                     ElementName = s.ElementName,
                     ElementTypeName = s.ElementTypeName,
@@ -266,13 +266,13 @@ namespace DataScienseProject.Services
                     ElementName = e.ElementName,
                     ViewKey = ve.ViewKey,
                     ElementTypeKey = e.ElementTypeKey,
-                    VeIsDeleted = ve.IsDeleted,
-                    EIsDeleted = e.IsDeleted
+                    ViewElementIsDeleted = ve.IsDeleted,
+                    ElementIsDeleted = e.IsDeleted
                 }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
                 {
                     e = e,
                     ElementTypeName = et.ElementTypeName
-                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME && x.e.VeIsDeleted == false && x.e.EIsDeleted == false)
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME && x.e.ViewElementIsDeleted == false && x.e.ElementIsDeleted == false)
                 .Select(s => s.e.Value).AsNoTracking().FirstOrDefault();
 
                 shortDescriptionDataSelect.Add(shortDescriptionData);
@@ -288,14 +288,14 @@ namespace DataScienseProject.Services
                     ElementName = e.ElementName,
                     ViewKey = ve.ViewKey,
                     ElementTypeKey = e.ElementTypeKey,
-                    VeIsDeleted = ve.IsDeleted,
-                    EIsDeleted = e.IsDeleted,
+                    ViewElementIsDeleted = ve.IsDeleted,
+                    ElementIsDeleted = e.IsDeleted,
                     Path = e.Path
                 }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
                 {
                     e = e,
                     ElementTypeName = et.ElementTypeName
-                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == IMAGE_ELEMENT_NAME && x.e.VeIsDeleted == false && x.e.EIsDeleted == false)
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == IMAGE_ELEMENT_NAME && x.e.ViewElementIsDeleted == false && x.e.ElementIsDeleted == false)
                .Select(s => s.e.Path).AsNoTracking().FirstOrDefault();
                 #endregion
                 var galleryModel = new GalleryModel()
