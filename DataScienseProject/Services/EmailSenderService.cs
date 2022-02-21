@@ -77,7 +77,6 @@ namespace DataScienseProject.Services
 
         public async Task SendEmailToAdmins(EmailSendModel email, string userEmail)
         {
-
             var smtpData = _configuration.GetSection("SmtpData");
             MailAddress from = new MailAddress(smtpData.GetSection("senderEmail").Value, smtpData.GetSection("senderName").Value);
             MailMessage message = new MailMessage();

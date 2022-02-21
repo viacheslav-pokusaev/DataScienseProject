@@ -16,34 +16,20 @@ import { StatusModel } from 'src/app/models/status.model';
 })
 export class MainPageDialogComponent implements OnInit {
   isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  emailFormGroup: FormGroup;
   allTags: Array<TagResModel>;
   tag: TagModel;
   selectedTagsList: TagModel[] = [];
-  isTagsSelected: boolean = false;
-  isInputFill: boolean = false;
   message: string;
 
   constructor(public dialogRef: MatDialogRef<MainPageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData, private _formBuilder: FormBuilder, private mainPageService: MainPageService) { }
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
+    this.emailFormGroup = this._formBuilder.group({
       emailCtrl: ['', [Validators.required, Validators.email]],
     });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
-    });
     this.getTags();
-  }
-
-  ngDoCheck() {
-    if (this.firstFormGroup.valid) {
-      this.isInputFill = true;
-    } else {
-      this.isInputFill = false;
-    }
   }
 
   getTags() {
@@ -62,13 +48,12 @@ export class MainPageDialogComponent implements OnInit {
         if (element == chip.value) this.selectedTagsList.splice(index, 1);
       });
     }
-    this.selectedTagsList.length > 0 ? this.isTagsSelected = true : this.isTagsSelected = false;
   }
 
   sendTags() {
-    if (this.isTagsSelected) {
+    if (this.selectedTagsList.length > 0) {
       var dataToSendModel: DataToSendModel = new DataToSendModel();
-      dataToSendModel.email = this.firstFormGroup.controls['emailCtrl'].value;
+      dataToSendModel.email = this.emailFormGroup.controls['emailCtrl'].value;
       dataToSendModel.tagsList = this.selectedTagsList;
       this.mainPageService.sendTags(dataToSendModel).subscribe((statusModel: StatusModel) => {
         this.message = statusModel.message;

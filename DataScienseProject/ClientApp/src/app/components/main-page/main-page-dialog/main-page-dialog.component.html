@@ -10,8 +10,8 @@
   <mat-horizontal-stepper [linear]="true" class="row">
 
     <!--Fill out your email-->
-    <mat-step [stepControl]="firstFormGroup" editable="false">
-      <form [formGroup]="firstFormGroup">
+      <mat-step [stepControl]="emailFormGroup" editable="false">
+      <form [formGroup]="emailFormGroup">
         <ng-template matStepLabel>Fill out your email</ng-template>
         <div class="row align-items-center">
           <div class="col-8">
@@ -28,7 +28,7 @@
                         matSuffix>
                 alternate_email
               </mat-icon>
-              <mat-error *ngIf="firstFormGroup.controls['emailCtrl'].errors">
+              <mat-error *ngIf="emailFormGroup.controls['emailCtrl'].errors">
                 Please enter a <strong>
                   valid
                   email
@@ -38,7 +38,7 @@
             </mat-form-field>
           </div>
           <div class="col-4 text-center">
-            <button class="btn-style btn-container" matStepperNext [disabled]="!isInputFill">Next</button>
+            <button class="btn-style btn-container" matStepperNext [disabled]="!this.emailFormGroup.valid">Next</button>
           </div>
         </div>
       </form>
@@ -46,7 +46,6 @@
 
     <!--Select interested technologies-->
     <mat-step label="Select interested technologies">
-      <!-- <mat-step [stepControl]="secondFormGroup" label="Select interested technologies"> -->
       <div class="row align-items-center">
         <div class="col-9">
           <!--Tags-->
@@ -63,7 +62,7 @@
         </ng-container>
         </div>
         <div class="col-3 text-center">
-          <button class="btn-style btn-container" mat-button matStepperNext (click)="sendTags()" [disabled]="!isTagsSelected">Send request</button>
+          <button class="btn-style btn-container" mat-button matStepperNext (click)="sendTags()" [disabled]="this.selectedTagsList.length <= 0">Send request</button>
         </div>
       </div>
     </mat-step>

@@ -31,7 +31,7 @@ export class FooterComponent implements OnInit {
 
   }
 
-  sendFeedback(): void {    
+  sendFeedback(): void {
     this.feedback.name = this.firstFormGroup.value.nameCtrl;
     this.feedback.email = this.firstFormGroup.value.emailCtrl;
     this.feedback.text = this.firstFormGroup.value.textCtrl;
@@ -39,12 +39,7 @@ export class FooterComponent implements OnInit {
     this.email = "";
     this.message = "";
 
-    this.homeService.addFeedback(this.feedback).subscribe(
-      (response) => {
-      },
-      error => {
-        console.error('There was an error!', error);
-      })
+    this.homeService.addFeedback(this.feedback).subscribe();
   }
 
 }
