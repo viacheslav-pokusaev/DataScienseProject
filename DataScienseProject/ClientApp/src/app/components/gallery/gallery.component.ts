@@ -13,7 +13,7 @@ import { Title } from "@angular/platform-browser";
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css']  
+  styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
   selectedTagsList: string[] = [];
@@ -35,9 +35,9 @@ export class GalleryComponent implements OnInit {
   }
 
   ngOnInit() {
-    sessionStorage.setItem('groupName', this.location.path().split("/", 2)[1]);    
+    sessionStorage.setItem('groupName', this.location.path().split("/", 2)[1]);
     this.groupName = sessionStorage.getItem('groupName');
-    this.getGallery();    
+    this.getGallery();
   }
 
   public login() {
@@ -73,6 +73,7 @@ export class GalleryComponent implements OnInit {
   galleryUnboxingData(data: GalleryResult){
     if (data.statusModel.statusCode !== 403) {
       this.galleryModels = data.galleryModels;
+      this.headerTextEcranizeLinks();
       data.galleryModels.forEach(gm => {
         this.tags = new Set(Array.from(this.tags).concat(Array.from(new Set(gm.tags))));
         this.executors = new Set(Array.from(this.executors).concat(Array.from(new Set(gm.executors))));
@@ -81,25 +82,45 @@ export class GalleryComponent implements OnInit {
     this.statusModel = data.statusModel;
   }
 
+  headerTextEcranizeLinks(){
+    this.galleryModels.forEach((gm: GalleryModel)=> {
+        for(let i = 0; i < gm.shortDescription.length; i++){
+          if(gm.shortDescription[i]){
+            let descriptionsArr = gm.shortDescription[i].split("<a");
+            let newDescription = "";
+            descriptionsArr.forEach(description => {
+              let startIndex = description.indexOf("href");
+              let endIndex = description.indexOf(">");
+              description = description.replace(description.slice(startIndex, endIndex) + ">", "");
+              description = description.replace("</a>", "");
+
+              newDescription += description;
+            });
+            gm.shortDescription[i] = newDescription;
+          };
+        }
+    })
+  }
+
   tagsSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
     if (chip.selected) {
-      this.selectedTagsList.push(chip.value);      
-    } else {   
+      this.selectedTagsList.push(chip.value);
+    } else {
       this.selectedTagsList.forEach((element, index) => {
         if (element == chip.value) this.selectedTagsList.splice(index, 1);
-      });            
-    }   
+      });
+    }
   }
 
   executorsSelection(chip: MatChip, index: number) {
     chip.toggleSelected();
     if (chip.selected) {
-      this.selectedExecutorsList.push(chip.value);      
+      this.selectedExecutorsList.push(chip.value);
     } else {
       this.selectedExecutorsList.forEach((element, index) => {
         if (element == chip.value) this.selectedExecutorsList.splice(index, 1);
-      });      
+      });
     }
   }
 
