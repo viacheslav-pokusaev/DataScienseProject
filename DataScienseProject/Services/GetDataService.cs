@@ -183,6 +183,7 @@ namespace DataScienseProject.Services
                 ViewName = v.ViewName,
                 OrderNumber = v.OrderNumber,
                 ViewKey = v.ViewKey,
+                VIsDeleted = v.IsDeleted,
                 gv = new { GroupName = gv.GroupName, IsDeleted = gv.IsDeleted }
             })
             .Join(_context.ViewTags, v => v.ViewKey, vt => vt.ViewKey, (v, vt) => new
@@ -190,6 +191,7 @@ namespace DataScienseProject.Services
                 ViewName = v.ViewName,
                 OrderNumber = v.OrderNumber,
                 ViewKey = v.ViewKey,
+                VIsDeleted = v.VIsDeleted,
                 gv = v.gv,
                 TagKey = vt.TagKey
             })
@@ -198,6 +200,7 @@ namespace DataScienseProject.Services
                 ViewName = vt.ViewName,
                 OrderNumber = vt.OrderNumber,
                 ViewKey = vt.ViewKey,
+                VIsDeleted = vt.VIsDeleted,
                 gv = vt.gv,
                 TagName = t.Name
             })
@@ -207,6 +210,7 @@ namespace DataScienseProject.Services
                 OrderNumber = t.OrderNumber,
                 ViewKey = t.ViewKey,
                 TagName = t.TagName,
+                VIsDeleted = t.VIsDeleted,
                 gv = t.gv,
                 ExecutorKey = ve.ExecutorKey
             })
@@ -216,11 +220,12 @@ namespace DataScienseProject.Services
                 OrderNumber = ve.OrderNumber,
                 ViewKey = ve.ViewKey,
                 TagName = ve.TagName,
+                VIsDeleted = ve.VIsDeleted,
                 gv = ve.gv,
                 ExecutorKey = ve.ExecutorKey,
                 ExecutorName = e.ExecutorName
             })
-            .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false).Select(s => new GroupData
+            .Where(x => x.gv.GroupName == groupName && x.gv.IsDeleted == false && x.VIsDeleted == false).Select(s => new GroupData
             {
                 ViewName = s.ViewName,
                 ViewKey = (int)s.ViewKey,
@@ -260,12 +265,14 @@ namespace DataScienseProject.Services
                     Value = e.Value,
                     ElementName = e.ElementName,
                     ViewKey = ve.ViewKey,
-                    ElementTypeKey = e.ElementTypeKey
+                    ElementTypeKey = e.ElementTypeKey,
+                    VeIsDeleted = ve.IsDeleted,
+                    EIsDeleted = e.IsDeleted
                 }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
                 {
                     e = e,
                     ElementTypeName = et.ElementTypeName
-                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME)
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME && x.e.VeIsDeleted == false && x.e.EIsDeleted == false)
                 .Select(s => s.e.Value).AsNoTracking().FirstOrDefault();
 
                 shortDescriptionDataSelect.Add(shortDescriptionData);
@@ -281,12 +288,14 @@ namespace DataScienseProject.Services
                     ElementName = e.ElementName,
                     ViewKey = ve.ViewKey,
                     ElementTypeKey = e.ElementTypeKey,
+                    VeIsDeleted = ve.IsDeleted,
+                    EIsDeleted = e.IsDeleted,
                     Path = e.Path
                 }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
                 {
                     e = e,
                     ElementTypeName = et.ElementTypeName
-                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == IMAGE_ELEMENT_NAME)
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == IMAGE_ELEMENT_NAME && x.e.VeIsDeleted == false && x.e.EIsDeleted == false)
                .Select(s => s.e.Path).AsNoTracking().FirstOrDefault();
                 #endregion
                 var galleryModel = new GalleryModel()
