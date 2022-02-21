@@ -73,7 +73,7 @@ export class GalleryComponent implements OnInit {
   galleryUnboxingData(data: GalleryResult){
     if (data.statusModel.statusCode !== 403) {
       this.galleryModels = data.galleryModels;
-      this.headerTextEcranizeLinks();
+      this.headerTextEscapeLinks();
       data.galleryModels.forEach(gm => {
         this.tags = new Set(Array.from(this.tags).concat(Array.from(new Set(gm.tags))));
         this.executors = new Set(Array.from(this.executors).concat(Array.from(new Set(gm.executors))));
@@ -82,7 +82,7 @@ export class GalleryComponent implements OnInit {
     this.statusModel = data.statusModel;
   }
 
-  headerTextEcranizeLinks(){
+  headerTextEscapeLinks(){
     this.galleryModels.forEach((gm: GalleryModel)=> {
         for(let i = 0; i < gm.shortDescription.length; i++){
           if(gm.shortDescription[i]){
