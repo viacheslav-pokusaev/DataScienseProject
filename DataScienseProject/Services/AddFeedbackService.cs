@@ -1,6 +1,7 @@
 ﻿using DataScienseProject.Context;
 using DataScienseProject.Entities;
 using DataScienseProject.Interfaces;
+using DataScienseProject.Models.EmailSender;
 using DataScienseProject.Models.Feedback;
 
 namespace DataScienseProject.Services
@@ -21,7 +22,7 @@ namespace DataScienseProject.Services
             _context.Feedbacks.Add(new Feedback() { ViewKey = feedback.ViewKey, Email = feedback.Email, Text = feedback.Text });
             _context.SaveChanges();
 
-            _emailSenderService.SendFeedback(feedback).ConfigureAwait(false);
+            _emailSenderService.SendEmail(null, null, feedback, EmailSendFunc.Feedback).ConfigureAwait(false);
 
             return feedback;
         }

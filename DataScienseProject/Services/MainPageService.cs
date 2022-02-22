@@ -105,12 +105,13 @@ namespace DataScienseProject.Services
             _context.SaveChanges();
 
             StatusModel statusModel = new StatusModel();
+            var emailSendModel = new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now };
             if (dataToSendModel.TagsList.Count < 5){
-                _emailSenderService.SendEmailToUser(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
+                _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToUser).ConfigureAwait(false);
                 statusModel.Message = "We sent a link and password to your group to your email.";
             }
             else{
-                _emailSenderService.SendEmailToAdmins(new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now }, dataToSendModel.Email).ConfigureAwait(false);
+                _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToAdmin).ConfigureAwait(false);
                 statusModel.Message = "Thank you for your request, our administrator will contact you as soon as possible.";
             }
             return statusModel;
@@ -137,12 +138,12 @@ namespace DataScienseProject.Services
                 {
                     var resTags = tagsSelect.Where(t => t.Direction == currentDirrection)
                         .Select(s => new TagModel() { TagKey = s.TagKey, TagName = s.TagName }).ToList();
-                    res.Add(new TagResModel() { Direction = currentDirrection, TagModels = GetUnique(resTags) });
+                    res.Add(new TagResModel() { Direction = currentDirrection, TagModels = DistinctTagModels(resTags) });
                 }
             }
             return res;
         }
-        private List<TagModel> GetUnique(List<TagModel> tagModels)
+        private List<TagModel> DistinctTagModels(List<TagModel> tagModels)
         {
             var res = new List<TagModel>();
 
