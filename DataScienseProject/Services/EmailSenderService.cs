@@ -33,7 +33,7 @@ namespace DataScienseProject.Services
 
             if (emailSendFunc != EmailType.NewGroupToUser)
             {
-                var recipients = _context.ConfigValues.Where(x => x.Key == "AdminEmail").Select(cv => new ConfigModel { Value = cv.Value, IsEnabled = cv.IsEnabled }).AsNoTracking().ToList(); ;
+                var recipients = _context.ConfigValues.Where(x => x.Key == "AdminEmail" && x.IsEnabled == true).Select(cv => new ConfigModel { Value = cv.Value, IsEnabled = cv.IsEnabled }).AsNoTracking().ToList(); ;
                 
                 recipients.Where(r => r.IsEnabled == true).ToList().ForEach(r =>
                 {
