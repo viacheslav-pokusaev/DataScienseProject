@@ -111,9 +111,10 @@ namespace DataScienseProject.Services
                 statusModel.Message = "We sent a link and password to your group to your email.";
             }
             else{
-                _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToAdmin).ConfigureAwait(false);
                 statusModel.Message = "Thank you for your request, our administrator will contact you as soon as possible.";
             }
+            _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToAdmin).ConfigureAwait(false);
+            
             return statusModel;
         }
 
