@@ -38,7 +38,7 @@ export class HomeComponent {
 
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.homeService.getGallery(sessionStorage.getItem('groupName')).subscribe(
       (data: GalleryResult) => {
         this.currView = this.currentView(data);
@@ -59,7 +59,7 @@ export class HomeComponent {
       },
       error => {
         console.error('There was an error!', error);
-      });    
+      });
   }
 
   urlExists(url: string) {
@@ -110,7 +110,7 @@ export class HomeComponent {
   sanitizeImage(styles: Array<LayoutStyleModel>, value: string, type: string) {
     var styleRes: string = "<img ";
     if(type === "Header Image") styleRes += "class='img-style img-style-ex img-border'";
-    styleRes += " src='" + value + "' style='" + this.sanitizeStyles(styles) + "'/>";
+    styleRes += " src='" + value + "' style='" + this.sanitizeStyles(styles) + "' onContextMenu='return false;'/>";
     return this.sanitizer.bypassSecurityTrustHtml(styleRes);
   }
 
@@ -139,6 +139,6 @@ export class HomeComponent {
 
   ngOnDestroy(){
     this.homeService.sendTrackingData(this.trackingModel).subscribe((res: any)=>{});
-  }  
+  }
 
 }
