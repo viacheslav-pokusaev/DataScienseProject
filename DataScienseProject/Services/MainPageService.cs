@@ -112,15 +112,15 @@ namespace DataScienseProject.Services
 
             if (countTosendEmailToUser > dataToSendModel.TagsList.Count)
             {
-                _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToUser).ConfigureAwait(false);
+                _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailType.NewGroupToUser).ConfigureAwait(false);
                 statusModel.Message = "We sent a link and password to your group to your email.";
 
                 if (countTosendEmailToAdmin < dataToSendModel.TagsList.Count)
-                    _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToAdminAndUser).ConfigureAwait(false);
+                    _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailType.NewGroupToAdminAndUser).ConfigureAwait(false);
             }
             else 
             {
-                _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToAdmin).ConfigureAwait(false);
+                _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailType.NewGroupToAdmin).ConfigureAwait(false);
                 statusModel.Message = "Thank you for your request, our administrator will contact you as soon as possible.";
             }
 

@@ -6,6 +6,6 @@ namespace DataScienseProject.Interfaces
 {
     public interface IEmailSenderService
     {
-        public Task SendEmail(EmailSendModel email, string userEmail, FeedbackModel feedback, EmailSendFunc emailSendFunc);
+        public Task SendEmail(EmailSendModel email, string userEmail, FeedbackModel feedback, EmailType emailSendFunc);
     }
 }

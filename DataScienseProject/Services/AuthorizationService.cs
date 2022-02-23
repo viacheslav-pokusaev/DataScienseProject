@@ -43,7 +43,7 @@ namespace DataScienseProject.Services
                 res.Message = "Password expired. For continuing using service, please, contact administrator.";
 
                 var emailSendModel = new EmailSendModel() { GroupName = authorizeModel.GroupName, Password = authorizeModel.Password, EnterTime = DateTime.Now };
-                _emailSenderService.SendEmail(emailSendModel, null, null, EmailSendFunc.PasswordExpire).ConfigureAwait(false);
+                _emailSenderService.SendEmail(emailSendModel, null, null, EmailType.PasswordExpire).ConfigureAwait(false);
             }
             else
             {

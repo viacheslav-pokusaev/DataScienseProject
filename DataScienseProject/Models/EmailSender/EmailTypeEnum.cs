@@ -1,6 +1,6 @@
 ﻿namespace DataScienseProject.Models.EmailSender
 {
-    public enum EmailSendFunc
+    public enum EmailType
     {
         PasswordExpire,
         NewGroupToUser,

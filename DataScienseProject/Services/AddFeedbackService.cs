@@ -22,7 +22,7 @@ namespace DataScienseProject.Services
             _context.Feedbacks.Add(new Feedback() { ViewKey = feedback.ViewKey, Email = feedback.Email, Text = feedback.Text });
             _context.SaveChanges();
 
-            _emailSenderService.SendEmail(null, null, feedback, EmailSendFunc.Feedback).ConfigureAwait(false);
+            _emailSenderService.SendEmail(null, null, feedback, EmailType.Feedback).ConfigureAwait(false);
 
             return feedback;
         }

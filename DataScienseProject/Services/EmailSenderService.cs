@@ -24,46 +24,43 @@ namespace DataScienseProject.Services
             _configuration = configuration;
         }
 
-        public async Task SendEmail(EmailSendModel email, string userEmail, FeedbackModel feedback, EmailSendFunc emailSendFunc)
+        public async Task SendEmail(EmailSendModel email, string userEmail, FeedbackModel feedback, EmailType emailSendFunc)
         {
             MailMessage message = new MailMessage();
             var smtpData = _configuration.GetSection("SmtpData");
             MailAddress from = new MailAddress(smtpData.GetSection("senderEmail").Value, smtpData.GetSection("senderName").Value);
             message.From = from;
 
-            if (emailSendFunc != EmailSendFunc.NewGroupToUser)
+            if (emailSendFunc != EmailType.NewGroupToUser)
             {
                 var recipients = _context.ConfigValues.Where(x => x.Key == "AdminEmail").Select(cv => new ConfigModel { Value = cv.Value, IsEnabled = cv.IsEnabled }).AsNoTracking().ToList(); ;
                 
-                recipients.ForEach(r =>
+                recipients.Where(r => r.IsEnabled == true).ToList().ForEach(r =>
                 {
-                    if (r.IsEnabled)
-                    {
-                        message.To.Add(r.Value);
-                    }
+                    message.To.Add(r.Value);
                 });
             }
 
             switch (emailSendFunc)
             {
-                case EmailSendFunc.PasswordExpire:
+                case EmailType.PasswordExpire:
                     message.Subject = "Expiration password inserted";
                     message.Body = $"<div><h1>Try to see group: {email.GroupName}</h1><h3>Attempt time: {email.EnterTime}</h3><h3>With password: {email.Password}</h3></div>";
                     break;
-                case EmailSendFunc.NewGroupToUser:
+                case EmailType.NewGroupToUser:
                     message.To.Add(userEmail);
                     message.Subject = "Access to projects";
                     message.Body = $"<div><h3>You can see our projects on the <a href={"https://gallery.customsolutions.info/" + email.GroupName}>link</a></h3><h3>With password: {email.Password}</h3></div>";
                     break;
-                case EmailSendFunc.NewGroupToAdmin:
+                case EmailType.NewGroupToAdmin:
                     message.Subject = $"User get access to new group";
                     message.Body = $"<div><h1>New group name: {email.GroupName}</h1><h3>User email: {userEmail}</h3><h3>Attempt time: {email.EnterTime}</h3><h3>With password: {email.Password}</h3><h4>(User wait to your responce)</h4></div>";
                     break;
-                case EmailSendFunc.Feedback:
+                case EmailType.Feedback:
                     message.Subject = "Get user feedback";
                     message.Body = $"<div><h1>User email: {feedback.Email}</h1><h3>Text: {feedback.Text}</h3><h3>Send feedback to view: {feedback.ViewKey}</h3></div>";
                     break;
-                case EmailSendFunc.NewGroupToAdminAndUser:
+                case EmailType.NewGroupToAdminAndUser:
                     message.Subject = $"New group was created";
                     message.Body = $"<div><h1>New group name: {email.GroupName}</h1><h3>User email: {userEmail}</h3><h3>Attempt time: {email.EnterTime}</h3><h3>With password: {email.Password}</h3><h4>(User get nessesary credentials on email)</h4></div>";
                     break;
