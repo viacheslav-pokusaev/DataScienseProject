@@ -5,6 +5,7 @@
         PasswordExpire,
         NewGroupToUser,
         NewGroupToAdmin,
-        Feedback
+        Feedback,
+        NewGroupToAdminAndUser
     }
 }

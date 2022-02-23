@@ -106,18 +106,25 @@ namespace DataScienseProject.Services
 
             StatusModel statusModel = new StatusModel();
             var emailSendModel = new EmailSendModel() { GroupName = group.GroupName, Password = pass.PasswordValue, EnterTime = DateTime.Now };
-            if (dataToSendModel.TagsList.Count < 5)
+            
+            var countTosendEmailToUser = Convert.ToInt32(_context.ConfigValues.Where(x => x.Key == "SendNewGroupEmailToUser" && x.IsEnabled == true).ToList().LastOrDefault()?.Value);
+            var countTosendEmailToAdmin = Convert.ToInt32(_context.ConfigValues.Where(x => x.Key == "SendNewGroupEmail" && x.IsEnabled == true).ToList().LastOrDefault()?.Value);
+
+            if (countTosendEmailToUser > dataToSendModel.TagsList.Count)
             {
                 _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToUser).ConfigureAwait(false);
                 statusModel.Message = "We sent a link and password to your group to your email.";
+
+                if (countTosendEmailToAdmin < dataToSendModel.TagsList.Count)
+                    _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToAdminAndUser).ConfigureAwait(false);
             }
             else 
-                statusModel.Message = "Thank you for your request, our administrator will contact you as soon as possible.";
-
-            var countTosendEmailToAdmin = _context.ConfigValues.Where(x => x.Key == "SendNewGroupEmail" && x.IsEnabled == true).ToList().LastOrDefault().Value;
-            if (Convert.ToInt32(countTosendEmailToAdmin) < dataToSendModel.TagsList.Count)
+            {
                 _emailSenderService.SendEmail(emailSendModel, dataToSendModel.Email, null, EmailSendFunc.NewGroupToAdmin).ConfigureAwait(false);
-            
+                statusModel.Message = "Thank you for your request, our administrator will contact you as soon as possible.";
+            }
+
+
             return statusModel;
         }
 

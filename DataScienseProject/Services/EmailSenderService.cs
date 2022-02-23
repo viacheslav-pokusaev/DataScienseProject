@@ -57,11 +57,15 @@ namespace DataScienseProject.Services
                     break;
                 case EmailSendFunc.NewGroupToAdmin:
                     message.Subject = $"User get access to new group";
-                    message.Body = $"<div><h1>New group name: {email.GroupName}</h1><h3>User email: {userEmail}</h3><h3>Attempt time: {email.EnterTime}</h3><h3>With password: {email.Password}</h3></div>";
+                    message.Body = $"<div><h1>New group name: {email.GroupName}</h1><h3>User email: {userEmail}</h3><h3>Attempt time: {email.EnterTime}</h3><h3>With password: {email.Password}</h3><h4>(User wait to your responce)</h4></div>";
                     break;
                 case EmailSendFunc.Feedback:
                     message.Subject = "Get user feedback";
                     message.Body = $"<div><h1>User email: {feedback.Email}</h1><h3>Text: {feedback.Text}</h3><h3>Send feedback to view: {feedback.ViewKey}</h3></div>";
+                    break;
+                case EmailSendFunc.NewGroupToAdminAndUser:
+                    message.Subject = $"New group was created";
+                    message.Body = $"<div><h1>New group name: {email.GroupName}</h1><h3>User email: {userEmail}</h3><h3>Attempt time: {email.EnterTime}</h3><h3>With password: {email.Password}</h3><h4>(User get nessesary credentials on email)</h4></div>";
                     break;
             }
 
