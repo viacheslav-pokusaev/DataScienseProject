@@ -39,7 +39,7 @@ export class FooterComponent implements OnInit {
     this.email = "";
     this.message = "";
 
-    this.homeService.addFeedback(this.feedback).subscribe();
+    this.homeService.addFeedback(this.feedback).subscribe().unsubscribe();
   }
 
 }
