@@ -35,7 +35,7 @@ namespace DataScienseProject.Services
             if (pass == null)
             {
                 res.StatusCode = 403;
-                res.Message = "Password incorect";
+                res.Message = "Password is incorrect";
             }
             else if (pass != null && DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) > 0 && pass.ExpirationDate != null)
             {
