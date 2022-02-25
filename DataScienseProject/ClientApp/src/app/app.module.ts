@@ -12,9 +12,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material';
 import { AuthGuard } from '../services/auth.guard';
 import { CookieService } from 'ngx-cookie-service';
+import { MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatStepperModule } from '@angular/material';
+import { MainPageComponent } from './components/main-page/main-page.component';
+import { MainPageDialogComponent } from './components/main-page/main-page-dialog/main-page-dialog.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { CookieService } from 'ngx-cookie-service';
     HomeComponent,
     GalleryComponent,
     FooterComponent,
-    TapToTopComponent
+    TapToTopComponent,
+    MainPageComponent,
+    MainPageDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,15 +36,21 @@ import { CookieService } from 'ngx-cookie-service';
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
-    MatChipsModule,    
+    MatChipsModule,
     MatIconModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
     RouterModule.forRoot([
       { path: ':groupName', component: GalleryComponent, pathMatch: 'full' },
-      { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] }
+      { path: ':groupName/:viewName', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: '', component: MainPageComponent, pathMatch: 'full' }
     ]),
     BrowserAnimationsModule
   ],
   providers: [AuthGuard, CookieService],
+  entryComponents: [MainPageDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

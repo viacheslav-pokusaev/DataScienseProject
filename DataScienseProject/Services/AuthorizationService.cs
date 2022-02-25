@@ -35,19 +35,20 @@ namespace DataScienseProject.Services
             if (pass == null)
             {
                 res.StatusCode = 403;
-                res.ErrorMessage = "Password is incorrect";
+                res.Message = "Password is incorrect";
             }
             else if (pass != null && DateTime.Compare(DateTime.Now.Date, Convert.ToDateTime(pass.ExpirationDate)) > 0 && pass.ExpirationDate != null)
             {
                 res.StatusCode = 403;
-                res.ErrorMessage = "Password expired. For continuing using service, please, contact administrator.";
+                res.Message = "Password expired. For continuing using service, please, contact administrator.";
 
-                _emailSenderService.SendEmail(new EmailSendModel() { GroupName = authorizeModel.GroupName, Password = authorizeModel.Password, EnterTime = DateTime.Now }).ConfigureAwait(false);
+                var emailSendModel = new EmailSendModel() { GroupName = authorizeModel.GroupName, Password = authorizeModel.Password, EnterTime = DateTime.Now };
+                _emailSenderService.SendEmail(emailSendModel, null, null, EmailType.PasswordExpire).ConfigureAwait(false);
             }
             else
             {
                 res.StatusCode = 200;
-                res.ErrorMessage = "";
+                res.Message = "";
                 http.Response.Cookies.Append("Authorize", authorizeModel.GroupName, new CookieOptions()
                 {
                     Expires = DateTimeOffset.Now.AddMinutes(15)
@@ -64,10 +65,10 @@ namespace DataScienseProject.Services
             var cookies = http.Request.Cookies.Where(x => x.Key == "Authorize" && x.Value == groupName).ToList();
             if (cookies.Count == 0)
             {
-                return new StatusModel() { ErrorMessage = "", StatusCode = 403 };
+                return new StatusModel() { Message = "", StatusCode = 403 };
             }
 
-            return new StatusModel() { ErrorMessage = "", StatusCode = 200 };
+            return new StatusModel() { Message = "", StatusCode = 200 };
         }
 
         public void UpdateCookie(HttpContext http)

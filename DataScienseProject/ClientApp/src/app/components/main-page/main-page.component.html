@@ -1,0 +1,38 @@
+<section class="agency header" id="header">
+  <div class="agency bg" [ngStyle]="{'background-image': 'url(/img/header2.png)'}">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3">
+      <div class="container nav-container">
+        <a href="https://customsolutions.info/">
+          <img src="../img/logo-header.png" />
+        </a>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 desc-block">
+          <div class="center-text">
+            <div class="head-style">
+              <h1 class="text-uppercase">
+                <span class="bold-text narrow-lettets">
+                  Projects
+                  Gallery
+                </span>
+              </h1>
+            </div>
+            <div class="short-desc-style">
+              <p>
+                We are proud of implemented projects and ready to introduce to you
+                some of previous tasks. Clients data is changed or blurred by NDA. Fill
+                the form, and you will receive credentials on email immediately.
+              </p>
+            </div>
+            <button class="btn-style" mat-raised-button (click)="openDialog()">Get access</button>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3">
+          <img src="/img/pc_picture.png" alt="PC Picture" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

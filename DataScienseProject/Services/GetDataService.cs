@@ -341,7 +341,7 @@ namespace DataScienseProject.Services
                     galleryResult.GalleryModels.Add(galleryModel);
                 }
             });
-            galleryResult.StatusModel = new StatusModel() { ErrorMessage = "", StatusCode = 200 };
+            galleryResult.StatusModel = new StatusModel() { Message = "", StatusCode = 200 };
 
             return galleryResult;
         }

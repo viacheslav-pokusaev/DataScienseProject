@@ -1,0 +1,96 @@
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+mat-icon {
+  height: 20px;
+  width: 20px;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.my-chip .mat-chip-selected {
+  background-color: #f2a523;
+  color: #fff;
+}
+
+.btn-style {
+  font-family: Codec Pro;
+  color: #fff;
+  font-weight: 500 !important;
+  border-radius: 50px;
+  border: transparent;
+  position: relative;
+  background-color: #d8550f;
+  background-image: linear-gradient( 90deg,#f2a523,#d8550f,#d8550f,#f2a523);
+  transition: all .4s ease-in-out;
+  background-size: 300% 100%;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 14px 60px;
+}
+
+.btn-style:hover {
+  transition: all .4s ease-in-out;
+  color: #fff !important;
+  background-position: 100% 0px;
+}
+
+.btn-container {
+  justify-content: center;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 400px !important;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected {
+  background-color: #d8550f;
+}
+
+::ng-deep .mat-form-field .mat-icon {
+  color: #d8550f;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-state-done {
+  background-color: #35b53e;
+}
+
+button[disabled] {
+  opacity: 0.5;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: #d8550f !important;
+}
+
+::ng-deep .mat-form-field-ripple {
+  background-color: #d8550f !important;
+}
+
+.close {
+  transition: 0.7s all ease-in;
+  color: #777 !important;
+  right: 0 !important;
+  font-size: 2.3rem !important;
+  background: unset !important;
+}
+.close:focus {
+  outline: unset !important;
+}
+
+.close:hover {
+  color: #d8550f !important;
+}
+
+.direction{
+  color: #d8550f;
+  font-weight: bold;
+  font-family: Codec Pro;
+}

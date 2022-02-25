@@ -41,6 +41,8 @@
     <None Remove="ClientApp\src\app\models\layout-data.model.ts" />
     <None Remove="ClientApp\src\app\models\layout-style.model.ts" />
     <None Remove="ClientApp\src\app\models\main-page.model.ts" />
+    <None Remove="ClientApp\src\app\models\main-page\data-to-send.ts" />
+    <None Remove="ClientApp\src\app\models\main-page\tag.model.ts" />
     <None Remove="ClientApp\src\app\models\project-type.model.ts" />
     <None Remove="ClientApp\src\app\models\technology.model.ts" />
     <None Remove="ClientApp\src\app\safe.pipe.ts" />
@@ -53,6 +55,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\layout-style.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\layout-data.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\main-page.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\main-page\data-to-send.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\main-page\tag.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\project-type.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\technology.model.ts" />
   </ItemGroup>

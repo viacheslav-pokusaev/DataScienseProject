@@ -226,7 +226,8 @@ DECLARE @Key VARCHAR(MAX) = 'AdminEmail';
 DECLARE @Value VARCHAR(MAX) = 'kdaniilm@gmail.com';
 
 INSERT INTO ConfigValues([Key], [Value], IsEnabled) VALUES('AdminEmail', 'kdaniilm@gmail.com', 1);
-
+INSERT INTO ConfigValues([Key], [Value], IsEnabled) values('SendNewGroupEmail', '3', 1);
+INSERT INTO ConfigValues([Key], [Value], IsEnabled) values('SendNewGroupEmailToUser', '5', 1);
 -------------------------------------------------------------
 		--ConfigValues filing end
 -------------------------------------------------------------
