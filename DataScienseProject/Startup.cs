@@ -35,7 +35,7 @@ namespace DataScienseProject
                     opt.UseSqlServer(Configuration.GetConnectionString("Prod"));
             });
 
-            services.AddScoped<IGetDataService, GetDataService>();
+            services.AddScoped<IGetDataService, GetDataRefactorService>();
 
             services.AddScoped<IAuthorizationService, AuthorizationService>();
 
