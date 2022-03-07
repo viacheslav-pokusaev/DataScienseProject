@@ -4,7 +4,9 @@ using DataScienseProject.Interfaces;
 using DataScienseProject.Models;
 using DataScienseProject.Models.Gallery;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,46 +29,87 @@ namespace DataScienseProject.Services
         }
         public GalleryResult GetGalleryPageData(string groupName, HttpContext http, FilterModel filter)
         {
-            var isAuthorizedResult = _authorizationService.IsAuthorized(http, filter == null ? groupName : filter.GroupName);
-            if (isAuthorizedResult.StatusCode == 403) return new GalleryResult() { StatusModel = isAuthorizedResult };
+           var isAuthorizedResult = _authorizationService.IsAuthorized(http, filter == null ? groupName : filter.GroupName);
+           if (isAuthorizedResult.StatusCode == 403) return new GalleryResult() { StatusModel = isAuthorizedResult };
 
-            var selectFilterTags = (filter != null && filter?.TagsName.Length > 0) ? FindTags(_context.Tags.ToList(), filter.TagsName.ToList()) : _context.Tags.ToList();
+            var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new
+            {
+                ViewKey = gv.ViewKey,
+                GroupName = g.GroupName,
+                IsDeleted = g.IsDeleted
+            })
+           .Join(_context.Views, gv => gv.ViewKey, v => v.ViewKey, (gv, v) => new
+           {
+               ViewName = v.ViewName,
+               OrderNumber = v.OrderNumber,
+               ViewKey = v.ViewKey,
+               VIsDeleted = v.IsDeleted,
+               gv = new { GroupName = gv.GroupName, IsGroupDeleted = gv.IsDeleted }
+           })
+           .Join(_context.ViewTags, v => v.ViewKey, vt => vt.ViewKey, (v, vt) => new
+           {
+               ViewName = v.ViewName,
+               OrderNumber = v.OrderNumber,
+               ViewKey = v.ViewKey,
+               VIsDeleted = v.VIsDeleted,
+               gv = v.gv,
+               TagKey = vt.TagKey
+           })
+           .Join(_context.Tags, vt => vt.TagKey, t => t.TagKey, (vt, t) => new
+           {
+               ViewName = vt.ViewName,
+               OrderNumber = vt.OrderNumber,
+               ViewKey = vt.ViewKey,
+               VIsDeleted = vt.VIsDeleted,
+               gv = vt.gv,
+               TagName = t.Name
+           })
+           .Join(_context.ViewExecutors, t => t.ViewKey, ve => ve.ViewKey, (t, ve) => new
+           {
+               ViewName = t.ViewName,
+               OrderNumber = t.OrderNumber,
+               ViewKey = t.ViewKey,
+               TagName = t.TagName,
+               VIsDeleted = t.VIsDeleted,
+               gv = t.gv,
+               ExecutorKey = ve.ExecutorKey
+           })
+           .Join(_context.Executors, ve => ve.ExecutorKey, e => e.ExecutorKey, (ve, e) => new GroupDataSelectModel
+           {
+               ViewName = ve.ViewName,
+               OrderNumber = ve.OrderNumber,
+               ViewKey = ve.ViewKey,
+               TagName = ve.TagName,
+               IsViewDeleted = ve.VIsDeleted,
+               GroupName = ve.gv.GroupName,
+               IsGroupDeleted = ve.gv.IsGroupDeleted,
+               ExecutorKey = ve.ExecutorKey,
+               ExecutorName = e.ExecutorName
+           });
 
-            var selectFilterExecutors = (filter != null && filter?.ExecutorsName.Length > 0) ? FindExecutors(_context.Executors.ToList(), filter.ExecutorsName.ToList()) : _context.Executors.ToList();
+            groupDataSelect = (filter == null && filter?.TagsName.Length == 0 && filter?.ExecutorsName.Length == 0) ? groupDataSelect : Filter(groupDataSelect, filter);
+
+            var groupSelectResult = groupDataSelect.Where(x => x.GroupName == groupName && x.IsGroupDeleted == false && x.IsViewDeleted == false).Select(s => new GroupData
+           {
+               ViewName = s.ViewName,
+               ViewKey = (int)s.ViewKey,
+               OrderNumber = s.OrderNumber,
+               TagName = s.TagName,
+               ExecutorName = s.ExecutorName
+           }).OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
+
 
             return new GalleryResult();
         }
+        public IQueryable<GroupDataSelectModel> Filter(IQueryable<GroupDataSelectModel> groupDataSelect, FilterModel filter) {
 
-        public List<Tag> FindTags(List<Tag> tags, List<string> tagsName)
-        {
-            var res = new List<Tag>();
+            var res = new List<GroupDataSelectModel>();
 
-            tagsName.ForEach(tn =>
-            {
-                var findRes = tags.Where(t => t.Name == tn);
-                if (findRes != null || findRes?.Count() > 0)
-                {
-                    res.AddRange(findRes);
-                }
-            });
+            groupDataSelect.ForEachAsync(gds => {
+                if (filter.TagsName.ToList().Where(tn => tn == gds.TagName).Count() > 0 && filter.ExecutorsName.ToList().Where(en => en == gds.ExecutorName).Count() > 0) res.Add(gds);
+            }).GetAwaiter();
 
-            return res;
-        }
-
-        public List<Executor> FindExecutors(List<Executor> executors, List<string> executorsName)
-        {
-            var res = new List<Executor>();
-
-            executorsName.ForEach(en =>
-            {
-                var findRes = executors.Where(t => t.ExecutorName == en);
-                if (findRes != null || findRes?.Count() > 0)
-                {
-                    res.AddRange(findRes);
-                }
-            });
-
-            return res;
+            return res.AsQueryable();
         }
 
         public MainPageModel GetMainPageData(int id)
