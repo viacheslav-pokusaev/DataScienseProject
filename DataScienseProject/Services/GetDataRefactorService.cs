@@ -18,7 +18,7 @@ namespace DataScienseProject.Services
         private readonly DataScienceProjectDbContext _context;
         private readonly IAuthorizationService _authorizationService;
 
-        private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
+        //private List<GalleryModel> galleryModelsBuff = new List<GalleryModel>();
 
         private const string SHORT_DESCRIPTION_ELEMENT_TYPE_NAME = "Header Description";
         private const string IMAGE_ELEMENT_NAME = "Header Image";
@@ -32,6 +32,8 @@ namespace DataScienseProject.Services
            var isAuthorizedResult = _authorizationService.IsAuthorized(http, filter == null ? groupName : filter.GroupName);
            if (isAuthorizedResult.StatusCode == 403) return new GalleryResult() { StatusModel = isAuthorizedResult };
 
+            var galleryResult = new GalleryResult();
+
             var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new
             {
                 ViewKey = gv.ViewKey,
@@ -43,7 +45,7 @@ namespace DataScienseProject.Services
                ViewName = v.ViewName,
                OrderNumber = v.OrderNumber,
                ViewKey = v.ViewKey,
-               VIsDeleted = v.IsDeleted,
+               IsViewDeleted = v.IsDeleted,
                gv = new { GroupName = gv.GroupName, IsGroupDeleted = gv.IsDeleted }
            })
            .Join(_context.ViewTags, v => v.ViewKey, vt => vt.ViewKey, (v, vt) => new
@@ -51,7 +53,7 @@ namespace DataScienseProject.Services
                ViewName = v.ViewName,
                OrderNumber = v.OrderNumber,
                ViewKey = v.ViewKey,
-               VIsDeleted = v.VIsDeleted,
+               IsViewDeleted = v.IsViewDeleted,
                gv = v.gv,
                TagKey = vt.TagKey
            })
@@ -60,7 +62,7 @@ namespace DataScienseProject.Services
                ViewName = vt.ViewName,
                OrderNumber = vt.OrderNumber,
                ViewKey = vt.ViewKey,
-               VIsDeleted = vt.VIsDeleted,
+               IsViewDeleted = vt.IsViewDeleted,
                gv = vt.gv,
                TagName = t.Name
            })
@@ -70,7 +72,7 @@ namespace DataScienseProject.Services
                OrderNumber = t.OrderNumber,
                ViewKey = t.ViewKey,
                TagName = t.TagName,
-               VIsDeleted = t.VIsDeleted,
+               IsViewDeleted = t.IsViewDeleted,
                gv = t.gv,
                ExecutorKey = ve.ExecutorKey
            })
@@ -80,14 +82,14 @@ namespace DataScienseProject.Services
                OrderNumber = ve.OrderNumber,
                ViewKey = ve.ViewKey,
                TagName = ve.TagName,
-               IsViewDeleted = ve.VIsDeleted,
+               IsViewDeleted = ve.IsViewDeleted,
                GroupName = ve.gv.GroupName,
                IsGroupDeleted = ve.gv.IsGroupDeleted,
                ExecutorKey = ve.ExecutorKey,
                ExecutorName = e.ExecutorName
            });
 
-            groupDataSelect = (filter == null && filter?.TagsName.Length == 0 && filter?.ExecutorsName.Length == 0) ? groupDataSelect : Filter(groupDataSelect, filter);
+            groupDataSelect = (filter == null || (filter?.TagsName.Length == 0 && filter?.ExecutorsName.Length == 0)) ? groupDataSelect : Filter(groupDataSelect, filter);
 
             var groupSelectResult = groupDataSelect.Where(x => x.GroupName == groupName && x.IsGroupDeleted == false && x.IsViewDeleted == false).Select(s => new GroupData
            {
@@ -98,11 +100,120 @@ namespace DataScienseProject.Services
                ExecutorName = s.ExecutorName
            }).OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
 
+            groupSelectResult.ForEach(gds =>
+            {
+                var executorDataSelect = _context.ViewExecutors.Include(e => e.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation)
+                    .Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new ExecutorModel
+                    {
+                        ExecutorName = s.ExecutorKeyNavigation.ExecutorName,
+                        RoleName = s.ExecutorRoleKeyNavigation.RoleName
+                    }).AsNoTracking().ToList();
 
-            return new GalleryResult();
+                var executorNames = new List<string>();
+                executorDataSelect.ForEach(eds => executorNames.Add(eds.ExecutorName));
+
+                var tagDataSelect = _context.ViewTags.Include(t => t.TagKeyNavigation).Where(x => x.ViewKey == gds.ViewKey && x.IsDeleted == false).Select(s => new
+                {
+                    Name = s.TagKeyNavigation.Name
+                }).AsNoTracking().ToList();
+
+                var tagNames = new List<string>();
+                tagDataSelect.ForEach(tds => tagNames.Add(tds.Name));
+
+                var shortDescriptionDataSelect = new List<string>();
+                var shortDescriptionData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
+                {
+                    IsDeleted = ve.IsDeleted,
+                    ElementKey = ve.ElementKey,
+                    ViewKey = v.ViewKey
+                }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new
+                {
+                    Value = e.Value,
+                    ElementName = e.ElementName,
+                    ViewKey = ve.ViewKey,
+                    ElementTypeKey = e.ElementTypeKey,
+                    ViewElementIsDeleted = ve.IsDeleted,
+                    ElementIsDeleted = e.IsDeleted
+                }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
+                {
+                    e = e,
+                    ElementTypeName = et.ElementTypeName
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == SHORT_DESCRIPTION_ELEMENT_TYPE_NAME && x.e.ViewElementIsDeleted == false && x.e.ElementIsDeleted == false)
+                .Select(s => s.e.Value).AsNoTracking().FirstOrDefault();
+
+                shortDescriptionDataSelect.Add(shortDescriptionData);
+
+                var imageData = _context.Views.Join(_context.ViewElements, v => v.ViewKey, ve => ve.ViewKey, (v, ve) => new
+                {
+                    IsDeleted = ve.IsDeleted,
+                    ElementKey = ve.ElementKey,
+                    ViewKey = v.ViewKey
+                }).Join(_context.Elements, ve => ve.ElementKey, e => e.ElementKey, (ve, e) => new
+                {
+                    Value = e.Value,
+                    ElementName = e.ElementName,
+                    ViewKey = ve.ViewKey,
+                    ElementTypeKey = e.ElementTypeKey,
+                    ViewElementIsDeleted = ve.IsDeleted,
+                    ElementIsDeleted = e.IsDeleted,
+                    Path = e.Path
+                }).Join(_context.ElementTypes, e => e.ElementTypeKey, et => et.ElementTypeKey, (e, et) => new
+                {
+                    e = e,
+                    ElementTypeName = et.ElementTypeName
+                }).Where(x => x.e.ViewKey == gds.ViewKey && x.ElementTypeName == IMAGE_ELEMENT_NAME && x.e.ViewElementIsDeleted == false && x.e.ElementIsDeleted == false)
+               .Select(s => s.e.Path).AsNoTracking().FirstOrDefault();
+
+                var galleryModel = new GalleryModel()
+                {
+                    ViewKey = gds.ViewKey,
+                    ViewName = gds.ViewName,
+                    OrderNumber = (int)gds.OrderNumber,
+                    Executors = executorNames,
+                    Tags = tagNames,
+                    ShortDescription = shortDescriptionDataSelect,
+                    Image = imageData
+                };
+
+                //if (filter != null && (filter?.TagsName.Length > 0 || filter?.ExecutorsName.Length > 0))
+                //{
+                //    if (filter.TagsName.Count() > 0)
+                //    {
+                //        filter.TagsName.ToList().ForEach(t =>
+                //        {
+                //            if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                //                galleryModelsBuff.Add(galleryModel);
+                //        });
+                //    }
+                //    else
+                //    {
+                //        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                //            galleryModelsBuff.Add(galleryModel);
+                //    }
+
+                //    if (filter.ExecutorsName.Count() > 0)
+                //    {
+                //        galleryModelsBuff.ToList().ForEach(gmb => {
+                //            if (!isFilterContainsCheck(gmb.Executors, filter.ExecutorsName) && galleryModelsBuff.Count > 0)
+                //            {
+                //                galleryModelsBuff.Remove(gmb);
+                //            }
+                //        });
+                //    }
+                //    galleryResult.GalleryModels = galleryModelsBuff;
+                //}
+                //else
+                //{
+                //    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
+                //        galleryResult.GalleryModels.Add(galleryModel);
+                //}
+            });
+            galleryResult.StatusModel = new StatusModel() { Message = "", StatusCode = 200 };
+
+            return galleryResult;
         }
-        public IQueryable<GroupDataSelectModel> Filter(IQueryable<GroupDataSelectModel> groupDataSelect, FilterModel filter) {
-
+        public IQueryable<GroupDataSelectModel> Filter(IQueryable<GroupDataSelectModel> groupDataSelect, FilterModel filter)
+        {
             var res = new List<GroupDataSelectModel>();
 
             groupDataSelect.ForEachAsync(gds => {
