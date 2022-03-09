@@ -33,7 +33,9 @@ namespace DataScienseProject.Services
            if (isAuthorizedResult.StatusCode == 403) return new GalleryResult() { StatusModel = isAuthorizedResult };
 
             var galleryResult = new GalleryResult();
+            galleryResult.GalleryModels = new List<GalleryModel>();
 
+            //select Views from db
             var groupDataSelect = _context.GroupViews.Join(_context.Groups, gv => gv.GroupKey, g => g.GroupKey, (gv, g) => new
             {
                 ViewKey = gv.ViewKey,
@@ -89,9 +91,11 @@ namespace DataScienseProject.Services
                ExecutorName = e.ExecutorName
            });
 
+            //apply filters if it's exist
             groupDataSelect = (filter == null || (filter?.TagsName.Length == 0 && filter?.ExecutorsName.Length == 0)) ? groupDataSelect : Filter(groupDataSelect, filter);
 
-            var groupSelectResult = groupDataSelect.Where(x => x.GroupName == groupName && x.IsGroupDeleted == false && x.IsViewDeleted == false).Select(s => new GroupData
+           //select nessesery data to model
+           var groupSelectResult = groupDataSelect.Where(x => x.GroupName == groupName && x.IsGroupDeleted == false && x.IsViewDeleted == false).Select(s => new GroupData
            {
                ViewName = s.ViewName,
                ViewKey = (int)s.ViewKey,
@@ -100,6 +104,7 @@ namespace DataScienseProject.Services
                ExecutorName = s.ExecutorName
            }).OrderBy(ob => ob.OrderNumber).AsNoTracking().ToList();
 
+            //configure data
             groupSelectResult.ForEach(gds =>
             {
                 var executorDataSelect = _context.ViewExecutors.Include(e => e.ExecutorKeyNavigation).Include(er => er.ExecutorRoleKeyNavigation)
@@ -175,38 +180,8 @@ namespace DataScienseProject.Services
                     Image = imageData
                 };
 
-                //if (filter != null && (filter?.TagsName.Length > 0 || filter?.ExecutorsName.Length > 0))
-                //{
-                //    if (filter.TagsName.Count() > 0)
-                //    {
-                //        filter.TagsName.ToList().ForEach(t =>
-                //        {
-                //            if (gds.TagName == t && UniqualityCheck(galleryModel, galleryResult.GalleryModels))
-                //                galleryModelsBuff.Add(galleryModel);
-                //        });
-                //    }
-                //    else
-                //    {
-                //        if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
-                //            galleryModelsBuff.Add(galleryModel);
-                //    }
+                if (UniqualityCheck(galleryModel, galleryResult.GalleryModels)) galleryResult.GalleryModels.Add(galleryModel);
 
-                //    if (filter.ExecutorsName.Count() > 0)
-                //    {
-                //        galleryModelsBuff.ToList().ForEach(gmb => {
-                //            if (!isFilterContainsCheck(gmb.Executors, filter.ExecutorsName) && galleryModelsBuff.Count > 0)
-                //            {
-                //                galleryModelsBuff.Remove(gmb);
-                //            }
-                //        });
-                //    }
-                //    galleryResult.GalleryModels = galleryModelsBuff;
-                //}
-                //else
-                //{
-                //    if (UniqualityCheck(galleryModel, galleryResult.GalleryModels))
-                //        galleryResult.GalleryModels.Add(galleryModel);
-                //}
             });
             galleryResult.StatusModel = new StatusModel() { Message = "", StatusCode = 200 };
 
@@ -216,9 +191,13 @@ namespace DataScienseProject.Services
         {
             var res = new List<GroupDataSelectModel>();
 
-            groupDataSelect.ForEachAsync(gds => {
-                if (filter.TagsName.ToList().Where(tn => tn == gds.TagName).Count() > 0 && filter.ExecutorsName.ToList().Where(en => en == gds.ExecutorName).Count() > 0) res.Add(gds);
-            }).GetAwaiter();
+            groupDataSelect.ToList().ForEach(gds => {
+                filter.TagsName.ToList().ForEach(tn =>
+                {
+                    if (gds.TagName == tn)
+                       res.Add(gds);
+                });
+            });
 
             return res.AsQueryable();
         }
@@ -235,7 +214,7 @@ namespace DataScienseProject.Services
 
         public bool UniqualityCheck(GalleryModel galleryModel, List<GalleryModel> currentList)
         {
-            throw new NotImplementedException();
+            return currentList.Find(gm => gm.ViewKey == galleryModel.ViewKey) == null ? true : false;
         }
     }
 }
