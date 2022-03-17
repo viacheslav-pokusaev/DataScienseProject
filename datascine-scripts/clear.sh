@@ -4,5 +4,6 @@ sudo chmod +x stop.sh
 sudo chmod +x clear.sh
 sudo chmod +x start.sh
 
+docker rm data-sciense-project
 docker rmi eugennn/data-sciense-project:latest
 docker pull eugennn/data-sciense-project:latest
