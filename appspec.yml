@@ -2,7 +2,9 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
+  - source: ./datascine-scripts
+    destination: /home/ec2-user/dataciense-project-scripts
+    - source: /
     destination: /home/ec2-user/dataciense-project-scripts
 file_exists_behavior: OVERWRITE
 
