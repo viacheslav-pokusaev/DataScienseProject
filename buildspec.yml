@@ -21,6 +21,6 @@ phases:
       - docker push eugennn/data-sciense-project
 artifacts:
   files:
-    - ./datascine-scripts/*.sh
+    - /*.sh
     - appspec.yml
   discard-paths: yes
