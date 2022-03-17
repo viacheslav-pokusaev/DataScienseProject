@@ -68,8 +68,8 @@
 }
 
 .short-desc-style {
-  /* color: #4b4b4b; */
-  /* font-size: calc(14.07407px + .30864vw); */
+  color: #4b4b4b;
+  font-size: calc(14.07407px + .30864vw);
   color: #d8550f;
   font-size: 16px;
   letter-spacing: 0;
