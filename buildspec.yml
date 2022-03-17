@@ -11,14 +11,15 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t eugennn/data-sciense-project .
+      - docker build -t data-sciense-project .
+      - docker tag data-sciense-project:latest eugennn/data-sciense-project:latest
       - docker login --username=eugennn --password=123456789
       - docker images
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push eugennn/data-sciense-project
+      - docker push eugennn/data-sciense-project:latest
 artifacts:
   files:
     - datascine-scripts/*.sh
