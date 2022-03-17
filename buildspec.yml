@@ -11,7 +11,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build eugennn/data-sciense-project .
+      - docker build -t eugennn/data-sciense-project .
       - sudo docker login --username=eugennn --password=123456789
       - docker images
   post_build:
