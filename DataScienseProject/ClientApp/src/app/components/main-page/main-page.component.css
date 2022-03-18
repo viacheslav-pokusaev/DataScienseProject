@@ -70,6 +70,8 @@
 .short-desc-style {
   color: #4b4b4b;
   font-size: calc(14.07407px + .30864vw);
+  color: #d8550f;
+  font-size: 16px;
   letter-spacing: 0;
   font-weight: 300;
   font-style: normal;
@@ -78,7 +80,7 @@
   margin-bottom: 45px;
 }
 
-.desc-block {  
+.desc-block {
   margin-top: 160px;
 }
 
@@ -96,7 +98,7 @@
   text-align: center;
   cursor: pointer;
   text-transform: uppercase;
-  padding: 14px 60px; 
+  padding: 14px 60px;
 }
 
 .btn-style:hover {
