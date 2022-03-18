@@ -1,8 +1,8 @@
 version: 0.2
 env:
   parameter-store:
-    DOCKER_HUB_NAME: "docker-hub-name-param:Value"
-    DOCKER_HUB_PASSWORD: "docker-hub-password-param:Value"
+    DOCKER_HUB_NAME: "docker-hub-name-param"
+    DOCKER_HUB_PASSWORD: "docker-hub-password-param"
     
 phases:
   install:
